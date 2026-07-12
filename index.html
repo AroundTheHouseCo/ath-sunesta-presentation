@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunesta Awning — Presentation & Training</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-badge">S</div>
+      <div class="brand-text">Around The House · <b>Sunesta Awning</b> — Presentation prototype</div>
+    </div>
+    <div class="mode-toggle">
+      <button id="btn-present" class="active">Presentation Mode</button>
+      <button id="btn-rehearse">Training Mode</button>
+    </div>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="slide-area" id="slideArea"></div>
+    <div class="rehearsal-panel" id="rehearsalPanel" style="display:none;"></div>
+  </div>
+
+  <div class="slidebar">
+    <button class="nav" id="prevBtn">‹</button>
+    <div class="dots" id="dots"></div>
+    <button class="nav" id="nextBtn">›</button>
+    <div class="count" id="count"></div>
+  </div>
+
+  <div class="tabbar" id="tabbar"></div>
+
+  <div class="note">Placeholder images from the screen recording — swap files in /images for real exports when ready. Content and slide order are fully editable in js/data.js.</div>
+</div>
+
+<script src="js/images-map.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
