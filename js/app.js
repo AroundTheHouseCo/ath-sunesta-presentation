@@ -308,10 +308,12 @@ function renderSlide(){
       const x = -100 + i*45;
       bgLines += `<line x1="${x}" y1="0" x2="${x+260}" y2="340" stroke="#2e7d4f" stroke-width="${i%3===0?3:1.5}" opacity="${i%3===0?0.10:0.06}"/>`;
     }
+    // Equilateral: with preserveAspectRatio="none" the ~590x560 container maps
+    // % straight to px, so these give three equal ~354px sides, vertically centered.
     const positions = [
-      {top:6, left:50},
-      {top:82, left:20},
-      {top:82, left:80}
+      {top:22.6, left:50},
+      {top:77.4, left:20},
+      {top:77.4, left:80}
     ];
     panel.innerHTML = `
       <div class="triangle-left"><h2>${s.title}</h2>${s.subtext?`<div class="tri-subtext">${s.subtext}</div>`:""}</div>
@@ -321,8 +323,8 @@ function renderSlide(){
       <div class="triangle-right">
         <svg class="tri-bg-lines" viewBox="0 0 420 340" preserveAspectRatio="none">${bgLines}</svg>
         <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;z-index:1;">
-          <polygon points="50,28.8 33.5,70.6 66.5,70.6" fill="#2e7d4f"/>
-          <polygon points="50,32 35.5,68.9 64.5,68.9" fill="#245e3f"/>
+          <polygon points="50,36.5 31.4,70.5 68.6,70.5" fill="#2e7d4f"/>
+          <polygon points="50,38.7 33.3,69.3 66.7,69.3" fill="#245e3f"/>
         </svg>
         <svg class="tri-connect-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
           <line x1="${positions[0].left}" y1="${positions[0].top}" x2="${positions[1].left}" y2="${positions[1].top}" stroke="#2e7d4f" stroke-width="0.6" stroke-dasharray="2,2"/>
