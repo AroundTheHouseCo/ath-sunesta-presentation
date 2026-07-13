@@ -44,4 +44,7 @@ const IMAGES = {
   logoEclipse: "images/logo-eclipse.png",
   triAthFamily: "images/tri-ath-family.jpg",
   triSunestaAwning: "images/tri-sunesta-awning.jpg",
+  reasonThermometer: "images/reason-thermometer.svg",
+  reasonRain: "images/reason-rain.svg",
+  reasonUvWood: "images/reason-uvwood.svg",
 };

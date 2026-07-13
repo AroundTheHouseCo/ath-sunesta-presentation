@@ -132,10 +132,10 @@ const DECK = {
       talkingPoints:["Tap each bubble to reveal the reason","Re-anchor with THEIR exact Accomplish List items — say them back","Rain/evening/hail caution + lighting teaser is optional color, not required"],
       coach:"Click the temperature gauge live during this line for effect. Tie straight back to what they told you earlier — use their words, not generic ones.",
       hotspots:[
-        {x:0.50,y:0.40,label:"Temperature Control",content:"Keeps the area at least 20 degrees cooler — turns a 90 degree day into a cool 70."},
-        {x:0.50,y:0.70,label:"Protects What's Inside",content:"Adds protection for your flooring and furniture, helping prevent fading."},
-        {x:0.78,y:0.16,label:"Rain Coverage",content:"Usable even while it rains — great for BBQing or relaxing outside. Not recommended to leave retracted unattended in Colorado, since rain often brings hail."},
-        {x:0.22,y:0.88,label:"Skin Health",content:"Recommended by the Skin Cancer Foundation as effective UVA/UVB protection."}
+        {x:0.70,y:0.13,label:"Rain Coverage",photo:IMAGES.reasonRain,content:"Usable even while it rains — great for BBQing or relaxing outside. Not recommended to leave retracted unattended in Colorado, since rain often brings hail."},
+        {x:0.48,y:0.34,label:"Temperature Control",photo:IMAGES.reasonThermometer,content:"Keeps the area at least 20 degrees cooler — turns a 90 degree day into a cool 70."},
+        {x:0.48,y:0.70,label:"Protects What's Inside",photo:IMAGES.reasonUvWood,content:"Adds protection for your flooring and furniture, helping prevent fading from the sun's UV rays."},
+        {x:0.80,y:0.60,label:"Skin Health",photo:IMAGES.badgeSkinCancer,content:"Recommended by the Skin Cancer Foundation as effective UVA/UVB protection."}
       ]
     },
     {

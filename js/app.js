@@ -176,7 +176,7 @@ function renderSlide(){
         const pop = document.createElement("div");
         pop.className="popover";
         pop.style.zIndex=20;
-        pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button><h3>${h.label}</h3><p>${h.content}</p></div>`;
+        pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button>${h.photo?`<img class="reason-pop-img" src="${h.photo}">`:""}<h3>${h.label}</h3><p>${h.content}</p></div>`;
         pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ openHotspot=null; renderSlide(); } };
         pop.querySelector(".popover-close").onclick=(e)=>{ e.stopPropagation(); openHotspot=null; renderSlide(); };
         area.appendChild(pop);
@@ -421,7 +421,7 @@ function renderSlide(){
         const pop = document.createElement("div");
         pop.className="popover";
         pop.style.zIndex=20;
-        pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button><h3>${h.label}</h3><p>${h.content}</p></div>`;
+        pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button>${h.photo?`<img class="reason-pop-img" src="${h.photo}">`:""}<h3>${h.label}</h3><p>${h.content}</p></div>`;
         pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ openHotspot=null; renderSlide(); } };
         pop.querySelector(".popover-close").onclick=(e)=>{ e.stopPropagation(); openHotspot=null; renderSlide(); };
         area.appendChild(pop);
