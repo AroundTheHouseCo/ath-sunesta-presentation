@@ -6,6 +6,7 @@ function globalSlideNumber(){
 let activeTab = tabs[0];
 let activeIndex = 0;
 let mode = "present";
+let trainingView = "slide"; // persists across slides so a rep can keep FAQs open while advancing
 let activeModel = 0;
 let galleryOpen = false, galleryIndex = 0;
 let compareOpen = false;
@@ -136,9 +137,6 @@ function renderSlide(){
       cell.onclick=(e)=>{ e.stopPropagation(); lightboxIndex=i; renderSlide(); };
       grid.appendChild(cell);
     });
-    const cap = document.createElement("div");
-    cap.className="photogrid-caption"; cap.textContent = s.title;
-    grid.appendChild(cap);
     panel.appendChild(grid);
     panel.insertAdjacentHTML("beforeend", footerBannerHTML(s.title));
     area.appendChild(panel);
@@ -451,6 +449,7 @@ function renderSlide(){
     const cap = document.createElement("div");
     cap.className="slide-caption"; cap.textContent = s.title;
     cap.style.background="none";
+    cap.style.color="var(--charcoal)"; // models panel is light — white caption text was illegible
     area.appendChild(cap);
 
     if(galleryOpen){
@@ -513,6 +512,23 @@ function renderSlide(){
     }
   }
 
+  if(s.type==="reasonsgrid"){
+    const panel = document.createElement("div");
+    panel.className="reasonsgrid-panel";
+    panel.innerHTML = `
+      <h2>${s.title}</h2>
+      <div class="reasonsgrid-grid">
+        ${s.reasons.map((r,i)=>`
+          <div class="reason-card">
+            <div class="reason-num">${i+1}</div>
+            <div class="reason-body"><h3>${r.title}</h3><p>${r.text}</p></div>
+          </div>`).join("")}
+      </div>`;
+    if(s.columns===1){ panel.querySelector(".reasonsgrid-grid").style.gridTemplateColumns = "1fr"; }
+    area.appendChild(panel);
+    addNavZones(area);
+  }
+
   const badge = document.createElement("div");
   badge.className = "slide-num-badge";
   badge.textContent = `#${globalSlideNumber()} — ${s.title || s.id}`;
@@ -522,13 +538,60 @@ function renderSlide(){
 function renderRehearsal(){
   const panel = document.getElementById("rehearsalPanel");
   const s = currentSlide();
-  panel.innerHTML = `
-    <div class="eyebrow">Training mode — Slide #${globalSlideNumber()}</div>
-    <h2>${s.title}</h2>
-    ${s.script.trim()==="" ? '<span class="visual-only-tag">Visual only — no script yet</span>' : `<div class="script-block">${s.script}</div>`}
-    ${s.talkingPoints ? `<ul class="talking-points">${s.talkingPoints.map(t=>`<li>${t}</li>`).join("")}</ul>` : ""}
-    ${s.coach ? `<div class="coach-note">👉 ${s.coach}</div>` : ""}
-  `;
+  const views = [["slide","This Slide"],["dodont","Do & Don't"],["faq","FAQs"],["close","Close"],["recap","Pre-Demo"]];
+  const tabsHTML = `<div class="training-tabs">${views.map(([k,l])=>`<button class="${k===trainingView?'active':''}" data-view="${k}">${l}</button>`).join("")}</div>`;
+  let body = "";
+
+  if(trainingView==="slide"){
+    body = `
+      <div class="eyebrow">Training mode — Slide #${globalSlideNumber()}</div>
+      <h2>${s.title}</h2>
+      ${s.script.trim()==="" ? '<span class="visual-only-tag">Visual only — no script yet</span>' : `<div class="script-block">${s.script}</div>`}
+      ${s.personalTouch ? `<div class="personal-touch"><div class="pt-label">✎ Personal touch — editable per rep (js/data.js → personalTouch)</div><div class="pt-body">${s.personalTouch}</div></div>` : ""}
+      ${s.talkingPoints ? `<ul class="talking-points">${s.talkingPoints.map(t=>`<li>${t}</li>`).join("")}</ul>` : ""}
+      ${s.coach ? `<div class="coach-note">👉 ${s.coach}</div>` : ""}
+    `;
+  } else if(trainingView==="dodont"){
+    const d = TRAINING_REFERENCE.doDont;
+    body = `
+      <div class="eyebrow">Reference — every call</div>
+      <h2>Do & Don't</h2>
+      <div class="tref-section"><h3 class="tref-h3 bad">❌ What NOT to do</h3><ul class="talking-points">${d.dont.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3 good">✅ What TO do</h3><ul class="talking-points">${d.do.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3">🎯 The Four Sales</h3><div class="script-block">${d.fourSales.intro}</div><ul class="talking-points">${d.fourSales.items.map(t=>`<li>${t}</li>`).join("")}</ul><div class="coach-note">👉 ${d.fourSales.footer}</div></div>
+    `;
+  } else if(trainingView==="faq"){
+    body = `
+      <div class="eyebrow">Reference — any slide, any time</div>
+      <h2>FAQs & Objections</h2>
+      ${TRAINING_REFERENCE.faqs.map(f=>`
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-tag${f.tag==='Objection'?' obj':''}">${f.tag}</span>${f.q}</div>
+          <div class="script-block faq-a">${f.a}</div>
+        </div>`).join("")}
+    `;
+  } else if(trainingView==="close"){
+    const c = TRAINING_REFERENCE.close;
+    body = `
+      <div class="eyebrow">Reference — the pricing moment</div>
+      <h2>Pricing & Close</h2>
+      <div class="coach-note tref-gap">👉 ${c.note}</div>
+      ${c.sections.map(sec=>`<div class="tref-section"><h3 class="tref-h3">${sec.title}</h3><div class="script-block">${sec.body}</div></div>`).join("")}
+    `;
+  } else if(trainingView==="recap"){
+    const p = TRAINING_REFERENCE.preDemo;
+    body = `
+      <div class="eyebrow">Reference — before slide 1</div>
+      <h2>Pre-Demo Recap at the Table</h2>
+      <div class="coach-note tref-gap">👉 ${p.intro}</div>
+      <div class="script-block">${p.body}</div>
+    `;
+  }
+
+  panel.innerHTML = tabsHTML + body;
+  panel.querySelectorAll(".training-tabs button").forEach(b=>{
+    b.onclick = ()=>{ trainingView = b.dataset.view; renderRehearsal(); };
+  });
 }
 
 function renderAll(){

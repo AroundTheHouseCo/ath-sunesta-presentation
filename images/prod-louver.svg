@@ -1,0 +1,30 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Louvered roof: posts + angled slats -->
+  <rect x="0" y="0" width="200" height="200" rx="18" fill="#eef6ee"/>
+  <!-- frame beam -->
+  <rect x="22" y="56" width="156" height="12" rx="4" fill="#3d3d3d"/>
+  <rect x="22" y="118" width="156" height="10" rx="4" fill="#3d3d3d"/>
+  <!-- posts -->
+  <rect x="26" y="62" width="12" height="116" rx="3" fill="#3d3d3d"/>
+  <rect x="162" y="62" width="12" height="116" rx="3" fill="#3d3d3d"/>
+  <!-- angled louvers between beams -->
+  <g fill="#2e7d4f">
+    <polygon points="46,112 66,64 74,64 54,112"/>
+    <polygon points="72,112 92,64 100,64 80,112"/>
+    <polygon points="98,112 118,64 126,64 106,112"/>
+    <polygon points="124,112 144,64 152,64 132,112"/>
+  </g>
+  <!-- sun peeking through -->
+  <circle cx="150" cy="34" r="12" fill="#f5c46a"/>
+  <g stroke="#f5c46a" stroke-width="3" stroke-linecap="round">
+    <line x1="150" y1="14" x2="150" y2="20"/>
+    <line x1="168" y1="34" x2="174" y2="34"/>
+    <line x1="163" y1="21" x2="167" y2="17"/>
+  </g>
+  <!-- light stripes on the floor -->
+  <g fill="#f5c46a" opacity="0.45">
+    <polygon points="56,178 70,132 76,132 62,178"/>
+    <polygon points="84,178 98,132 104,132 90,178"/>
+    <polygon points="112,178 126,132 132,132 118,178"/>
+  </g>
+</svg>

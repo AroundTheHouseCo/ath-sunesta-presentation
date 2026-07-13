@@ -28,4 +28,13 @@ const IMAGES = {
   fallLoveQ4: "images/falllove-4.jpg",
   award: "images/award.jpg",
   sunestaLogo: "images/sunesta-logo.jpg",
+  ledNight: "images/led-night.svg",
+  mylinkApp: "images/mylink-app.svg",
+  smartTechIllus: "images/smarttech-illus.svg",
+  sensorsIllus: "images/sensors-illus.svg",
+  fabricSwatches: "images/fabric-swatches.svg",
+  serviceBadge: "images/service-badge.svg",
+  prodGutter: "images/prod-gutter.svg",
+  prodScreen: "images/prod-screen.svg",
+  prodLouver: "images/prod-louver.svg",
 };
