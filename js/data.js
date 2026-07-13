@@ -99,8 +99,8 @@ const DECK = {
       talkingPoints:["National brand = local install/service + national warranty backing","Avoid \u2018Frankenstein awnings\u2019 — get a laugh, then let it land","Unique QR code has full product/warranty data on file","Warranty is fully transferable to next homeowner — adds resale value","Transition question: \u201cAny questions about the warranties?\u201d"],
       coach:"Get the laugh on 'Frankenstein awnings,' then go serious for the QR code and transferability. Tap any node in the triangle for more detail.",
       nodes:[
-        {id:"ath", kind:"logo-ath", title:"Around The House", detail:"Your local team — design, installation, and service all handled by us, right here. National brand backing, local accountability.", photo:null},
-        {id:"sunesta", kind:"logo", title:"Sunesta", detail:"The manufacturer itself — designed, engineered, and warrantied by one company. Not an assembly of parts from five different suppliers.", photo:null},
+        {id:"ath", kind:"logo-ath", title:"Around The House", detail:"Your local team — design, installation, and service all handled by us, right here. Family-owned in Monument: founded by Kirt & Vicki, now run with their sons Maxx & Jack. National brand backing, local accountability.", photo:IMAGES.triAthFamily},
+        {id:"sunesta", kind:"logo", title:"Sunesta", detail:"The manufacturer itself — designed, engineered, and warrantied by one company. Not an assembly of parts from five different suppliers.", photo:IMAGES.triSunestaAwning},
         {id:"gibraltar", kind:"text", title:"Gibraltar", detail:"Sunesta's parent financial backing — Gibraltar Industries — is what makes the nation's-best warranty coverage possible and dependable over the long run.", photo:null}
       ]
     },

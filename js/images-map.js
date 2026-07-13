@@ -42,4 +42,6 @@ const IMAGES = {
   prodLouverPhoto: "images/prod-louver-photo.jpg",
   logoGutterHelmet: "images/logo-gutterhelmet.jpg",
   logoEclipse: "images/logo-eclipse.png",
+  triAthFamily: "images/tri-ath-family.jpg",
+  triSunestaAwning: "images/tri-sunesta-awning.jpg",
 };

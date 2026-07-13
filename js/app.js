@@ -355,7 +355,7 @@ function renderSlide(){
       pop.className="popover";
       pop.style.zIndex=20;
       pop.innerHTML = `<div class="popover-card tri-detail-card"><button class="popover-close">✕</button>
-        ${n.photo?`<img src="${n.photo}">`:`<div style="height:120px;background:#f0f0f0;border-radius:8px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;color:#999;font-size:11px;">Photo coming soon</div>`}
+        ${n.photo?`<img src="${n.photo}">`:""}
         <h3>${n.title}</h3><p>${n.detail}</p></div>`;
       pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ triNodeOpen=null; renderSlide(); } };
       pop.querySelector(".popover-close").onclick=(e)=>{ e.stopPropagation(); triNodeOpen=null; renderSlide(); };
