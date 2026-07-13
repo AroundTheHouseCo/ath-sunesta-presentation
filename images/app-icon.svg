@@ -1,0 +1,49 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Full-bleed brand background (no rounded corners — iOS/Android apply their own mask) -->
+  <rect width="512" height="512" fill="#1b5e3f"/>
+  <!-- subtle radial lift, echoing the opening-video slide -->
+  <defs>
+    <radialGradient id="ic-g" cx="0.5" cy="0.42" r="0.7">
+      <stop offset="0" stop-color="#2a7350"/>
+      <stop offset="1" stop-color="#154b33"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#ic-g)"/>
+
+  <!-- ===== Awning motif (kept within the inner ~80% maskable safe zone) ===== -->
+  <!-- mounting bar -->
+  <rect x="120" y="150" width="272" height="16" rx="4" fill="#ffffff" opacity="0.9"/>
+  <!-- striped canopy: alternating white / light-green, angled like an extended awning -->
+  <g>
+    <polygon points="128,166 168,166 150,286 128,286" fill="#ffffff"/>
+    <polygon points="168,166 208,166 194,286 150,286" fill="#eaf4ee"/>
+    <polygon points="208,166 248,166 238,286 194,286" fill="#ffffff"/>
+    <polygon points="248,166 288,166 282,286 238,286" fill="#eaf4ee"/>
+    <polygon points="288,166 328,166 326,286 282,286" fill="#ffffff"/>
+    <polygon points="328,166 368,166 370,286 326,286" fill="#eaf4ee"/>
+    <polygon points="368,166 392,166 392,286 370,286" fill="#ffffff"/>
+  </g>
+  <!-- scalloped front valance -->
+  <g fill="#f5a623">
+    <path d="M128 286 q11 20 22 0 z"/>
+    <path d="M150 286 q11 20 22 0 z"/>
+    <path d="M172 286 q11 20 22 0 z"/>
+    <path d="M194 286 q11 20 22 0 z"/>
+    <path d="M216 286 q11 20 22 0 z"/>
+    <path d="M238 286 q11 20 22 0 z"/>
+    <path d="M260 286 q11 20 22 0 z"/>
+    <path d="M282 286 q11 20 22 0 z"/>
+    <path d="M304 286 q11 20 22 0 z"/>
+    <path d="M326 286 q11 20 22 0 z"/>
+    <path d="M348 286 q11 20 22 0 z"/>
+    <path d="M370 286 q11 20 22 0 z"/>
+  </g>
+
+  <!-- ===== Wordmark ===== -->
+  <text x="256" y="372" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" font-style="italic"
+        font-size="62" font-weight="700" fill="#ffffff" letter-spacing="1">Sunesta</text>
+  <text x="256" y="410" text-anchor="middle"
+        font-family="-apple-system, 'Segoe UI', Roboto, Arial, sans-serif"
+        font-size="21" font-weight="800" letter-spacing="6" fill="#f5a623">AROUND THE HOUSE</text>
+</svg>
