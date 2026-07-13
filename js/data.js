@@ -139,19 +139,13 @@ const DECK = {
       ]
     },
     {
-      id:"perfectday", type:"splitphoto", image: IMAGES.fallLoveQ3,
-      title:"Sunesta allows you to create the perfect day",
-      subtext:"Sun when you want it — shade when you need it.",
-      script:"For you, it sounds like the main things are... (reference their specific Accomplish List items in their own words)\n\nDoes that feel right? Did I miss anything?\n\nPerfect. So everything I'm about to show you is designed specifically around those goals.",
-      talkingPoints:["The most important transition in the whole presentation","Wait for confirmation before moving on — do not skip this"],
-      coach:"Rebuilt as a native layout — the old slide was a blurry screenshot with its title baked in. Photo reuses a local-project shot; swap for a hero photo when ready."
-    },
-    {
-      id:"slider", type:"slider", before: IMAGES.beachBefore, after: IMAGES.beachAfter,
+      id:"scrub", type:"videoscrub",
+      frameBase:"images/awning-frames/frame-", frameCount:32, framePad:2, frameExt:".jpg",
+      hint:"Drag to project the awning in & out",
       title:"See it in action",
-      script:"We like to explain this like the human body —\n\nShoulders = the mounting structure, anchored into your home. Elbows = the arm pivots that carry everything out. Wrists = what keeps the fabric taut as it extends.\n\nThat's what allows it to extend out strong, stay tight, and keep the fabric taut.\n\n(pause, light smile) Unfortunately, it doesn't come with the beach. But hey — I'll take our mountain views over the beach most days. (Get a laugh or smile.)",
-      talkingPoints:["Drag the handle to reveal the awning extending","Human body: shoulders = mount, elbows = pivots, wrists = tension","Humor line breaks tension before pricing — use it"],
-      coach:"Keep it accessible — no engineering talk. Crossarms explainer (why required, how to avoid, head-clearance downsides) is coming from Matt — don't improvise engineering answers until it lands."
+      script:"We like to explain how it works like the human body —\n\nShoulders = the mounting structure, anchored into your home. Elbows = the arm pivots that carry everything out. Wrists = what keeps the fabric taut as it extends.\n\nThat's what lets it extend out strong and hold the fabric tight.\n\nGo ahead and drag the slider — you can run the awning all the way out and back in, and watch exactly how it projects over the space.",
+      talkingPoints:["Drag the slider to project the awning in & out — real footage of this exact unit","Human body: shoulders = mount, elbows = pivots, wrists = tension","Hand them the iPad and let them drive it themselves — it lands better than any diagram"],
+      coach:"This is real video of a Sunesta extending, scrubbed by the slider. Let the customer drag it. Keep it accessible — no engineering talk. Crossarms explainer is still coming from Matt; don't improvise engineering answers until it lands."
     },
     {
       id:"models", type:"models",

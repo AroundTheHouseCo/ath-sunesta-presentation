@@ -463,6 +463,33 @@ function renderSlide(){
     setTimeout(()=>{ const rect=wrap.getBoundingClientRect(); before.querySelector("img").style.width = rect.width+"px"; },0);
   }
 
+  if(s.type==="videoscrub"){
+    const pad = s.framePad || 2;
+    const N = s.frameCount;
+    const frame = (i)=> s.frameBase + String(i).padStart(pad,'0') + s.frameExt;
+    const wrap = document.createElement("div");
+    wrap.className="scrub-wrap";
+    wrap.innerHTML = `
+      <img class="scrub-img" src="${frame(0)}" alt="">
+      <div class="scrub-hint">${s.hint || 'Drag to extend the awning'}</div>
+      <div class="scrub-bar">
+        <input type="range" class="scrub-range" min="0" max="${N-1}" value="0" step="1" aria-label="Awning extension">
+        <div class="scrub-ends"><span>◄ Retracted</span><span>Extended ►</span></div>
+      </div>
+    `;
+    area.appendChild(wrap);
+    const img = wrap.querySelector(".scrub-img");
+    const hint = wrap.querySelector(".scrub-hint");
+    const range = wrap.querySelector(".scrub-range");
+    // preload every frame so scrubbing is instant
+    const cache = [];
+    for(let i=0;i<N;i++){ const im=new Image(); im.src=frame(i); cache[i]=im; }
+    range.addEventListener("input",(e)=>{ e.stopPropagation(); img.src=frame(+range.value); if(+range.value>0) hint.classList.add("hidden"); });
+    // keep slider gestures from bubbling to slide navigation
+    ["mousedown","touchstart","pointerdown","click"].forEach(ev=> range.addEventListener(ev,(e)=>e.stopPropagation()));
+    wrap.addEventListener("click",(e)=>e.stopPropagation());
+  }
+
   if(s.type==="models"){
     const panel = document.createElement("div");
     panel.className="models-panel";
