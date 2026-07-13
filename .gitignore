@@ -1,9 +1,6 @@
 # Local Claude Code / dev-server config (session-specific paths, not shared)
 .claude/
 
-# Local working notes — the overhaul prompt/brief, not part of the app
-Claude_Code_Prompt_Sunesta_Overhaul.md
-
 # macOS
 .DS_Store
 .AppleDouble
