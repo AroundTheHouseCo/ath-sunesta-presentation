@@ -8,7 +8,7 @@ const IMAGES = {
   badge45years: "images/badge-45years.png",
   iconRuler: "images/icon-ruler.jpg",
   americanBuilt: "images/american-built.png",
-  badgeMiamiDade: "images/badge-miamidade.jpg",
+  badgeMiamiDade: "images/badge-miamidade.png",
   badgeBBB: "images/badge-bbb.jpg",
   badgeSkinCancer: "images/badge-skincancer.jpg",
   reasonsPhoto: "images/reasons-photo.jpg",
