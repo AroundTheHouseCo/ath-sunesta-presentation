@@ -192,7 +192,7 @@ function renderSlide(){
       if(r.style==="banner"){
         return `<div class="diff-row banner"><div class="diff-banner"><img src="${r.icon}"><div class="diff-label">${r.label}</div></div></div>`;
       }
-      return `<div class="diff-row plain"><img src="${r.icon}"><div><div class="diff-label">${r.label}</div>${r.sublabel?`<div class="diff-sublabel">${r.sublabel}</div>`:""}</div></div>`;
+      return `<div class="diff-row plain"><div class="diff-logo"><img src="${r.icon}"></div><div><div class="diff-label">${r.label}</div>${r.sublabel?`<div class="diff-sublabel">${r.sublabel}</div>`:""}</div></div>`;
     }).join("");
     panel.innerHTML = `
       <div class="diff-left">${rowsHTML}</div>

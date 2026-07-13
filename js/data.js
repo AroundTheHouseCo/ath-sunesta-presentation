@@ -70,7 +70,7 @@ const DECK = {
       rows:[
         {style:"plain", icon:IMAGES.badge45years, label:"45 Years in Business"},
         {style:"banner", icon:IMAGES.iconRuler, label:"Professional Installation"},
-        {style:"plain", icon:IMAGES.iconFlag, label:"American Made", sublabel:"MADE IN AMERICA"}
+        {style:"plain", icon:IMAGES.americanBuilt, label:"American Made", sublabel:"MADE IN AMERICA"}
       ],
       script:"We've been around since 2004 — but Sunesta has been around since 1981. They were actually one of the first awning manufacturers in the country, and they've stayed at the top in engineering and quality.\n\nThat matters because the product has been tried and tested for over 40 years, in every climate and region. We get some pretty extreme weather here in southern Colorado — sometimes all four seasons in a single day — so knowing your new awning is built to last is great peace of mind.\n\nEverything is made right here in the United States — the arms, the fabric, the frame components — except for the motor, which is hand assembled in Spain. That motor is Somfy — the most trusted motor brand in the world for this type of system.\n\nTransition: \"It's important for us to use products made in the USA, so we keep as many of our components as local as possible.\"\n\n⚠️ UNVERIFIED — confirm before repeating to a customer: fabric manufactured in North Carolina; arms and frame made in Florida.",
       talkingPoints:["Sunesta since 1981 — one of the first awning manufacturers in the country","Four seasons in a single day — built for Colorado extremes","American made, except the Somfy motor (hand-assembled in Spain)","Multi-channel remote controls awning + LED lights"],

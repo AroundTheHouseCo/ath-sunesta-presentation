@@ -680,31 +680,38 @@
     overflow:hidden;
   }
   .diff-left{
-    flex:0 0 44%;
+    flex:0 0 46%;
     padding:0 0 0 34px;
     display:flex;
     flex-direction:column;
     justify-content:center;
-    gap:44px;
+    gap:26px;
   }
   .diff-row{
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:22px;
   }
-  .diff-row.plain img{width:64px;height:auto;border-radius:6px;flex-shrink:0;}
-  .diff-row.plain .diff-label{font-size:17px;font-weight:800;color:var(--charcoal);}
-  .diff-row.plain .diff-sublabel{font-size:11px;color:#888;margin-top:2px;font-weight:700;letter-spacing:.03em;}
+  /* fixed-width logo slot keeps labels aligned; the image inside sizes to its
+     natural aspect within bounds (tall badge fills height, wide logo fills width) —
+     no fixed-box dead space, so vertical gaps stay even */
+  .diff-row.plain .diff-logo{
+    flex:0 0 168px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .diff-row.plain .diff-logo img{max-height:142px;max-width:160px;width:auto;height:auto;}
+  .diff-row.plain .diff-label{font-size:21px;font-weight:800;color:var(--charcoal);line-height:1.15;}
+  .diff-row.plain .diff-sublabel{font-size:12.5px;color:#888;margin-top:3px;font-weight:700;letter-spacing:.04em;}
   .diff-banner{
     background:linear-gradient(120deg,#1b5e3f,#2e7d4f 60%,#245e3f);
-    border-radius:4px;
-    padding:14px 20px;
+    border-radius:6px;
+    padding:22px 24px;
     display:flex;
     align-items:center;
-    gap:16px;
+    gap:20px;
   }
-  .diff-banner img{width:52px;height:52px;border-radius:6px;flex-shrink:0;}
-  .diff-banner .diff-label{color:#fff;font-size:17px;font-weight:800;}
+  .diff-banner img{width:72px;height:72px;object-fit:contain;flex-shrink:0;}
+  .diff-banner .diff-label{color:#fff;font-size:21px;font-weight:800;}
   .diff-chevron{
     flex:0 0 70px;
     height:78%;
