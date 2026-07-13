@@ -255,6 +255,51 @@ function renderSlide(){
     addNavZones(area);
   }
 
+  if(s.type==="productcards"){
+    const panel = document.createElement("div");
+    panel.className="products-panel";
+    const cardsHTML = s.rows.map((r,i)=>`
+      <div class="pcard" data-i="${i}">
+        <div class="pcard-photo">
+          <img src="${r.photo}" alt="">
+          ${r.icon?`<div class="pcard-icon"><img src="${r.icon}"></div>`:""}
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-name">${r.label}</div>
+          ${r.sublabel?`<div class="pcard-sub">${r.sublabel}</div>`:""}
+          <div class="pcard-foot">
+            ${r.logo?`<img class="pcard-logo" src="${r.logo}" alt="">`:`<span></span>`}
+            <span class="pcard-more">Tap for detail ›</span>
+          </div>
+        </div>
+      </div>`).join("");
+    panel.innerHTML = `
+      <div class="products-head">
+        <div class="products-eyebrow">Around The House · Home Solutions</div>
+        <h2>${s.title}</h2>
+        ${s.paragraph?`<p>${s.paragraph}</p>`:""}
+      </div>
+      <div class="products-cards">${cardsHTML}</div>
+    `;
+    area.appendChild(panel);
+    panel.querySelectorAll(".pcard").forEach(el=>{
+      el.onclick=(e)=>{ e.stopPropagation(); openHotspot=parseInt(el.dataset.i); renderSlide(); };
+    });
+    if(openHotspot!==null && s.rows[openHotspot]){
+      const r = s.rows[openHotspot];
+      const pop = document.createElement("div");
+      pop.className="popover";
+      pop.style.zIndex=20;
+      pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button>
+        ${r.logo?`<img class="popover-logo" src="${r.logo}">`:""}
+        <h3>${r.label}</h3><p>${r.detail}</p></div>`;
+      pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ openHotspot=null; renderSlide(); } };
+      pop.querySelector(".popover-close").onclick=(e)=>{ e.stopPropagation(); openHotspot=null; renderSlide(); };
+      area.appendChild(pop);
+    }
+    addNavZones(area);
+  }
+
   if(s.type==="triangle"){
     const panel = document.createElement("div");
     panel.className="triangle-panel";

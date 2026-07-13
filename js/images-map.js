@@ -37,4 +37,9 @@ const IMAGES = {
   prodGutter: "images/prod-gutter.svg",
   prodScreen: "images/prod-screen.svg",
   prodLouver: "images/prod-louver.svg",
+  prodGutterPhoto: "images/prod-gutter-photo.jpg",
+  prodScreenPhoto: "images/prod-screen-photo.jpg",
+  prodLouverPhoto: "images/prod-louver-photo.jpg",
+  logoGutterHelmet: "images/logo-gutterhelmet.jpg",
+  logoEclipse: "images/logo-eclipse.png",
 };
