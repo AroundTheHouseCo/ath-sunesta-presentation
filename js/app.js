@@ -7,10 +7,14 @@ let activeTab = tabs[0];
 let activeIndex = 0;
 let mode = "present";
 let trainingView = "slide"; // persists across slides so a rep can keep FAQs open while advancing
-// App shell: the app opens on a home screen; customers never see training UI.
-// appView: "home" | "present" (in-home, customer-facing) | "center" (training hub) | "training-deck" (deck + notes)
+// THE DOGHOUSE app shell: home -> Presentations or Training Center -> product.
+// Customers never see training UI in present mode.
+// appView: "home" | "presentations" (product picker) | "coaches" (product picker)
+//        | "present" (in-home deck) | "center" (Sunesta Training Coach hub) | "training-deck"
 let appView = "home";
-let centerView = null; // null = hub; else a resource key ("tensteps" | "dodont" | "faq" | "close" | "recap")
+let centerView = null; // null = hub; else "tensteps"|"dodont"|"faq"|"close"|"recap"|"library"|"docs"
+let libCat = "sunesta";  // active photo-library category
+let libPhoto = null;     // lightbox index within the active category
 let activeModel = 0;
 let galleryOpen = false, galleryIndex = 0;
 let compareOpen = false;
@@ -778,36 +782,68 @@ function renderHome(){
   const el = document.getElementById("homeScreen");
   el.innerHTML = `
     <div class="home-hero">
-      <img class="home-logo" src="${IMAGES.sunestaLogo}" alt="Sunesta">
-      <h1>Sunesta Awning</h1>
-      <div class="home-sub">Around The House · Home Solutions</div>
+      <img class="home-logo" src="${IMAGES.athLogo}" alt="Around The House">
+      <h1>THE DOGHOUSE</h1>
+      <div class="home-sub">Around The House Home Solutions · Sales & Training</div>
     </div>
     <div class="home-cards">
       <div class="home-card" id="homeGoPresent">
         <div class="home-card-icon">▶</div>
-        <div class="home-card-name">In-Home Presentation</div>
-        <div class="home-card-sub">Customer-facing — start the demo</div>
+        <div class="home-card-name">Presentations</div>
+        <div class="home-card-sub">Customer-facing product demos</div>
       </div>
       <div class="home-card secondary" id="homeGoCenter">
         <div class="home-card-icon">🎓</div>
         <div class="home-card-name">Training Center</div>
-        <div class="home-card-sub">Rep-only — scripts, process & references</div>
+        <div class="home-card-sub">Rep-only — coaches, scripts & tools</div>
       </div>
     </div>
   `;
-  document.getElementById("homeGoPresent").onclick = ()=>{
-    activeTab = tabs[0]; activeIndex = 0; resetSlideState();
-    appView = "present"; renderApp();
-  };
-  document.getElementById("homeGoCenter").onclick = ()=>{ appView = "center"; centerView = null; renderApp(); };
+  document.getElementById("homeGoPresent").onclick = ()=>{ appView = "presentations"; renderApp(); };
+  document.getElementById("homeGoCenter").onclick = ()=>{ appView = "coaches"; renderApp(); };
+}
+
+// Product picker — shared by Presentations and Training Center entry points.
+function renderPicker(){
+  const el = document.getElementById("trainingCenter");
+  const isPres = appView === "presentations";
+  el.innerHTML = `
+    <div class="center-head">
+      <div class="eyebrow">${isPres ? "Customer-facing" : "Rep-only"}</div>
+      <h1>${isPres ? "Presentations" : "Training Center"}</h1>
+    </div>
+    <div class="center-cards">
+      ${PRODUCTS.map(p=>`
+        <div class="center-card product${p.ready?"":" soon"}" data-key="${p.key}">
+          <div class="center-card-icon">${p.icon}</div>
+          <div>
+            <div class="center-card-name">${isPres ? p.name : p.coach + " Training Coach"}</div>
+            <div class="center-card-sub">${p.ready ? p.tag : "Coming soon"}</div>
+          </div>
+          ${p.ready ? "" : '<span class="soon-chip">SOON</span>'}
+        </div>`).join("")}
+    </div>
+  `;
+  el.querySelectorAll(".center-card.product").forEach(card=>{
+    card.onclick = ()=>{
+      const p = PRODUCTS.find(x=>x.key===card.dataset.key);
+      if(!p || !p.ready) return;
+      if(isPres){ activeTab = tabs[0]; activeIndex = 0; resetSlideState(); appView = "present"; }
+      else { appView = "center"; centerView = null; }
+      renderApp();
+    };
+  });
 }
 
 function renderCenter(){
   const el = document.getElementById("trainingCenter");
   if(centerView === null){
+    const photoCount = Object.values(PHOTO_LIBRARY).reduce((n,c)=>n+c.photos.length,0);
     const cards = [
       {key:"deck",     icon:"🖥", name:"Training Presentation", sub:"The full deck with word-for-word scripts & coach notes"},
       {key:"tensteps", icon:"🔟", name:"Our 10-Step Sales Process", sub:"The whole visit, start to finish"},
+      {key:"library",  icon:"📸", name:"Photo Library", sub:photoCount+" real project photos — by model & category"},
+      {key:"docs",     icon:"📄", name:"Spec Sheets & Fabrics", sub:"Model spec sheets, fabric collection, color charts"},
       {key:"recap",    icon:"📋", name:"Pre-Demo Recap", sub:"At the table, before slide 1"},
       {key:"dodont",   icon:"🎯", name:"Do & Don't", sub:"Every call · The Four Sales"},
       {key:"faq",      icon:"💬", name:"FAQs & Objections", sub:"Verbatim responses, any slide any time"},
@@ -815,8 +851,8 @@ function renderCenter(){
     ];
     el.innerHTML = `
       <div class="center-head">
-        <div class="eyebrow">Rep-only</div>
-        <h1>Training Center</h1>
+        <div class="eyebrow">Sunesta® Awnings — rep-only</div>
+        <h1>Sunesta Training Coach</h1>
       </div>
       <div class="center-cards">
         ${cards.map(c=>`
@@ -836,14 +872,92 @@ function renderCenter(){
           activeTab = tabs[0]; activeIndex = 0; resetSlideState(); trainingView = "slide";
           appView = "training-deck"; renderApp();
         } else {
-          centerView = k; renderCenter();
+          centerView = k; libPhoto = null; renderCenter();
         }
       };
     });
+  } else if(centerView === "library"){
+    const cats = Object.keys(PHOTO_LIBRARY);
+    const cur = PHOTO_LIBRARY[libCat];
+    el.innerHTML = `
+      <div class="center-head resource">
+        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
+      </div>
+      <div class="resource-page wide">
+        <div class="eyebrow">Photo Library</div>
+        <h2>${cur.label} — ${cur.photos.length} photos</h2>
+        <div class="lib-pills">
+          ${cats.map(c=>`<button class="${c===libCat?'active':''}" data-c="${c}">${PHOTO_LIBRARY[c].label} · ${PHOTO_LIBRARY[c].photos.length}</button>`).join("")}
+        </div>
+        <div class="lib-grid">
+          ${cur.photos.map((p,i)=>`<div class="lib-cell" data-i="${i}"><img decoding="async" ${i<24?`src="${p.t}"`:`data-src="${p.t}"`} alt=""></div>`).join("")}
+        </div>
+      </div>
+    `;
+    // First 24 thumbs load eagerly (first screenful). The tail lazy-loads via
+    // IntersectionObserver, with a scroll-position fallback for environments
+    // where render-tied observers don't fire.
+    const pending = [...el.querySelectorAll(".lib-cell img[data-src]")];
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(en=>{
+        if(en.isIntersecting){ const t=en.target; if(t.dataset.src){ t.src=t.dataset.src; delete t.dataset.src; } io.unobserve(t); }
+      });
+    }, {root: el, rootMargin: "700px"});
+    pending.forEach(t=>io.observe(t));
+    el.onscroll = ()=>{
+      const lim = el.scrollTop + el.clientHeight + 900;
+      pending.forEach(t=>{
+        if(t.dataset.src && t.closest(".lib-cell").offsetTop < lim){ t.src=t.dataset.src; delete t.dataset.src; }
+      });
+    };
+    document.getElementById("resourceBack").onclick = ()=>{ centerView = null; libPhoto = null; renderCenter(); };
+    el.querySelectorAll(".lib-pills button").forEach(b=>{
+      b.onclick = ()=>{ libCat = b.dataset.c; libPhoto = null; renderCenter(); el.scrollTop = 0; };
+    });
+    el.querySelectorAll(".lib-cell").forEach(cell=>{
+      cell.onclick = ()=>{ libPhoto = parseInt(cell.dataset.i); renderCenter(); };
+    });
+    if(libPhoto !== null && cur.photos[libPhoto]){
+      const ph = cur.photos[libPhoto];
+      const lb = document.createElement("div");
+      lb.className = "lib-lightbox";
+      lb.innerHTML = `
+        <button class="lightbox-close">✕</button>
+        <button class="lib-nav prev">‹</button>
+        <figure><img src="${ph.f}"><figcaption>${ph.c}</figcaption></figure>
+        <button class="lib-nav next">›</button>
+      `;
+      lb.onclick = (e)=>{ if(e.target===lb){ libPhoto=null; renderCenter(); } };
+      lb.querySelector(".lightbox-close").onclick = ()=>{ libPhoto=null; renderCenter(); };
+      lb.querySelector(".prev").onclick = ()=>{ libPhoto=(libPhoto-1+cur.photos.length)%cur.photos.length; renderCenter(); };
+      lb.querySelector(".next").onclick = ()=>{ libPhoto=(libPhoto+1)%cur.photos.length; renderCenter(); };
+      el.appendChild(lb);
+    }
+  } else if(centerView === "docs"){
+    el.innerHTML = `
+      <div class="center-head resource">
+        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
+      </div>
+      <div class="resource-page">
+        <div class="eyebrow">Documents</div>
+        <h2>Spec Sheets & Fabrics</h2>
+        <div class="doc-list">
+          ${DOC_LIBRARY.map(d=>`
+            <a class="doc-row" href="${d.file}" target="_blank" rel="noopener">
+              <span class="doc-icon">${d.kind==="pdf"?"📄":"🎨"}</span>
+              <span class="doc-name">${d.name}</span>
+              <span class="doc-open">${d.kind==="pdf"?"Open PDF ›":"View ›"}</span>
+            </a>`).join("")}
+        </div>
+        <div class="coach-note" style="margin-top:16px;">👉 Documents open in a new tab — hand the iPad over for fabric browsing, or AirDrop the PDF to the customer.</div>
+      </div>
+    `;
+    document.getElementById("resourceBack").onclick = ()=>{ centerView = null; renderCenter(); };
+    el.scrollTop = 0;
   } else {
     el.innerHTML = `
       <div class="center-head resource">
-        <button class="back-btn" id="resourceBack">‹ Training Center</button>
+        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
       </div>
       <div class="resource-page">${trainingBodyHTML(centerView)}</div>
     `;
@@ -858,8 +972,10 @@ function renderTopbarNav(){
     // deliberately unlabeled — customers just see a quiet close control
     nav.innerHTML = `<button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>`;
   } else if(appView==="training-deck"){
-    nav.innerHTML = `<button class="back-btn" id="backCenterBtn">‹ Training Center</button>`;
+    nav.innerHTML = `<button class="back-btn" id="backCenterBtn">‹ Sunesta Coach</button>`;
   } else if(appView==="center"){
+    nav.innerHTML = `<button class="back-btn" id="backCoachesBtn">‹ Training Center</button>`;
+  } else if(appView==="presentations" || appView==="coaches"){
     nav.innerHTML = `<button class="back-btn" id="homeBtn">‹ Home</button>`;
   } else {
     nav.innerHTML = "";
@@ -867,21 +983,28 @@ function renderTopbarNav(){
   const ex = document.getElementById("exitBtn");   if(ex) ex.onclick = goHome;
   const hm = document.getElementById("homeBtn");   if(hm) hm.onclick = goHome;
   const bc = document.getElementById("backCenterBtn"); if(bc) bc.onclick = ()=>{ appView="center"; centerView=null; renderApp(); };
+  const bk = document.getElementById("backCoachesBtn"); if(bk) bk.onclick = ()=>{ appView="coaches"; centerView=null; libPhoto=null; renderApp(); };
 }
 
-function goHome(){ appView = "home"; centerView = null; resetSlideState(); renderApp(); }
+function goHome(){ appView = "home"; centerView = null; libPhoto = null; resetSlideState(); renderApp(); }
 
 function renderApp(){
   const showDeck = appView==="present" || appView==="training-deck";
-  document.getElementById("homeScreen").style.display   = appView==="home"   ? "" : "none";
-  document.getElementById("trainingCenter").style.display = appView==="center" ? "" : "none";
-  document.getElementById("stage").style.display        = showDeck ? "" : "none";
-  document.querySelector(".slidebar").style.display     = showDeck ? "" : "none";
-  document.getElementById("tabbar").style.display       = showDeck ? "" : "none";
-  document.querySelector(".note").style.display         = appView==="home" ? "" : "none";
+  const showPanel = appView==="center" || appView==="presentations" || appView==="coaches";
+  document.getElementById("homeScreen").style.display     = appView==="home" ? "" : "none";
+  document.getElementById("trainingCenter").style.display = showPanel ? "" : "none";
+  document.getElementById("stage").style.display          = showDeck ? "" : "none";
+  document.querySelector(".slidebar").style.display       = showDeck ? "" : "none";
+  document.getElementById("tabbar").style.display         = showDeck ? "" : "none";
+  document.querySelector(".note").style.display           = appView==="home" ? "" : "none";
+  // customers see the product brand, not the internal DOGHOUSE name
+  document.getElementById("brandText").innerHTML = (appView==="present")
+    ? 'Around The House · <b>Sunesta® Awnings</b>'
+    : 'Around The House · <b>THE DOGHOUSE</b>';
   renderTopbarNav();
   if(appView==="home") renderHome();
   if(appView==="center") renderCenter();
+  if(appView==="presentations" || appView==="coaches") renderPicker();
   if(showDeck){
     mode = appView==="training-deck" ? "rehearse" : "present";
     renderAll();

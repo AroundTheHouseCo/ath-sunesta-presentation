@@ -1,7 +1,7 @@
 {
-  "name": "Sunesta Awning — ATH Presentation",
-  "short_name": "Sunesta",
-  "description": "Around The House · Sunesta Awning sales presentation & rep training",
+  "name": "THE DOGHOUSE — ATHHS Sales & Training",
+  "short_name": "DOGHOUSE",
+  "description": "Around The House Home Solutions — every product, every presentation, every training tool",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

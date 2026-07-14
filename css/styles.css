@@ -1382,6 +1382,66 @@
   .resource-page{max-width:720px;}
   .resource-page h2{margin:0 0 14px;font-size:22px;color:var(--charcoal);}
 
+  /* ===== Product pickers (Presentations / Training Center) ===== */
+  .center-card.product{position:relative;}
+  .center-card.soon{opacity:.55;cursor:default;}
+  .center-card.soon:hover{border-color:var(--cream-border);box-shadow:none;}
+  .soon-chip{
+    position:absolute;top:12px;right:14px;
+    font-size:9px;font-weight:800;letter-spacing:.1em;
+    color:#fff;background:var(--orange);
+    padding:3px 8px;border-radius:999px;
+  }
+
+  /* ===== Photo Library ===== */
+  .resource-page.wide{max-width:none;}
+  .lib-pills{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px;}
+  .lib-pills button{
+    border:1px solid var(--cream-border);background:#fff;
+    padding:7px 14px;border-radius:999px;
+    font-size:12px;font-weight:700;color:var(--charcoal);cursor:pointer;
+  }
+  .lib-pills button.active{background:var(--green-dark);border-color:var(--green-dark);color:#fff;}
+  .lib-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  }
+  @media(max-width:900px){ .lib-grid{grid-template-columns:repeat(3,1fr);} }
+  .lib-cell{
+    aspect-ratio:4/3;overflow:hidden;border-radius:10px;
+    background:#e9e6df;cursor:pointer;
+    border:1px solid var(--cream-border);
+  }
+  .lib-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .15s;}
+  .lib-cell:hover img{transform:scale(1.04);}
+  .lib-lightbox{
+    position:fixed;inset:0;z-index:100;
+    background:rgba(0,0,0,.88);
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    padding:30px;
+  }
+  .lib-lightbox figure{margin:0;max-width:82%;max-height:100%;display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .lib-lightbox img{max-width:100%;max-height:78vh;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.5);}
+  .lib-lightbox figcaption{color:#ddd;font-size:13px;text-align:center;}
+  .lib-lightbox .lightbox-close{position:absolute;top:18px;right:18px;}
+  .lib-nav{
+    width:44px;height:44px;border-radius:50%;flex-shrink:0;
+    background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);
+    color:#fff;font-size:20px;cursor:pointer;
+  }
+
+  /* ===== Docs list ===== */
+  .doc-list{display:flex;flex-direction:column;gap:9px;}
+  .doc-row{
+    display:flex;align-items:center;gap:14px;
+    background:#fff;border:1px solid var(--cream-border);border-radius:10px;
+    padding:14px 16px;text-decoration:none;
+    transition:border-color .15s;
+  }
+  .doc-row:hover{border-color:var(--green);}
+  .doc-icon{font-size:18px;}
+  .doc-name{flex:1;font-size:14.5px;font-weight:800;color:var(--charcoal);}
+  .doc-open{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;}
+
   /* ===== 10-step process list ===== */
   .ten-steps{list-style:none;margin:0;padding:0;}
   .ten-step{

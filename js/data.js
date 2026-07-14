@@ -269,6 +269,15 @@ const DECK = {
 // ── Training Mode reference library ─────────────────────────────────────────
 // Rep-facing only. Rendered in the Training Mode side panel (never on slides).
 // Edit freely — same rule as the deck: content lives here, engine in app.js.
+// THE DOGHOUSE product registry — drives the Presentations picker and the
+// Training Center coach picker. Flip ready:true when a product's deck/coach ships.
+const PRODUCTS = [
+  {key:"sunesta",      icon:"⛱️", name:"Sunesta® Awnings",   coach:"Sunesta",       tag:"Retractable awnings — the full demo deck", ready:true},
+  {key:"eclipse",      icon:"🪟", name:"Eclipse® Screens",   coach:"Eclipse",       tag:"Motorized screens & track systems", ready:false},
+  {key:"gutterhelmet", icon:"🍂", name:"Gutter Helmet®",     coach:"Gutter Helmet", tag:"Gutter protection · Helmet Heat", ready:false},
+  {key:"pergola",      icon:"🏛️", name:"Louvered Pergolas",  coach:"Pergola",       tag:"Motorized louvered roofs", ready:false}
+];
+
 const TRAINING_REFERENCE = {
 
   doDont: {
