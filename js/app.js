@@ -108,6 +108,64 @@ function awningSVG(){
   </svg>`;
 }
 
+// --- YouTube segment loop (intro videoloop slide) ---
+// Streams a [start,end] window of the ATH YouTube video, muted, looping.
+// If the IFrame API can't load (no internet at the appointment), nothing is
+// created and the branded placeholder underneath simply stays visible.
+let ytLoopTimer = null;
+function sizeYtLoopFrame(){
+  const wrap = document.querySelector(".videoloop-embed");
+  const fr = wrap && wrap.querySelector("iframe");
+  if(!wrap || !fr) return;
+  // cover-fit a 16:9 frame, oversized 32% so YouTube's title bar / caption /
+  // suggested-video chrome is cropped outside the visible slide area
+  const scale = Math.max(wrap.clientWidth/16, wrap.clientHeight/9) * 1.32;
+  fr.style.width = Math.ceil(16*scale)+"px";
+  fr.style.height = Math.ceil(9*scale)+"px";
+}
+function initYouTubeLoop(cfg){
+  if(ytLoopTimer){ clearInterval(ytLoopTimer); ytLoopTimer = null; }
+  const boot = ()=>{
+    const mount = document.getElementById("ytLoopMount");
+    if(!mount || !window.YT || !window.YT.Player) return;
+    const player = new YT.Player("ytLoopMount", {
+      videoId: cfg.id,
+      playerVars: {autoplay:1, mute:1, controls:0, start:cfg.start, end:cfg.end,
+                   playsinline:1, rel:0, iv_load_policy:3, disablekb:1, fs:0},
+      events:{
+        onReady: e=>{
+          e.target.mute();
+          try{ e.target.unloadModule("captions"); e.target.unloadModule("cc"); }catch(err){}
+          e.target.playVideo(); sizeYtLoopFrame();
+        },
+        onStateChange: e=>{ if(e.data===YT.PlayerState.ENDED){ e.target.seekTo(cfg.start, true); e.target.playVideo(); } }
+      }
+    });
+    window.__ytLoopPlayer = player; // debug/verification handle
+    ytLoopTimer = setInterval(()=>{
+      if(!document.querySelector(".videoloop-embed iframe")){ clearInterval(ytLoopTimer); ytLoopTimer = null; return; }
+      sizeYtLoopFrame();
+      try{
+        const t = player.getCurrentTime ? player.getCurrentTime() : 0;
+        // loop back just before the end mark; also recover if YT restarts from 0
+        if(t >= cfg.end - 0.3 || t < cfg.start - 1){ player.seekTo(cfg.start, true); player.playVideo(); }
+        // ambient loop is uncontrollable by design — self-heal if it's unstarted
+        // (autoplay race), paused, or merely cued. Must stay muted for autoplay policy.
+        const st = player.getPlayerState ? player.getPlayerState() : null;
+        if(st === -1 || st === 2 || st === 5){ player.mute(); player.playVideo(); }
+      }catch(err){}
+    }, 500);
+  };
+  if(window.YT && window.YT.Player){ boot(); return; }
+  window.onYouTubeIframeAPIReady = boot;
+  if(!document.getElementById("ytApiScript")){
+    const tag = document.createElement("script");
+    tag.id = "ytApiScript";
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+}
+
 function footerBannerHTML(title, centered){
   return `<div class="footer-banner${centered?' footer-centered':''}"><img src="${IMAGES.athLogo}"><div class="footer-title">${title}</div></div>`;
 }
@@ -121,11 +179,13 @@ function renderSlide(){
     const panel = document.createElement("div");
     panel.className="videoloop-panel";
     panel.innerHTML = `
-      <div class="videoloop-label">Video loop — placeholder</div>
+      ${s.youtube ? "" : `<div class="videoloop-label">Video loop — placeholder</div>`}
       <div class="videoloop-play"></div>
+      ${s.youtube ? `<div class="videoloop-embed"><div id="ytLoopMount"></div></div>` : ""}
       <img class="videoloop-logo" src="${IMAGES.sunestaLogo}">
     `;
     area.appendChild(panel);
+    if(s.youtube) initYouTubeLoop(s.youtube);
     addNavZones(area);
   }
 

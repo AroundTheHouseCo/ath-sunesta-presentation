@@ -456,6 +456,18 @@
     letter-spacing:.08em;
     text-transform:uppercase;
   }
+  .videoloop-embed{
+    position:absolute;inset:0;
+    overflow:hidden;
+    /* ambient loop — taps fall straight through to the nav zones */
+    pointer-events:none;
+    background:transparent;
+  }
+  .videoloop-embed iframe{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    border:0;
+  }
   .videoloop-logo{
     position:absolute;
     bottom:20px;right:24px;

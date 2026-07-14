@@ -3,9 +3,12 @@ const DECK = {
     {
       id:"introvideo", type:"videoloop",
       title:"Opening Video Loop",
-      script:"(Video loop plays here — no talking yet.) Let this run for a few seconds while they settle in. It's doing the warm-up work for you.",
-      talkingPoints:["This slot is for a short branded video loop — not built yet, placeholder for now","Logo stays visible bottom-right the whole time"],
-      coach:"Once the real video is in, keep this under 8–10 seconds — it's a mood-setter, not content."
+      // 12s people-under-awning segment from the ATH YouTube intro video, looped muted.
+      // Edit start/end (seconds) to retime the loop — no code changes needed.
+      youtube:{id:"4tQexUOsUhg", start:24, end:36},
+      script:"(Video loop plays here — no talking yet.) Let this run while they settle in. It's doing the warm-up work for you.",
+      talkingPoints:["12-second lifestyle loop from our YouTube intro video (people enjoying the space under the awning)","Plays muted and loops automatically — logo stays bottom-right","Timestamps are editable in js/data.js (youtube: start/end)"],
+      coach:"⚠️ The clip streams from YouTube, so it needs internet at the appointment. If the home has no signal, the slide falls back to the branded placeholder — just move on naturally."
     },
     {
       id:"dealer", type:"splittext", image: IMAGES.dealerFamily,
