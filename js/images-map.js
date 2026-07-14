@@ -47,4 +47,5 @@ const IMAGES = {
   reasonThermometer: "images/reason-thermometer.svg",
   reasonRain: "images/reason-rain.svg",
   reasonUvWood: "images/reason-uvwood.svg",
+  refMapPlaceholder: "images/refmap-placeholder.svg",
 };

@@ -354,6 +354,9 @@
   .wt.hero .wt-num{color:#fff;}
   .wt-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#888;margin-top:2px;}
   .wt.hero .wt-label{color:#cfe6d6;}
+  .wt-sub{font-size:9.5px;color:#999;margin-top:3px;line-height:1.3;}
+  .wt.hero .wt-sub{color:#cfe6d6;}
+  .warranty-tiles.five{grid-template-columns:repeat(5,1fr);}
   .spec-rows{border:1px solid #eee;border-radius:10px;overflow:hidden;}
   .spec-row{
     display:flex;gap:14px;
@@ -1618,6 +1621,48 @@
     padding:2px 8px;border-radius:999px;
   }
   .ten-step-detail{font-size:12.5px;color:#666;margin-top:6px;line-height:1.45;}
+
+  /* Warranty Recap page — tiles + interactive triangle + service strip.
+     Containers avoid transform/opacity/filter/clip-path; interactive nodes carry
+     explicit z-index above the nav zones (z-index 5). */
+  .wr-panel{
+    position:absolute;inset:0;
+    background:#fff;
+    display:flex;flex-direction:column;
+    padding:12px 22px 16px;
+  }
+  .wr-head{flex:0 0 auto;padding-top:28px;margin-bottom:8px;} /* clears the #N badge */
+  .wr-head h2{font-size:22px;margin:0 0 2px;color:var(--charcoal);}
+  .wr-sub{font-size:12px;color:#666;}
+  .wr-body{flex:1;min-height:0;display:flex;gap:16px;margin-top:12px;}
+  .wr-tri{
+    flex:1.25;position:relative;
+    background:#fbfaf6;border:1px solid #eee;border-radius:12px;
+    overflow:hidden;
+  }
+  .wr-tri-bg{position:absolute;inset:0;width:100%;height:100%;}
+  .wr-tri-label{
+    position:absolute;left:0;right:0;bottom:7px;
+    text-align:center;font-size:10.5px;font-weight:700;color:#999;
+    pointer-events:none;
+  }
+  .wr-tri .tri-node{width:104px;min-height:56px;padding:8px;}
+  .wr-tri .tri-node img{max-width:88px;}
+  .wr-tri .tri-node.text-only .gibraltar-logotype{font-size:16px;}
+  .wr-node{z-index:6;}
+  .wr-service{
+    flex:1;display:flex;gap:14px;align-items:center;
+    background:#f4f7f4;border:1px solid #e2e8e2;border-radius:12px;
+    padding:14px 16px;
+  }
+  .wr-service img{width:84px;height:auto;flex-shrink:0;}
+  .wr-service-title{font-size:15px;font-weight:800;color:var(--green-dark);}
+  .wr-service-items{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+  .wr-service-items span{
+    font-size:10.5px;font-weight:700;color:var(--green-dark);
+    background:#fff;border:1px solid #d8e4da;border-radius:999px;padding:3px 9px;
+  }
+  .wr-service-foot{font-size:10.5px;color:#888;margin-top:8px;}
 
   .note{
     margin-top:12px;

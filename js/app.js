@@ -611,6 +611,74 @@ function renderSlide(){
     wrap.addEventListener("click",(e)=>e.stopPropagation());
   }
 
+  if(s.type==="warrantyrecap"){
+    const panel = document.createElement("div");
+    panel.className="wr-panel";
+    panel.innerHTML = `
+      <div class="wr-head">
+        <h2>${s.title}</h2>
+        ${s.subtext?`<div class="wr-sub">${s.subtext}</div>`:""}
+      </div>
+      <div class="warranty-tiles five">
+        ${s.tiles.map(t=>`
+          <div class="wt ${t.hero?'hero':''}">
+            <div class="wt-num">${t.num}</div>
+            <div class="wt-label">${t.label}</div>
+            ${t.sub?`<div class="wt-sub">${t.sub}</div>`:""}
+          </div>`).join("")}
+      </div>
+      <div class="wr-body">
+        <div class="wr-tri">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" class="wr-tri-bg">
+            <polygon points="50,30 29,76 71,76" fill="#2e7d4f"/>
+            <polygon points="50,36 34,73 66,73" fill="#245e3f"/>
+          </svg>
+          <div class="wr-tri-label">One warranty, backed three ways — tap a logo</div>
+        </div>
+        <div class="wr-service">
+          <img src="${IMAGES.serviceBadge}" alt="">
+          <div>
+            <div class="wr-service-title">${s.service.title}</div>
+            <div class="wr-service-items">${s.service.items.map(i=>`<span>${i}</span>`).join("")}</div>
+            <div class="wr-service-foot">${s.service.foot}</div>
+          </div>
+        </div>
+      </div>
+    `;
+    area.appendChild(panel);
+    // triangle nodes — same interaction pattern (and state) as the old triangle slide
+    const tri = panel.querySelector(".wr-tri");
+    const positions = [{top:16,left:50},{top:79,left:24},{top:79,left:76}];
+    s.nodes.forEach((n,i)=>{
+      const box = document.createElement("div");
+      box.className="tri-node wr-node";
+      box.style.top=positions[i].top+"%"; box.style.left=positions[i].left+"%"; box.style.transform="translate(-50%,-50%)";
+      if(n.kind==="logo"){
+        box.innerHTML = `<img src="${IMAGES.sunestaLogo}">`;
+      } else if(n.kind==="logo-ath"){
+        box.innerHTML = `<img src="${IMAGES.athLogo}">`;
+      } else {
+        box.classList.add("text-only");
+        box.innerHTML = `<div class="gibraltar-logotype">${n.title}</div>`;
+      }
+      box.onclick=(e)=>{ e.stopPropagation(); triNodeOpen=i; renderSlide(); };
+      tri.appendChild(box);
+    });
+    if(triNodeOpen!==null){
+      const n = s.nodes[triNodeOpen];
+      const pop = document.createElement("div");
+      pop.className="popover";
+      pop.style.zIndex=20;
+      pop.innerHTML = `<div class="popover-card tri-detail-card"><button class="popover-close">✕</button>
+        ${n.photo?`<img src="${n.photo}">`:""}
+        <h3>${n.title}</h3><p>${n.detail}</p></div>`;
+      pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ triNodeOpen=null; renderSlide(); } };
+      pop.querySelector(".popover-close").onclick=(e)=>{ e.stopPropagation(); triNodeOpen=null; renderSlide(); };
+      area.appendChild(pop);
+    }
+    addNavZones(area);
+  }
+
   if(s.type==="models"){
     const panel = document.createElement("div");
     panel.className="models-panel v2";

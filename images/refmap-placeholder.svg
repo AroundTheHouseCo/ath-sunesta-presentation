@@ -1,0 +1,13 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Clearly-labeled placeholder: the real reference map asset does not exist yet. -->
+  <rect x="0" y="0" width="800" height="600" fill="#f4f4f2"/>
+  <rect x="24" y="24" width="752" height="552" rx="14" fill="#fbfaf6" stroke="#c9c4b4" stroke-width="3" stroke-dasharray="14,10"/>
+  <!-- map pin glyph -->
+  <g transform="translate(400,225)">
+    <path d="M0 -70 C -38 -70 -62 -42 -62 -12 C -62 26 0 88 0 88 C 0 88 62 26 62 -12 C 62 -42 38 -70 0 -70 Z" fill="#2e7d4f"/>
+    <circle cx="0" cy="-14" r="24" fill="#fbfaf6"/>
+  </g>
+  <text x="400" y="392" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="34" font-weight="900" letter-spacing="4" fill="#3d3d3d">REFERENCE MAP</text>
+  <text x="400" y="432" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="17" font-weight="700" fill="#999">Asset pending — greater Colorado Springs project map</text>
+  <text x="400" y="462" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="13" font-weight="700" fill="#bbb">Placeholder · swap images/refmap-placeholder.svg when the real map is ready</text>
+</svg>
