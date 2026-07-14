@@ -152,15 +152,70 @@ const DECK = {
     },
     {
       id:"models", type:"models",
-      title:"Custom Made For You — THE MONEY SLIDE",
-      script:"So we've got three models — Sunlight, Sunstyle, and Sunesta.\n\nThe Sunlight is more of an industry standard — comparable to a lot of our competitors — and something we rarely install. Out here it's typically choosing between our flagship, the Sunesta, and the Sunstyle. 90% of our projects are the Sunesta — unless the site is better suited for the Sunstyle, it's what we recommend. Here's why.\n\n(Hand them the arm sample) Go ahead and feel that — solid extruded aluminum, engineered to hold. Inside each arm are four PVC-coated steel cables — they will not rust. A lot of competitors run a bicycle-chain system inside their arms; out here with the elements, those corrode over time and you end up with an awning that doesn't function. Not something you'll deal with here.\n\nIt handles 30 mph winds day-to-day and it's been tested to 98 mph before failure. And it takes a strong arm to project out to nearly 15 feet.\n\nWarranty — straight from the official Sunesta warranty: lifetime on the frame and on the Sunesta's arms. Fabric and motor are ten years, and in practice the fabric lasts 15–20+ years. The Sunstyle is a solid product too — its arms carry a 15-year warranty instead of lifetime. And the whole warranty transfers to the next homeowner.\n\nTHE SMART CASE — something we include as standard that a lot of competitors skip. A lot of awnings are installed with little to no protection, so the fabric sits exposed year-round and gets torn up after a few years — we call it the 'string cheese' effect. You've maybe seen it around town, or off the side of RVs. The Smart Case fully encloses the fabric when it's retracted — rain, snow, UV, hail, pine needles — none of it sits on your fabric. That's why we see fabrics lasting 15 to 20-plus years.\n\n👉 Educate — care: \"If it gets wet, let it dry before you retract it — moisture closed up in the case for a long stretch can grow mildew. Fortunately in Colorado it dries out fast. Cleaning is easy too: hose it down, let it dry, roll it in.\"\n\nPITCH ADJUSTMENT — the arms adjust in pitch, and we offer free lifetime adjustments. After install, if you want more head clearance or more coverage, we come back out and dial it in — no charge. Rule of thumb: about an inch of drop per foot of projection, and keep at least a foot and a half of clearance over your tallest family member.\n\n⚠️ UNVERIFIED — confirm before repeating to a customer: the spec sheet rates the arm CABLES at 80,000 movements of working life (that's roughly 10 open/closes a day for 20 years). Jack is confirming the right attribution with Sunesta — keep it out of customer conversations until then.",
-      talkingPoints:["Lead with the flagship — 90% choose the Sunesta","Arm sample + cable story: PVC-coated steel, no bicycle chains","Warranty per the 2026 doc: lifetime frame & Sunesta arms · Sunstyle arms 15-yr · fabric & motor 10-yr · transferable","Smart Case = standard; tell the 'string cheese' story","Care: let it dry before retracting · hose-down cleaning","Free lifetime pitch adjustments — inch of drop per foot of projection"],
-      coach:"THIS IS YOUR MONEY SLIDE. Slow down. Build the value. ⚠️ Careful with the spring-loaded arm sample — it can fly open and whack someone in the face. Control it, then hand it over.",
+      title:"Custom Made For You",
+      script:"So we've got three models — Sunlight, Sunstyle, and Sunesta.\n\nThe Sunlight is more of an industry standard — comparable to a lot of our competitors — and something we rarely install. Out here it's typically choosing between our flagship, the Sunesta, and the Sunstyle. 90% of our projects are the Sunesta — unless the site is better suited for the Sunstyle, it's what we recommend. Here's why.\n\n(Hand them the arm sample) Go ahead and feel that — solid extruded aluminum, engineered to hold. Inside each arm are four PVC-coated steel cables — they will not rust. A lot of competitors run a bicycle-chain system inside their arms; out here with the elements, those corrode over time and you end up with an awning that doesn't function. Not something you'll deal with here.\n\nIt handles 30 mph winds day-to-day and it's been tested to 98 mph before failure. And it takes a strong arm to project out to nearly 15 feet.\n\nWarranty — straight from the official Sunesta warranty: lifetime on the frame and on the Sunesta's arms. Fabric and motor are ten years, and in practice the fabric lasts 15–20+ years. The Sunstyle is a solid product too — its arms carry a 15-year warranty instead of lifetime, and the Sunlight's arms are twelve. All three: lifetime frame, 10-year fabric, 10-year motor — the arms are the difference.\n\nWIND DEPTH — the quiet difference: all three models carry a 24–30 mph wind class, but only the Sunesta holds it deep into its reach — all the way through 13 feet of projection. The Sunstyle drops a wind class past 8'3\", the Sunlight past 6'8\". If they want reach AND wind performance, there's really one answer.\n\nTHE SMART CASE — something we include as standard that a lot of competitors skip. A lot of awnings are installed with little to no protection, so the fabric sits exposed year-round and gets torn up after a few years — we call it the 'string cheese' effect. You've maybe seen it around town, or off the side of RVs. The Smart Case fully encloses the fabric when it's retracted — rain, snow, UV, hail, pine needles — none of it sits on your fabric. That's why we see fabrics lasting 15 to 20-plus years.\n\n👉 Educate — care: \"If it gets wet, let it dry before you retract it — moisture closed up in the case for a long stretch can grow mildew. Fortunately in Colorado it dries out fast. Cleaning is easy too: hose it down, let it dry, roll it in.\"\n\nPITCH ADJUSTMENT — the arms adjust in pitch, and we offer free lifetime adjustments. After install, if you want more head clearance or more coverage, we come back out and dial it in — no charge. Rule of thumb: about an inch of drop per foot of projection, and keep at least a foot and a half of clearance over your tallest family member.\n\n⚠️ UNVERIFIED — confirm before repeating to a customer: the spec sheet rates the arm CABLES at 80,000 movements of working life (that's roughly 10 open/closes a day for 20 years). Jack is confirming the right attribution with Sunesta — keep it out of customer conversations until then.",
+      talkingPoints:["Lead with the flagship — 90% choose the Sunesta","Tap a model card → fullscreen spec popup with the warranty grid · ⇄ compares all three","Arm warranty is the separator: Sunesta LIFETIME · Sunstyle 15-yr · Sunlight 12-yr (frame lifetime + fabric/motor 10-yr on all three)","Wind-class depth: Sunesta holds 24–30 mph thru 13' · Sunstyle thru 8'3\" · Sunlight thru 6'8\"","Arm sample + cable story: PVC-coated steel, no bicycle chains","Smart Case = standard; tell the 'string cheese' story","Free lifetime pitch adjustments — inch of drop per foot of projection"],
+      coach:"THIS IS YOUR MONEY SLIDE. Slow down. Build the value. ⚠️ Careful with the spring-loaded arm sample — it can fly open and whack someone in the face. Control it, then hand it over. Note: older printed spec sheets show outdated frame/motor warranty lines — the 2026 warranty doc (lifetime frame, 10-yr motor) governs.",
       models:[
-        {name:"Sunesta",spec:"Recommended · 90% of sales",projection:"Projection up to 14'8\"",width:"Widths up to 40' — made to the inch"},
-        {name:"Sunstyle",spec:"Comparison only",projection:"Projection up to 11'6\"",width:"Widths up to 40' — made to the inch"},
-        {name:"Sunlight",spec:"Rarely recommended",projection:"Projection up to 10'",width:"Widths up to 24' — made to the inch"}
+        {name:"Sunesta", tag:"Flagship — 90% of our installs", c1:"#1b5e3f", c2:"#2e7d4f", armYears:"Lifetime",
+         chips:["To 14'8\" projection","Widths to 40'","24–30 mph thru 13'"],
+         specs:[
+           ["Projection options","Seven: 5' · 6'8\" · 8'3\" · 10' · 11'6\" · 13' · 14'8\""],
+           ["Maximum width","40 feet — custom-built to the inch"],
+           ["Wind rating","Holds its full 24–30 mph wind class through 13' of projection (17–23 mph at 14'8\")"],
+           ["Arms","Solid extruded aluminum — four PVC-coated steel cables and up to three tension springs per arm"],
+           ["Motor","Somfy 50 Nm — wired or wireless (manual gear available)"],
+           ["Frame colors","White · Beige · Brown · Clay"],
+           ["Fabric protection","SmartCase full cassette — standard on every ATH install"]
+         ],
+         bestFor:"The Colorado pick — biggest reach, strongest arms, and the only model that keeps its full wind class deep into its projection range."},
+        {name:"Sunstyle", tag:"Mid-line — the comparison option", c1:"#27435f", c2:"#3a5a7d", armYears:"15 years",
+         chips:["To 11'6\" projection","Widths to 40'","24–30 mph @ 8'3\""],
+         specs:[
+           ["Projection options","Five: 5' · 6'8\" · 8'3\" · 10' · 11'6\""],
+           ["Maximum width","40 feet — custom-built to the inch"],
+           ["Wind rating","24–30 mph at 8'3\" — drops to 17–23 mph at 10' and 11'6\""],
+           ["Arms","Extruded aluminum — four PVC-coated steel cables per arm"],
+           ["Motor","Somfy 50 Nm — wired or wireless (manual gear available)"],
+           ["Frame colors","White · Beige · Brown · Clay"],
+           ["Fabric protection","SmartCase cassette available as an option"]
+         ],
+         bestFor:"A solid product for smaller spaces — but past 8'3\" of projection its wind class drops a full step."},
+        {name:"Sunlight", tag:"Entry level — rarely our recommendation", c1:"#8a6c48", c2:"#b6a27c", armYears:"12 years",
+         chips:["To 10' projection","Widths to 24'","24–30 mph thru 6'8\""],
+         specs:[
+           ["Projection options","Four: 5' · 6'8\" · 8'3\" · 10'"],
+           ["Maximum width","24 feet — custom-built to the inch"],
+           ["Wind rating","24–30 mph only through 6'8\" — 17–23 mph at 8'3\" and 10'"],
+           ["Arms","Lighter-duty arm design than the Sunesta and Sunstyle"],
+           ["Motor","Somfy 25 Nm — half the torque of the other two models"],
+           ["Frame colors","White · Beige · Clay"],
+           ["Fabric protection","No cassette listed on the spec sheet"]
+         ],
+         bestFor:"A budget option for small, sheltered spaces — not engineered for our wind."}
       ],
+      modelCompare:{
+        cats:[
+          {key:"warranty", label:"Warranty", rows:[
+            {label:"Frame", cells:[["check","Lifetime"],["check","Lifetime"],["check","Lifetime"]]},
+            {label:"Arms", cells:[["check","Lifetime"],["warn","15 years"],["warn","12 years"]]},
+            {label:"Fabric", cells:[["check","10 years"],["check","10 years"],["check","10 years"]]},
+            {label:"Motor", cells:[["check","10 years"],["check","10 years"],["check","10 years"]]}
+          ]},
+          {key:"size", label:"Size & Reach", rows:[
+            {label:"Max projection", cells:[["check","14'8\""],["warn","11'6\""],["x","10'"]]},
+            {label:"Max width", cells:[["check","40'"],["check","40'"],["x","24'"]]},
+            {label:"Projection options", cells:[["check","Seven"],["warn","Five"],["x","Four"]]}
+          ]},
+          {key:"eng", label:"Engineering", rows:[
+            {label:"Full wind class (24–30 mph)", cells:[["check","Through 13'"],["warn","Through 8'3\""],["x","Through 6'8\""]]},
+            {label:"Arm cables", cells:[["check","4 PVC-coated steel"],["check","4 PVC-coated steel"],["warn","Lighter-duty"]]},
+            {label:"Motor torque", cells:[["check","Somfy 50 Nm"],["check","Somfy 50 Nm"],["warn","Somfy 25 Nm"]]},
+            {label:"SmartCase cassette", cells:[["check","Standard w/ ATH"],["warn","Optional"],["x","Not listed"]]},
+            {label:"Frame colors", cells:[["check","Four"],["check","Four"],["warn","Three"]]}
+          ]}
+        ]
+      },
       gallery:[
         {img:IMAGES.optFabric,label:"Fabric on the extruded arm"},
         {img:IMAGES.optArm,label:"Full arm mechanism"},

@@ -15,7 +15,9 @@ let appView = "home";
 let centerView = null; // null = hub; else "tensteps"|"dodont"|"faq"|"close"|"recap"|"library"|"docs"
 let libCat = "sunesta";  // active photo-library category
 let libPhoto = null;     // lightbox index within the active category
-let activeModel = 0;
+let modelSpec = null;    // fullscreen spec popup: model index or null
+let modelCompare = false; // fullscreen 3-model comparison
+let cmpCats = {warranty:true, size:true, eng:true}; // compare category toggles
 let galleryOpen = false, galleryIndex = 0;
 let compareOpen = false;
 let openHotspot = null;
@@ -37,7 +39,8 @@ function renderTabs(){
 }
 
 function resetSlideState(){
-  activeModel = 0; galleryOpen=false; compareOpen=false; openHotspot=null; lightboxIndex=null; triNodeOpen=null;
+  modelSpec=null; modelCompare=false; cmpCats={warranty:true,size:true,eng:true};
+  galleryOpen=false; compareOpen=false; openHotspot=null; lightboxIndex=null; triNodeOpen=null;
 }
 
 function renderDots(){
@@ -89,18 +92,18 @@ function addNavZones(area){
   area.appendChild(right);
 }
 
-function awningSVG(){
+function awningSVG(c1="#1b5e3f", c2="#2e7d4f"){
   let stripes = "";
   const stripeW = 18;
   for(let i=0;i<9;i++){
     const x = 20 + i*stripeW;
-    const color = i%2===0 ? "#1b5e3f" : "#2e7d4f";
+    const color = i%2===0 ? c1 : c2;
     stripes += `<polygon points="${x},95 ${x+stripeW},95 ${x+stripeW-40},20 ${x-40},20" fill="${color}"/>`;
   }
   let scallops = "";
   for(let i=0;i<9;i++){
     const cx = 20 + i*stripeW + stripeW/2 - 40*0.5;
-    scallops += `<path d="M ${cx-9} 95 Q ${cx} 108 ${cx+9} 95 Z" fill="${i%2===0?'#1b5e3f':'#2e7d4f'}"/>`;
+    scallops += `<path d="M ${cx-9} 95 Q ${cx} 108 ${cx+9} 95 Z" fill="${i%2===0?c1:c2}"/>`;
   }
   return `
   <svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
@@ -560,39 +563,114 @@ function renderSlide(){
 
   if(s.type==="models"){
     const panel = document.createElement("div");
-    panel.className="models-panel";
-    const m = s.models[activeModel];
+    panel.className="models-panel v2";
     panel.innerHTML = `
-      <div class="models-list">
+      <div class="mv2-head">
+        <h2>${s.title}</h2>
+        <div class="mv2-sub">Every unit custom-built to the inch. All three: lifetime frame · 10-yr fabric · 10-yr motor — <b>the arm warranty is the difference.</b></div>
+      </div>
+      <div class="mv2-cards">
         ${s.models.map((mo,i)=>`
-          <div class="model-card ${i===activeModel?'active':''}" data-i="${i}">
-            ${awningSVG()}
-            <div class="name">${mo.name}</div>
-            <div class="spec">${mo.spec}</div>
+          <div class="mv2-card" data-i="${i}">
+            ${awningSVG(mo.c1,mo.c2)}
+            <div class="mv2-name">${mo.name}</div>
+            <div class="mv2-tag">${mo.tag}</div>
+            <div class="mv2-chips">${mo.chips.map(c=>`<span>${c}</span>`).join("")}</div>
+            <div class="mv2-arm ${i===0?'hero':''}">${mo.armYears==="Lifetime"?"LIFETIME":mo.armYears.toUpperCase().replace(" YEARS","-YEAR")} ARM WARRANTY</div>
+            <div class="mv2-more">Tap for full specs ›</div>
           </div>`).join("")}
       </div>
-      <div class="models-detail">
-        <h2>${m.name}</h2>
-        <p>${m.projection}<br>${m.width}</p>
-        <div class="models-actions">
-          <button id="btnGallery">View options</button>
-          <button class="secondary" id="btnCompare">Comparison chart</button>
-        </div>
+      <div class="mv2-actions">
+        <button id="btnModelCompare">⇄ Compare all three</button>
+        <button class="secondary" id="btnGallery">Options gallery</button>
+        <button class="secondary" id="btnCompare">vs. the competition</button>
       </div>
     `;
     area.appendChild(panel);
     panel.onclick=(e)=>{ e.stopPropagation(); };
-    panel.querySelectorAll(".model-card").forEach(el=>{
-      el.onclick=(e)=>{ e.stopPropagation(); activeModel=parseInt(el.dataset.i); renderSlide(); };
+    panel.querySelectorAll(".mv2-card").forEach(el=>{
+      el.onclick=(e)=>{ e.stopPropagation(); modelSpec=parseInt(el.dataset.i); renderSlide(); };
     });
+    panel.querySelector("#btnModelCompare").onclick=(e)=>{ e.stopPropagation(); modelCompare=true; renderSlide(); };
     panel.querySelector("#btnGallery").onclick=(e)=>{ e.stopPropagation(); galleryOpen=true; galleryIndex=0; renderSlide(); };
     panel.querySelector("#btnCompare").onclick=(e)=>{ e.stopPropagation(); compareOpen=true; renderSlide(); };
 
-    const cap = document.createElement("div");
-    cap.className="slide-caption"; cap.textContent = s.title;
-    cap.style.background="none";
-    cap.style.color="var(--charcoal)"; // models panel is light — white caption text was illegible
-    area.appendChild(cap);
+    // Fullscreen model spec popup
+    if(modelSpec!==null && s.models[modelSpec]){
+      const mo = s.models[modelSpec];
+      const modal = document.createElement("div");
+      modal.className="spec-modal";
+      modal.style.zIndex=30;
+      modal.innerHTML=`
+        <div class="spec-head" style="border-bottom-color:${mo.c1};">
+          <div>
+            <div class="spec-name" style="color:${mo.c1};">${mo.name}</div>
+            <div class="spec-tag">${mo.tag}</div>
+          </div>
+          <button class="spec-close" id="specClose">✕</button>
+        </div>
+        <div class="spec-body">
+          <div class="warranty-tiles">
+            <div class="wt"><div class="wt-num">Lifetime</div><div class="wt-label">Frame</div></div>
+            <div class="wt hero"><div class="wt-num">${mo.armYears}</div><div class="wt-label">Arms</div></div>
+            <div class="wt"><div class="wt-num">10 years</div><div class="wt-label">Fabric</div></div>
+            <div class="wt"><div class="wt-num">10 years</div><div class="wt-label">Motor</div></div>
+          </div>
+          <div class="spec-rows">
+            ${mo.specs.map(([k,v])=>`<div class="spec-row"><div class="spec-k">${k}</div><div class="spec-v">${v}</div></div>`).join("")}
+          </div>
+          <div class="spec-best">${mo.bestFor}</div>
+        </div>`;
+      modal.onclick=(e)=>{ e.stopPropagation(); };
+      modal.querySelector("#specClose").onclick=(e)=>{ e.stopPropagation(); modelSpec=null; renderSlide(); };
+      area.appendChild(modal);
+    }
+
+    // Fullscreen 3-model comparison with category toggles
+    if(modelCompare && s.modelCompare){
+      const mc = s.modelCompare;
+      const iconFor = st => st==="check" ? '<span class="ct-icon ct-check">✓</span>' : st==="warn" ? '<span class="ct-icon ct-warn">!</span>' : '<span class="ct-icon ct-x">✕</span>';
+      const activeCats = mc.cats.filter(c=>cmpCats[c.key]);
+      const modal = document.createElement("div");
+      modal.className="spec-modal";
+      modal.style.zIndex=30;
+      modal.innerHTML=`
+        <div class="spec-head">
+          <div>
+            <div class="spec-name">Sunesta · Sunstyle · Sunlight</div>
+            <div class="spec-tag">Tap a category chip to show or hide it</div>
+          </div>
+          <button class="spec-close" id="mcClose">✕</button>
+        </div>
+        <div class="mc-toggles">
+          ${mc.cats.map(c=>`<button class="mc-chip ${cmpCats[c.key]?'on':''}" data-k="${c.key}">${c.label}</button>`).join("")}
+        </div>
+        <div class="spec-body">
+          ${activeCats.length===0 ? '<div class="mc-empty">All categories hidden — tap a chip above to bring them back.</div>' : `
+          <table class="compare-table3 mc-table">
+            <tr>
+              <th class="ct-label"></th>
+              <th class="ct-hero"><div class="ct-badge">★ OUR PICK</div><div class="ct-colname">Sunesta</div><div class="ct-colsub">Flagship</div></th>
+              <th><div class="ct-colname">Sunstyle</div><div class="ct-colsub">Mid-line</div></th>
+              <th><div class="ct-colname">Sunlight</div><div class="ct-colsub">Entry</div></th>
+            </tr>
+            ${activeCats.map(cat=>`
+              <tr class="mc-cat"><td colspan="4">${cat.label}</td></tr>
+              ${cat.rows.map(r=>`
+                <tr>
+                  <td class="ct-label">${r.label}</td>
+                  ${r.cells.map((c,i)=>`<td class="${i===0?'ct-hero-cell':''}">${iconFor(c[0])}<span class="ct-text">${c[1]}</span></td>`).join("")}
+                </tr>`).join("")}
+            `).join("")}
+          </table>`}
+        </div>`;
+      modal.onclick=(e)=>{ e.stopPropagation(); };
+      modal.querySelector("#mcClose").onclick=(e)=>{ e.stopPropagation(); modelCompare=false; renderSlide(); };
+      modal.querySelectorAll(".mc-chip").forEach(ch=>{
+        ch.onclick=(e)=>{ e.stopPropagation(); cmpCats[ch.dataset.k]=!cmpCats[ch.dataset.k]; renderSlide(); };
+      });
+      area.appendChild(modal);
+    }
 
     if(galleryOpen){
       const g = s.gallery[galleryIndex];
