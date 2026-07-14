@@ -15,6 +15,7 @@ let appView = "home";
 let centerView = null; // null = hub; else "tensteps"|"dodont"|"faq"|"close"|"recap"|"library"|"docs"
 let libCat = "sunesta";  // active photo-library category
 let libPhoto = null;     // lightbox index within the active category
+let docViewer = null;    // in-app document viewer: {title, pages[]} or null (fabric book, etc.)
 let modelSpec = null;    // fullscreen spec popup: model index or null
 let modelCompare = false; // fullscreen 3-model comparison
 let cmpCats = {warranty:true, size:true, eng:true}; // compare category toggles
@@ -39,7 +40,7 @@ function renderTabs(){
 }
 
 function resetSlideState(){
-  modelSpec=null; modelCompare=false; cmpCats={warranty:true,size:true,eng:true};
+  modelSpec=null; modelCompare=false; cmpCats={warranty:true,size:true,eng:true}; docViewer=null;
   galleryOpen=false; compareOpen=false; openHotspot=null; lightboxIndex=null; triNodeOpen=null;
 }
 
@@ -443,14 +444,63 @@ function renderSlide(){
     const textHTML = s.type==="splitphoto"
       ? `<h2>${s.title}</h2>${s.subtext?`<div class="split-subtext">${s.subtext}</div>`:""}`
       : `<h2>${s.title}</h2><ul class="split-bullets">${s.bullets.map(b=>`<li>${b}</li>`).join("")}</ul>${s.cert?`<img class="split-cert" src="${s.cert}">`:""}`;
+    // optional mini video-scrubber in the photo box (frame-swap, Apple-style)
+    const sc = s.scrub;
+    const scN = sc ? sc.frameCount : 0;
+    const scFrame = sc ? (i)=> sc.frameBase + String(i).padStart(sc.framePad||2,'0') + sc.frameExt : null;
+    const photoBoxHTML = sc
+      ? `<div class="split-photo-box scrub">
+           <div class="mini-scrub">
+             <img class="ms-img" src="${scFrame(0)}" alt="">
+             <div class="ms-hint">${sc.hint || 'Slide to raise & lower'}</div>
+             <div class="ms-bar">
+               <input type="range" class="ms-range" min="0" max="${scN-1}" value="0" step="1" aria-label="Drop screen position">
+               <div class="ms-ends"><span>${sc.ends?sc.ends[0]:'▲ Up'}</span><span>${sc.ends?sc.ends[1]:'Down ▼'}</span></div>
+             </div>
+           </div>
+         </div>`
+      : (s.docViewer
+        ? `<div class="split-photo-box doc-open-box"><img src="${s.image}"><div class="doc-open-badge">📖 ${s.docViewer.tapLabel||'Tap to open'}</div></div>`
+        : `<div class="split-photo-box"><img src="${s.image}"></div>`);
     panel.innerHTML = `
       <div class="split-content">
-        <div class="split-photo-box"><img src="${s.image}"></div>
+        ${photoBoxHTML}
         <div class="split-text">${textHTML}</div>
       </div>
       ${footerBannerHTML(s.title, true)}
     `;
     area.appendChild(panel);
+    if(s.docViewer){
+      const box = panel.querySelector(".doc-open-box");
+      box.onclick = (e)=>{ e.stopPropagation(); docViewer = s.docViewer; renderSlide(); };
+    }
+    if(docViewer){
+      const dv = document.createElement("div");
+      dv.className = "doc-viewer";
+      dv.style.zIndex = 60; // above the slide-number badge (z-index 50) — full-screen viewer
+      dv.innerHTML = `
+        <div class="doc-viewer-head">
+          <div class="doc-viewer-title">${docViewer.title}</div>
+          <button class="doc-viewer-close" aria-label="Close">✕</button>
+        </div>
+        <div class="doc-viewer-scroll">
+          ${docViewer.pages.map((p,i)=>`<img src="${p}" alt="Page ${i+1}"${i<2?'':' loading="lazy"'}>`).join("")}
+        </div>`;
+      dv.addEventListener("click",(e)=>e.stopPropagation());
+      dv.querySelector(".doc-viewer-close").onclick = (e)=>{ e.stopPropagation(); docViewer=null; renderSlide(); };
+      area.appendChild(dv);
+    }
+    if(sc){
+      const wrap = panel.querySelector(".mini-scrub");
+      const img = wrap.querySelector(".ms-img");
+      const hint = wrap.querySelector(".ms-hint");
+      const range = wrap.querySelector(".ms-range");
+      const cache = [];
+      for(let i=0;i<scN;i++){ const im=new Image(); im.src=scFrame(i); cache[i]=im; }
+      range.addEventListener("input",(e)=>{ e.stopPropagation(); img.src=scFrame(+range.value); if(+range.value>0) hint.classList.add("hidden"); });
+      ["mousedown","touchstart","pointerdown","click"].forEach(ev=> range.addEventListener(ev,(e)=>e.stopPropagation()));
+      wrap.addEventListener("click",(e)=>e.stopPropagation());
+    }
     addNavZones(area);
   }
 
