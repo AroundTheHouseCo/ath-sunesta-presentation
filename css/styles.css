@@ -44,29 +44,22 @@
   }
   .brand-text{font-size:14px;color:var(--charcoal);}
   .brand-text b{color:var(--green-dark);}
-  .mode-toggle{
-    display:flex;
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:999px;
-    padding:3px;
-    gap:2px;
+  /* topbar navigation — context-dependent (exit ✕ in-home, back links elsewhere) */
+  .topbar-nav{display:flex;align-items:center;gap:8px;}
+  .exit-btn{
+    width:34px;height:34px;border-radius:50%;
+    border:1px solid #ddd;background:#fff;
+    color:#999;font-size:14px;line-height:1;
+    cursor:pointer;transition:.15s;
   }
-  .mode-toggle button{
-    border:none;
-    background:transparent;
-    padding:8px 16px;
-    border-radius:999px;
-    font-size:13px;
-    font-weight:600;
-    cursor:pointer;
-    color:var(--charcoal);
-    transition:.15s;
+  .exit-btn:hover{color:var(--charcoal);border-color:#bbb;}
+  .back-btn{
+    border:1px solid #ddd;background:#fff;
+    padding:8px 16px;border-radius:999px;
+    font-size:13px;font-weight:700;color:var(--green-dark);
+    cursor:pointer;transition:.15s;
   }
-  .mode-toggle button.active{
-    background:var(--green-dark);
-    color:#fff;
-  }
+  .back-btn:hover{border-color:var(--green);background:#f4faf5;}
 
   .stage{
     display:flex;
@@ -1064,7 +1057,8 @@
   @media(max-width:800px){
     .rehearsal-panel{flex:1 1 auto;height:420px;border-left:none;border-top:1px solid var(--cream-border);}
   }
-  .rehearsal-panel .eyebrow{
+  .rehearsal-panel .eyebrow,
+  .training-center .eyebrow{
     font-size:11px;
     letter-spacing:.06em;
     text-transform:uppercase;
@@ -1303,6 +1297,100 @@
   .pcard-logo{height:22px;width:auto;max-width:120px;object-fit:contain;display:block;}
   .pcard-more{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
   .popover-logo{height:26px;width:auto;max-width:160px;display:block;margin-bottom:12px;}
+
+  /* ===== Home screen ===== */
+  .home-screen{
+    background:radial-gradient(circle at 50% 30%,#236648 0%,#12392a 100%);
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.15);
+    min-height:560px;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:40px;padding:40px 24px;
+  }
+  .home-hero{text-align:center;}
+  .home-logo{
+    max-width:220px;background:#fff;border-radius:10px;
+    padding:10px 16px;margin-bottom:20px;
+  }
+  .home-hero h1{margin:0;font-size:30px;color:#fff;letter-spacing:.01em;}
+  .home-sub{
+    margin-top:6px;font-size:12px;font-weight:800;letter-spacing:.14em;
+    text-transform:uppercase;color:#9fd1b3;
+  }
+  .home-cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;}
+  .home-card{
+    width:280px;background:#fff;border-radius:14px;
+    padding:26px 24px;cursor:pointer;text-align:center;
+    border:2px solid transparent;
+    box-shadow:0 4px 16px rgba(0,0,0,.25);
+    transition:transform .15s, border-color .15s;
+  }
+  .home-card:hover{transform:translateY(-3px);border-color:var(--orange);}
+  .home-card-icon{
+    width:54px;height:54px;border-radius:50%;
+    background:var(--green-dark);color:#fff;
+    font-size:20px;display:flex;align-items:center;justify-content:center;
+    margin:0 auto 14px;
+  }
+  .home-card.secondary .home-card-icon{background:var(--orange);}
+  .home-card-name{font-size:18px;font-weight:800;color:var(--charcoal);}
+  .home-card-sub{font-size:12.5px;color:#777;margin-top:5px;line-height:1.4;}
+
+  /* ===== Training Center ===== */
+  .training-center{
+    background:var(--cream);
+    border:1px solid var(--cream-border);
+    border-radius:14px;
+    box-shadow:0 8px 30px rgba(0,0,0,.12);
+    min-height:560px;max-height:78vh;
+    overflow-y:auto;
+    padding:30px 34px;
+  }
+  .center-head{margin-bottom:22px;}
+  .center-head h1{margin:2px 0 0;font-size:28px;color:var(--charcoal);}
+  .center-head.resource{margin-bottom:14px;}
+  .center-cards{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:14px;
+  }
+  .center-card{
+    display:flex;align-items:center;gap:16px;
+    background:#fff;border:1px solid var(--cream-border);border-radius:12px;
+    padding:18px 20px;cursor:pointer;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  .center-card:hover{border-color:var(--green);box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .center-card-icon{
+    width:46px;height:46px;border-radius:12px;flex-shrink:0;
+    background:#eef6ee;font-size:20px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .center-card-name{font-size:15.5px;font-weight:800;color:var(--charcoal);}
+  .center-card-sub{font-size:12px;color:#888;margin-top:3px;line-height:1.35;}
+  .resource-page{max-width:720px;}
+  .resource-page h2{margin:0 0 14px;font-size:22px;color:var(--charcoal);}
+
+  /* ===== 10-step process list ===== */
+  .ten-steps{list-style:none;margin:0;padding:0;}
+  .ten-step{
+    display:flex;gap:14px;align-items:flex-start;
+    background:#fff;border:1px solid var(--cream-border);border-radius:10px;
+    padding:13px 16px;margin-bottom:9px;
+  }
+  .ten-step-num{
+    width:32px;height:32px;border-radius:50%;flex-shrink:0;
+    background:var(--green-dark);color:#fff;
+    font-size:14px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ten-step-title{font-size:14.5px;font-weight:800;color:var(--charcoal);line-height:1.3;}
+  .ten-step-stage{
+    display:inline-block;margin-top:4px;
+    font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--green);background:#eef6ee;
+    padding:2px 8px;border-radius:999px;
+  }
+  .ten-step-detail{font-size:12.5px;color:#666;margin-top:6px;line-height:1.45;}
 
   .note{
     margin-top:12px;

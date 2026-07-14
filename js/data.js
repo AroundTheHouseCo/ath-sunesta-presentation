@@ -335,6 +335,22 @@ const TRAINING_REFERENCE = {
   preDemo: {
     intro: "Before the deck — recap at the table and confirm understanding of the offer (the awning vs. their outdoor space and logistics).",
     body: "\"Before I show you the product — how long have you guys been in the home?\" (Or: \"You said you've been in the home X years, is that right?\")\n\n\"And this space here… is this where you spend most of your time outside?\"\n\n\"Is this something you've been thinking about for a while?\"\n\n👉 Tie back to the Accomplish List (subtle reminder): \"Perfect — so really making this usable, cooler, and protected is the goal.\"\n\nMEASUREMENT RECAP: \"To recap what we looked at outside — I measured X feet in width to cover the desired space, with an X projection away from the home. When we factor in some pitch, that places the end of your new awning near the end of the deck. During installation our technicians will work with you to dial in pitch versus head clearance.\"\n\nCABLE MANAGEMENT: \"These awnings require 110v power, so we'll plan to plug into this outlet here. The cords are outdoor-rated and typically stay plugged in year-round. They come in X and X colors, but we can also paint them to match your siding or stucco if you have paint available. We typically run the wiring as discreetly as possible down your window or door trim.\"\n\n\"Do you have a preference on painting the cord versus the cord color options?\"\n\nSUN ORIENTATION: \"Based on your orientation versus the sun (reference Lumos photos if possible), this will provide great coverage from X to X hours and make this space much more usable and cooler throughout the year.\"\n\nDROP SCREEN (if it's essential for them): explain why and build value here. You can add it later with both models you'll be priced on (not available on the Sunlight).\n\n\"Based on what I went over, do you feel this is the right option for you and your home?\"\n\n👉 GET A YES!!!!!! If it's a no, a maybe, or anything short of a yes — ask more questions, uncover the objection, and handle it during the presentation."
+  },
+
+  tenSteps: {
+    intro: "The 10-step sales process — the full arc of every in-home visit. The deck covers steps 4–6; everything around it is you.",
+    steps: [
+      {n:1,  title:"Introduction / Warm Up & Set Agenda", stage:"At the door / table"},
+      {n:2,  title:"Discovery Q & A / Needs Analysis", stage:"At the table"},
+      {n:3,  title:"Recap at Table & Confirm Understanding of the Offer", stage:"At the table", detail:"Awnings/screens etc. vs. their outdoor space and logistics — see the Pre-Demo Recap reference."},
+      {n:4,  title:"Company Story through Installation & Manufacturer Info", stage:"Presentation"},
+      {n:5,  title:"Product Options & Product Demo — Problem / Feature / Benefit", stage:"Presentation"},
+      {n:6,  title:"Warranties & Price Conditioning", stage:"Presentation"},
+      {n:7,  title:"First Visit Discount through Laying Off Price", stage:"Pricing", detail:"Rebuild value, pricing & financing / payment options — see the Pricing & Close reference."},
+      {n:8,  title:"Ask For the Business / Next Steps", stage:"Close"},
+      {n:9,  title:"Uncover, Manage & Overcome Objections", stage:"Close", detail:"See FAQs & Objections for the response scripts."},
+      {n:10, title:"Ask for Referrals · Close / Reset Agenda (If no sale)", stage:"Close"}
+    ]
   }
 };
 

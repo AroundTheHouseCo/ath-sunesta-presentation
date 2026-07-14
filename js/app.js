@@ -7,6 +7,10 @@ let activeTab = tabs[0];
 let activeIndex = 0;
 let mode = "present";
 let trainingView = "slide"; // persists across slides so a rep can keep FAQs open while advancing
+// App shell: the app opens on a home screen; customers never see training UI.
+// appView: "home" | "present" (in-home, customer-facing) | "center" (training hub) | "training-deck" (deck + notes)
+let appView = "home";
+let centerView = null; // null = hub; else a resource key ("tensteps" | "dodont" | "faq" | "close" | "recap")
 let activeModel = 0;
 let galleryOpen = false, galleryIndex = 0;
 let compareOpen = false;
@@ -609,6 +613,70 @@ function renderSlide(){
   area.appendChild(badge);
 }
 
+// Shared reference-body builders — used by both the rehearsal side panel (tabs)
+// and the Training Center's full-page resource views.
+function trainingBodyHTML(view){
+  if(view==="dodont"){
+    const d = TRAINING_REFERENCE.doDont;
+    return `
+      <div class="eyebrow">Reference — every call</div>
+      <h2>Do & Don't</h2>
+      <div class="tref-section"><h3 class="tref-h3 bad">❌ What NOT to do</h3><ul class="talking-points">${d.dont.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3 good">✅ What TO do</h3><ul class="talking-points">${d.do.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3">🎯 The Four Sales</h3><div class="script-block">${d.fourSales.intro}</div><ul class="talking-points">${d.fourSales.items.map(t=>`<li>${t}</li>`).join("")}</ul><div class="coach-note">👉 ${d.fourSales.footer}</div></div>
+    `;
+  }
+  if(view==="faq"){
+    return `
+      <div class="eyebrow">Reference — any slide, any time</div>
+      <h2>FAQs & Objections</h2>
+      ${TRAINING_REFERENCE.faqs.map(f=>`
+        <div class="faq-item">
+          <div class="faq-q"><span class="faq-tag${f.tag==='Objection'?' obj':''}">${f.tag}</span>${f.q}</div>
+          <div class="script-block faq-a">${f.a}</div>
+        </div>`).join("")}
+    `;
+  }
+  if(view==="close"){
+    const c = TRAINING_REFERENCE.close;
+    return `
+      <div class="eyebrow">Reference — the pricing moment</div>
+      <h2>Pricing & Close</h2>
+      <div class="coach-note tref-gap">👉 ${c.note}</div>
+      ${c.sections.map(sec=>`<div class="tref-section"><h3 class="tref-h3">${sec.title}</h3><div class="script-block">${sec.body}</div></div>`).join("")}
+    `;
+  }
+  if(view==="recap"){
+    const p = TRAINING_REFERENCE.preDemo;
+    return `
+      <div class="eyebrow">Reference — before slide 1</div>
+      <h2>Pre-Demo Recap at the Table</h2>
+      <div class="coach-note tref-gap">👉 ${p.intro}</div>
+      <div class="script-block">${p.body}</div>
+    `;
+  }
+  if(view==="tensteps"){
+    const t = TRAINING_REFERENCE.tenSteps;
+    return `
+      <div class="eyebrow">Reference — the whole visit</div>
+      <h2>Our 10-Step Sales Process</h2>
+      <div class="coach-note tref-gap">👉 ${t.intro}</div>
+      <ol class="ten-steps">
+        ${t.steps.map(st=>`
+          <li class="ten-step">
+            <div class="ten-step-num">${st.n}</div>
+            <div class="ten-step-body">
+              <div class="ten-step-title">${st.title}</div>
+              <div class="ten-step-stage">${st.stage}</div>
+              ${st.detail?`<div class="ten-step-detail">${st.detail}</div>`:""}
+            </div>
+          </li>`).join("")}
+      </ol>
+    `;
+  }
+  return "";
+}
+
 function renderRehearsal(){
   const panel = document.getElementById("rehearsalPanel");
   const s = currentSlide();
@@ -625,41 +693,8 @@ function renderRehearsal(){
       ${s.talkingPoints ? `<ul class="talking-points">${s.talkingPoints.map(t=>`<li>${t}</li>`).join("")}</ul>` : ""}
       ${s.coach ? `<div class="coach-note">👉 ${s.coach}</div>` : ""}
     `;
-  } else if(trainingView==="dodont"){
-    const d = TRAINING_REFERENCE.doDont;
-    body = `
-      <div class="eyebrow">Reference — every call</div>
-      <h2>Do & Don't</h2>
-      <div class="tref-section"><h3 class="tref-h3 bad">❌ What NOT to do</h3><ul class="talking-points">${d.dont.map(t=>`<li>${t}</li>`).join("")}</ul></div>
-      <div class="tref-section"><h3 class="tref-h3 good">✅ What TO do</h3><ul class="talking-points">${d.do.map(t=>`<li>${t}</li>`).join("")}</ul></div>
-      <div class="tref-section"><h3 class="tref-h3">🎯 The Four Sales</h3><div class="script-block">${d.fourSales.intro}</div><ul class="talking-points">${d.fourSales.items.map(t=>`<li>${t}</li>`).join("")}</ul><div class="coach-note">👉 ${d.fourSales.footer}</div></div>
-    `;
-  } else if(trainingView==="faq"){
-    body = `
-      <div class="eyebrow">Reference — any slide, any time</div>
-      <h2>FAQs & Objections</h2>
-      ${TRAINING_REFERENCE.faqs.map(f=>`
-        <div class="faq-item">
-          <div class="faq-q"><span class="faq-tag${f.tag==='Objection'?' obj':''}">${f.tag}</span>${f.q}</div>
-          <div class="script-block faq-a">${f.a}</div>
-        </div>`).join("")}
-    `;
-  } else if(trainingView==="close"){
-    const c = TRAINING_REFERENCE.close;
-    body = `
-      <div class="eyebrow">Reference — the pricing moment</div>
-      <h2>Pricing & Close</h2>
-      <div class="coach-note tref-gap">👉 ${c.note}</div>
-      ${c.sections.map(sec=>`<div class="tref-section"><h3 class="tref-h3">${sec.title}</h3><div class="script-block">${sec.body}</div></div>`).join("")}
-    `;
-  } else if(trainingView==="recap"){
-    const p = TRAINING_REFERENCE.preDemo;
-    body = `
-      <div class="eyebrow">Reference — before slide 1</div>
-      <h2>Pre-Demo Recap at the Table</h2>
-      <div class="coach-note tref-gap">👉 ${p.intro}</div>
-      <div class="script-block">${p.body}</div>
-    `;
+  } else {
+    body = trainingBodyHTML(trainingView);
   }
 
   panel.innerHTML = tabsHTML + body;
@@ -677,19 +712,123 @@ function renderAll(){
   if(mode==="rehearse") renderRehearsal();
 }
 
-document.getElementById("btn-present").onclick=()=>{
-  mode="present";
-  document.getElementById("btn-present").classList.add("active");
-  document.getElementById("btn-rehearse").classList.remove("active");
-  renderAll();
-};
-document.getElementById("btn-rehearse").onclick=()=>{
-  mode="rehearse";
-  document.getElementById("btn-rehearse").classList.add("active");
-  document.getElementById("btn-present").classList.remove("active");
-  renderAll();
-};
+// ===== App shell: home screen · in-home presentation · training center =====
+
+function renderHome(){
+  const el = document.getElementById("homeScreen");
+  el.innerHTML = `
+    <div class="home-hero">
+      <img class="home-logo" src="${IMAGES.sunestaLogo}" alt="Sunesta">
+      <h1>Sunesta Awning</h1>
+      <div class="home-sub">Around The House · Home Solutions</div>
+    </div>
+    <div class="home-cards">
+      <div class="home-card" id="homeGoPresent">
+        <div class="home-card-icon">▶</div>
+        <div class="home-card-name">In-Home Presentation</div>
+        <div class="home-card-sub">Customer-facing — start the demo</div>
+      </div>
+      <div class="home-card secondary" id="homeGoCenter">
+        <div class="home-card-icon">🎓</div>
+        <div class="home-card-name">Training Center</div>
+        <div class="home-card-sub">Rep-only — scripts, process & references</div>
+      </div>
+    </div>
+  `;
+  document.getElementById("homeGoPresent").onclick = ()=>{
+    activeTab = tabs[0]; activeIndex = 0; resetSlideState();
+    appView = "present"; renderApp();
+  };
+  document.getElementById("homeGoCenter").onclick = ()=>{ appView = "center"; centerView = null; renderApp(); };
+}
+
+function renderCenter(){
+  const el = document.getElementById("trainingCenter");
+  if(centerView === null){
+    const cards = [
+      {key:"deck",     icon:"🖥", name:"Training Presentation", sub:"The full deck with word-for-word scripts & coach notes"},
+      {key:"tensteps", icon:"🔟", name:"Our 10-Step Sales Process", sub:"The whole visit, start to finish"},
+      {key:"recap",    icon:"📋", name:"Pre-Demo Recap", sub:"At the table, before slide 1"},
+      {key:"dodont",   icon:"🎯", name:"Do & Don't", sub:"Every call · The Four Sales"},
+      {key:"faq",      icon:"💬", name:"FAQs & Objections", sub:"Verbatim responses, any slide any time"},
+      {key:"close",    icon:"💰", name:"Pricing & Close", sub:"The pricing moment, spoken over the estimate"}
+    ];
+    el.innerHTML = `
+      <div class="center-head">
+        <div class="eyebrow">Rep-only</div>
+        <h1>Training Center</h1>
+      </div>
+      <div class="center-cards">
+        ${cards.map(c=>`
+          <div class="center-card" data-key="${c.key}">
+            <div class="center-card-icon">${c.icon}</div>
+            <div>
+              <div class="center-card-name">${c.name}</div>
+              <div class="center-card-sub">${c.sub}</div>
+            </div>
+          </div>`).join("")}
+      </div>
+    `;
+    el.querySelectorAll(".center-card").forEach(card=>{
+      card.onclick = ()=>{
+        const k = card.dataset.key;
+        if(k==="deck"){
+          activeTab = tabs[0]; activeIndex = 0; resetSlideState(); trainingView = "slide";
+          appView = "training-deck"; renderApp();
+        } else {
+          centerView = k; renderCenter();
+        }
+      };
+    });
+  } else {
+    el.innerHTML = `
+      <div class="center-head resource">
+        <button class="back-btn" id="resourceBack">‹ Training Center</button>
+      </div>
+      <div class="resource-page">${trainingBodyHTML(centerView)}</div>
+    `;
+    document.getElementById("resourceBack").onclick = ()=>{ centerView = null; renderCenter(); };
+    el.scrollTop = 0;
+  }
+}
+
+function renderTopbarNav(){
+  const nav = document.getElementById("topbarNav");
+  if(appView==="present"){
+    // deliberately unlabeled — customers just see a quiet close control
+    nav.innerHTML = `<button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>`;
+  } else if(appView==="training-deck"){
+    nav.innerHTML = `<button class="back-btn" id="backCenterBtn">‹ Training Center</button>`;
+  } else if(appView==="center"){
+    nav.innerHTML = `<button class="back-btn" id="homeBtn">‹ Home</button>`;
+  } else {
+    nav.innerHTML = "";
+  }
+  const ex = document.getElementById("exitBtn");   if(ex) ex.onclick = goHome;
+  const hm = document.getElementById("homeBtn");   if(hm) hm.onclick = goHome;
+  const bc = document.getElementById("backCenterBtn"); if(bc) bc.onclick = ()=>{ appView="center"; centerView=null; renderApp(); };
+}
+
+function goHome(){ appView = "home"; centerView = null; resetSlideState(); renderApp(); }
+
+function renderApp(){
+  const showDeck = appView==="present" || appView==="training-deck";
+  document.getElementById("homeScreen").style.display   = appView==="home"   ? "" : "none";
+  document.getElementById("trainingCenter").style.display = appView==="center" ? "" : "none";
+  document.getElementById("stage").style.display        = showDeck ? "" : "none";
+  document.querySelector(".slidebar").style.display     = showDeck ? "" : "none";
+  document.getElementById("tabbar").style.display       = showDeck ? "" : "none";
+  document.querySelector(".note").style.display         = appView==="home" ? "" : "none";
+  renderTopbarNav();
+  if(appView==="home") renderHome();
+  if(appView==="center") renderCenter();
+  if(showDeck){
+    mode = appView==="training-deck" ? "rehearse" : "present";
+    renderAll();
+  }
+}
+
 document.getElementById("prevBtn").onclick=goPrev;
 document.getElementById("nextBtn").onclick=goNext;
 
-renderAll();
+renderApp();
