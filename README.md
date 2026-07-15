@@ -2,9 +2,10 @@
 
 The all-product sales asset for Around The House Home Solutions reps: customer-facing
 presentations plus rep-only "Training Coach" resources, per product. Sunesta® Awnings
-is fully built (22-slide deck + Sunesta Coach); Eclipse® Screens, Gutter Helmet®, and
-Louvered Pergolas are registered shells waiting for content (`PRODUCTS` in `js/data.js`,
-flip `ready:true` when a product ships).
+(22-slide deck + Sunesta Coach) and Eclipse® E-Zip Screens (14-slide deck + Eclipse
+Coach) are fully built and live; Gutter Helmet® and Louvered Pergolas are registered
+shells waiting for content (`PRODUCTS` in `js/registry.js`, flip `ready:true` when a
+product ships).
 
 **Live:** https://aroundthehouseco.github.io/the-dog-house/ — GitHub Pages, repo
 `AroundTheHouseCo/the-dog-house`, served from `main` `/` (root). Pushing to `main`
@@ -117,5 +118,9 @@ badge overlaps them.
   until Jack supplies the Profectus material.
 - DoY/Our People slide is a marked first draft. Awaiting real crew photo, lit-awning
   night shot, myLink app screenshots.
-- Eclipse E-Zip deck in progress (Round 2); Gutter Helmet / Pergola decks + coaches: shells only.
+- Eclipse E-Zip deck shipped (14-slide deck + Eclipse Coach). Open follow-ups: Slide 11
+  gallery could gain a videoscrub if Jack supplies landscape footage; 12-month "Shade
+  Service" stays coach-only until confirmed; minor copy picks (Front Range vs Southern
+  Colorado, customer-count phrasing) flagged for Jack's on-sight correction.
+- Gutter Helmet / Pergola decks + coaches: shells only.
 - Someday: in-app Edit Mode; offline wrap (Capacitor or service worker).
