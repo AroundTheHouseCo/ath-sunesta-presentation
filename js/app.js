@@ -1,19 +1,37 @@
-const tabs = Object.keys(DECK);
-const FLAT_SLIDES = tabs.flatMap(t => DECK[t]);
+// Multi-product: content comes from PRODUCT_DATA (js/registry.js, filled by each
+// js/data-<key>.js). setProduct(key) rebinds everything the engine reads — nothing
+// content-derived may be evaluated at script-load time, or it silently pins the
+// boot product. Sunesta boots as the default so a refresh lands somewhere sane.
+let activeProduct = null; // key into PRODUCT_DATA
+let PROD = null;          // PRODUCT_DATA[activeProduct]
+let PDECK = null;         // PROD.deck — {tabName:[slides]}
+let tabs = [];
+let FLAT_SLIDES = [];
+function productInfo(){ return PRODUCTS.find(p=>p.key===activeProduct) || {}; }
+function setProduct(key){
+  activeProduct = key;
+  PROD = PRODUCT_DATA[key];
+  PDECK = PROD.deck;
+  tabs = Object.keys(PDECK);
+  FLAT_SLIDES = tabs.flatMap(t => PDECK[t]);
+  activeTab = tabs[0];
+  activeIndex = 0;
+  libCat = (PROD.photoCats && PROD.photoCats[0]) || Object.keys(PHOTO_LIBRARY)[0];
+}
 function globalSlideNumber(){
   return FLAT_SLIDES.indexOf(currentSlide()) + 1;
 }
-let activeTab = tabs[0];
+let activeTab = null;
 let activeIndex = 0;
 let mode = "present";
 let trainingView = "slide"; // persists across slides so a rep can keep FAQs open while advancing
 // THE DOGHOUSE app shell: home -> Presentations or Training Center -> product.
 // Customers never see training UI in present mode.
 // appView: "home" | "presentations" (product picker) | "coaches" (product picker)
-//        | "present" (in-home deck) | "center" (Sunesta Training Coach hub) | "training-deck"
+//        | "present" (in-home deck) | "center" (per-product Training Coach hub) | "training-deck"
 let appView = "home";
 let centerView = null; // null = hub; else "tensteps"|"dodont"|"faq"|"close"|"recap"|"library"|"docs"
-let libCat = "sunesta";  // active photo-library category
+let libCat = null;       // active photo-library category (set by setProduct)
 let libPhoto = null;     // lightbox index within the active category
 let docViewer = null;    // in-app document viewer: {title, pages[]} or null (fabric book, etc.)
 let modelSpec = null;    // fullscreen spec popup: model index or null
@@ -25,7 +43,7 @@ let openHotspot = null;
 let lightboxIndex = null;
 let triNodeOpen = null;
 
-function currentSlide(){ return DECK[activeTab][activeIndex]; }
+function currentSlide(){ return PDECK[activeTab][activeIndex]; }
 
 function renderTabs(){
   const bar = document.getElementById("tabbar");
@@ -47,17 +65,17 @@ function resetSlideState(){
 function renderDots(){
   const dots = document.getElementById("dots");
   dots.innerHTML="";
-  DECK[activeTab].forEach((s,i)=>{
+  PDECK[activeTab].forEach((s,i)=>{
     const d = document.createElement("span");
     if(i===activeIndex) d.className="active";
     dots.appendChild(d);
   });
-  document.getElementById("count").textContent = (activeIndex+1)+" / "+DECK[activeTab].length;
+  document.getElementById("count").textContent = (activeIndex+1)+" / "+PDECK[activeTab].length;
 }
 
 function goNext(){
   const idx = tabs.indexOf(activeTab);
-  if(activeIndex < DECK[activeTab].length-1){
+  if(activeIndex < PDECK[activeTab].length-1){
     activeIndex++;
   } else if(idx < tabs.length-1){
     activeTab = tabs[idx+1];
@@ -74,10 +92,10 @@ function goPrev(){
     activeIndex--;
   } else if(idx > 0){
     activeTab = tabs[idx-1];
-    activeIndex = DECK[activeTab].length-1;
+    activeIndex = PDECK[activeTab].length-1;
   } else {
     activeTab = tabs[tabs.length-1];
-    activeIndex = DECK[activeTab].length-1;
+    activeIndex = PDECK[activeTab].length-1;
   }
   resetSlideState(); renderAll();
 }
@@ -190,7 +208,7 @@ function renderSlide(){
       ${s.youtube ? "" : `<div class="videoloop-label">Video loop — placeholder</div>`}
       <div class="videoloop-play"></div>
       ${s.youtube ? `<div class="videoloop-embed"><div id="ytLoopMount"></div></div>` : ""}
-      <img class="videoloop-logo" src="${IMAGES.sunestaLogo}">
+      <img class="videoloop-logo" src="${s.logo || PROD.logo}">
     `;
     area.appendChild(panel);
     if(s.youtube) initYouTubeLoop(s.youtube);
@@ -415,7 +433,7 @@ function renderSlide(){
       box.className="tri-node";
       box.style.top=positions[i].top+"%"; box.style.left=positions[i].left+"%"; box.style.transform="translate(-50%,-50%)";
       if(n.kind==="logo"){
-        box.innerHTML = `<img src="${IMAGES.sunestaLogo}">`;
+        box.innerHTML = `<img src="${n.logo || PROD.logo}">`;
       } else if(n.kind==="logo-ath"){
         box.innerHTML = `<img src="${IMAGES.athLogo}">`;
       } else {
@@ -562,7 +580,7 @@ function renderSlide(){
         <img src="${s.before}">
       </div>
       <div class="slider-handle" id="sliderHandle" style="left:50%"></div>
-      <div class="slider-hint">Drag to extend the awning</div>
+      <div class="slider-hint">${s.hint || 'Drag to compare'}</div>
     `;
     area.appendChild(wrap);
     let dragging=false;
@@ -596,8 +614,8 @@ function renderSlide(){
       <img class="scrub-img" src="${frame(0)}" alt="">
       <div class="scrub-hint">${s.hint || 'Drag to extend the awning'}</div>
       <div class="scrub-bar">
-        <input type="range" class="scrub-range" min="0" max="${N-1}" value="0" step="1" aria-label="Awning extension">
-        <div class="scrub-ends"><span>◄ Retracted</span><span>Extended ►</span></div>
+        <input type="range" class="scrub-range" min="0" max="${N-1}" value="0" step="1" aria-label="${s.ariaLabel || 'Position'}">
+        <div class="scrub-ends"><span>${s.ends ? s.ends[0] : '◄ Retracted'}</span><span>${s.ends ? s.ends[1] : 'Extended ►'}</span></div>
       </div>
     `;
     area.appendChild(wrap);
@@ -658,7 +676,7 @@ function renderSlide(){
             <polygon points="50,30 29,76 71,76" fill="#2e7d4f"/>
             <polygon points="50,36 34,73 66,73" fill="#245e3f"/>
           </svg>
-          <div class="wr-tri-label">One warranty, backed three ways — tap a logo</div>
+          <div class="wr-tri-label">${s.triLabel || 'One warranty, backed three ways — tap a logo'}</div>
         </div>
         <div class="wr-service">
           <img src="${IMAGES.serviceBadge}" alt="">
@@ -679,7 +697,7 @@ function renderSlide(){
       box.className="tri-node wr-node";
       box.style.top=positions[i].top+"%"; box.style.left=positions[i].left+"%"; box.style.transform="translate(-50%,-50%)";
       if(n.kind==="logo"){
-        box.innerHTML = `<img src="${IMAGES.sunestaLogo}">`;
+        box.innerHTML = `<img src="${n.logo || PROD.logo}">`;
       } else if(n.kind==="logo-ath"){
         box.innerHTML = `<img src="${IMAGES.athLogo}">`;
       } else {
@@ -710,7 +728,7 @@ function renderSlide(){
     panel.innerHTML = `
       <div class="mv2-head">
         <h2>${s.title}</h2>
-        <div class="mv2-sub">Every unit custom-built to the inch. All three: lifetime frame · 10-yr fabric · 10-yr motor — <b>the arm warranty is the difference.</b></div>
+        <div class="mv2-sub">${s.sub || 'Every unit custom-built to the inch. All three: lifetime frame · 10-yr fabric · 10-yr motor — <b>the arm warranty is the difference.</b>'}</div>
       </div>
       <div class="mv2-cards">
         ${s.models.map((mo,i)=>`
@@ -719,7 +737,7 @@ function renderSlide(){
             <div class="mv2-name">${mo.name}</div>
             <div class="mv2-tag">${mo.tag}</div>
             <div class="mv2-chips">${mo.chips.map(c=>`<span>${c}</span>`).join("")}</div>
-            <div class="mv2-arm ${i===0?'hero':''}">${mo.armYears==="Lifetime"?"LIFETIME":mo.armYears.toUpperCase().replace(" YEARS","-YEAR")} ARM WARRANTY</div>
+            <div class="mv2-arm ${(mo.chipHero!==undefined ? mo.chipHero : i===0)?'hero':''}">${mo.heroChip || ((mo.armYears==="Lifetime"?"LIFETIME":mo.armYears.toUpperCase().replace(" YEARS","-YEAR"))+" ARM WARRANTY")}</div>
             <div class="mv2-more">Tap for full specs ›</div>
           </div>`).join("")}
       </div>
@@ -754,10 +772,12 @@ function renderSlide(){
         </div>
         <div class="spec-body">
           <div class="warranty-tiles">
-            <div class="wt"><div class="wt-num">Lifetime</div><div class="wt-label">Frame</div></div>
-            <div class="wt hero"><div class="wt-num">${mo.armYears}</div><div class="wt-label">Arms</div></div>
-            <div class="wt"><div class="wt-num">10 years</div><div class="wt-label">Fabric</div></div>
-            <div class="wt"><div class="wt-num">10 years</div><div class="wt-label">Motor</div></div>
+            ${(mo.warrantyTiles || [
+              {num:"Lifetime", label:"Frame"},
+              {num:mo.armYears, label:"Arms", hero:true},
+              {num:"10 years", label:"Fabric"},
+              {num:"10 years", label:"Motor"}
+            ]).map(t=>`<div class="wt${t.hero?' hero':''}"><div class="wt-num">${t.num}</div><div class="wt-label">${t.label}</div></div>`).join("")}
           </div>
           <div class="spec-rows">
             ${mo.specs.map(([k,v])=>`<div class="spec-row"><div class="spec-k">${k}</div><div class="spec-v">${v}</div></div>`).join("")}
@@ -780,7 +800,7 @@ function renderSlide(){
       modal.innerHTML=`
         <div class="spec-head">
           <div>
-            <div class="spec-name">Sunesta · Sunstyle · Sunlight</div>
+            <div class="spec-name">${mc.title || 'Sunesta · Sunstyle · Sunlight'}</div>
             <div class="spec-tag">Tap a category chip to show or hide it</div>
           </div>
           <button class="spec-close" id="mcClose">✕</button>
@@ -793,9 +813,11 @@ function renderSlide(){
           <table class="compare-table3 mc-table">
             <tr>
               <th class="ct-label"></th>
-              <th class="ct-hero"><div class="ct-badge">★ OUR PICK</div><div class="ct-colname">Sunesta</div><div class="ct-colsub">Flagship</div></th>
-              <th><div class="ct-colname">Sunstyle</div><div class="ct-colsub">Mid-line</div></th>
-              <th><div class="ct-colname">Sunlight</div><div class="ct-colsub">Entry</div></th>
+              ${(mc.columns || [
+                {badge:"★ OUR PICK", name:"Sunesta", sub:"Flagship"},
+                {name:"Sunstyle", sub:"Mid-line"},
+                {name:"Sunlight", sub:"Entry"}
+              ]).map(c=>`<th${c.badge?' class="ct-hero"':''}>${c.badge?`<div class="ct-badge">${c.badge}</div>`:""}<div class="ct-colname">${c.name}</div><div class="ct-colsub">${c.sub}</div></th>`).join("")}
             </tr>
             ${activeCats.map(cat=>`
               <tr class="mc-cat"><td colspan="4">${cat.label}</td></tr>
@@ -848,7 +870,7 @@ function renderSlide(){
       modal.style.zIndex=30;
       modal.innerHTML=`
         <div class="gallery-card compare-card">
-          <div class="gallery-head">Not All Awnings Are Created Equal <button id="cClose">✕</button></div>
+          <div class="gallery-head">${cmp.title || 'Not All Awnings Are Created Equal'} <button id="cClose">✕</button></div>
           <div class="compare-scroll">
             <table class="compare-table3">
               <tr>
@@ -902,20 +924,26 @@ function renderSlide(){
 // and the Training Center's full-page resource views.
 function trainingBodyHTML(view){
   if(view==="dodont"){
-    const d = TRAINING_REFERENCE.doDont;
+    // Shared ATH/Profectus core (TRAINING_SHARED, js/registry.js) + this
+    // product's own additions appended to each list.
+    const shared = TRAINING_SHARED.doDont;
+    const own = (PROD.training && PROD.training.doDont) || {};
+    const dont = shared.dont.concat(own.dont || []);
+    const dos  = shared.do.concat(own.do || []);
+    const fs = shared.fourSales;
     return `
       <div class="eyebrow">Reference — every call</div>
       <h2>Do & Don't</h2>
-      <div class="tref-section"><h3 class="tref-h3 bad">❌ What NOT to do</h3><ul class="talking-points">${d.dont.map(t=>`<li>${t}</li>`).join("")}</ul></div>
-      <div class="tref-section"><h3 class="tref-h3 good">✅ What TO do</h3><ul class="talking-points">${d.do.map(t=>`<li>${t}</li>`).join("")}</ul></div>
-      <div class="tref-section"><h3 class="tref-h3">🎯 The Four Sales</h3><div class="script-block">${d.fourSales.intro}</div><ul class="talking-points">${d.fourSales.items.map(t=>`<li>${t}</li>`).join("")}</ul><div class="coach-note">👉 ${d.fourSales.footer}</div></div>
+      <div class="tref-section"><h3 class="tref-h3 bad">❌ What NOT to do</h3><ul class="talking-points">${dont.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3 good">✅ What TO do</h3><ul class="talking-points">${dos.map(t=>`<li>${t}</li>`).join("")}</ul></div>
+      <div class="tref-section"><h3 class="tref-h3">🎯 The Four Sales</h3><div class="script-block">${fs.intro}</div><ul class="talking-points">${fs.items.map(t=>`<li>${t}</li>`).join("")}</ul><div class="coach-note">👉 ${fs.footer}</div></div>
     `;
   }
   if(view==="faq"){
     return `
       <div class="eyebrow">Reference — any slide, any time</div>
       <h2>FAQs & Objections</h2>
-      ${TRAINING_REFERENCE.faqs.map(f=>`
+      ${PROD.training.faqs.map(f=>`
         <div class="faq-item">
           <div class="faq-q"><span class="faq-tag${f.tag==='Objection'?' obj':''}">${f.tag}</span>${f.q}</div>
           <div class="script-block faq-a">${f.a}</div>
@@ -923,7 +951,7 @@ function trainingBodyHTML(view){
     `;
   }
   if(view==="close"){
-    const c = TRAINING_REFERENCE.close;
+    const c = PROD.training.close;
     return `
       <div class="eyebrow">Reference — the pricing moment</div>
       <h2>Pricing & Close</h2>
@@ -932,7 +960,7 @@ function trainingBodyHTML(view){
     `;
   }
   if(view==="recap"){
-    const p = TRAINING_REFERENCE.preDemo;
+    const p = PROD.training.preDemo;
     return `
       <div class="eyebrow">Reference — before slide 1</div>
       <h2>Pre-Demo Recap at the Table</h2>
@@ -941,7 +969,7 @@ function trainingBodyHTML(view){
     `;
   }
   if(view==="tensteps"){
-    const t = TRAINING_REFERENCE.tenSteps;
+    const t = PROD.training.tenSteps;
     return `
       <div class="eyebrow">Reference — the whole visit</div>
       <h2>Our 10-Step Sales Process</h2>
@@ -974,7 +1002,7 @@ function renderRehearsal(){
       <div class="eyebrow">Training mode — Slide #${globalSlideNumber()}</div>
       <h2>${s.title}</h2>
       ${s.script.trim()==="" ? '<span class="visual-only-tag">Visual only — no script yet</span>' : `<div class="script-block">${s.script}</div>`}
-      ${s.personalTouch ? `<div class="personal-touch"><div class="pt-label">✎ Personal touch — editable per rep (js/data.js → personalTouch)</div><div class="pt-body">${s.personalTouch}</div></div>` : ""}
+      ${s.personalTouch ? `<div class="personal-touch"><div class="pt-label">✎ Personal touch — editable per rep (js/data-*.js → personalTouch)</div><div class="pt-body">${s.personalTouch}</div></div>` : ""}
       ${s.talkingPoints ? `<ul class="talking-points">${s.talkingPoints.map(t=>`<li>${t}</li>`).join("")}</ul>` : ""}
       ${s.coach ? `<div class="coach-note">👉 ${s.coach}</div>` : ""}
     `;
@@ -1048,8 +1076,10 @@ function renderPicker(){
   el.querySelectorAll(".center-card.product").forEach(card=>{
     card.onclick = ()=>{
       const p = PRODUCTS.find(x=>x.key===card.dataset.key);
-      if(!p || !p.ready) return;
-      if(isPres){ activeTab = tabs[0]; activeIndex = 0; resetSlideState(); appView = "present"; }
+      if(!p || !p.ready || !PRODUCT_DATA[p.key]) return;
+      setProduct(p.key);
+      resetSlideState();
+      if(isPres){ appView = "present"; }
       else { appView = "center"; centerView = null; }
       renderApp();
     };
@@ -1059,12 +1089,14 @@ function renderPicker(){
 function renderCenter(){
   const el = document.getElementById("trainingCenter");
   if(centerView === null){
-    const photoCount = Object.values(PHOTO_LIBRARY).reduce((n,c)=>n+c.photos.length,0);
+    const photoCount = (PROD.photoCats || Object.keys(PHOTO_LIBRARY))
+      .reduce((n,c)=>n+(PHOTO_LIBRARY[c]?PHOTO_LIBRARY[c].photos.length:0),0);
+    const docsCard = PROD.docsCard || {name:"Docs & Spec Sheets", sub:"Product documents"};
     const cards = [
       {key:"deck",     icon:"🖥", name:"Training Presentation", sub:"The full deck with word-for-word scripts & coach notes"},
       {key:"tensteps", icon:"🔟", name:"Our 10-Step Sales Process", sub:"The whole visit, start to finish"},
       {key:"library",  icon:"📸", name:"Photo Library", sub:photoCount+" real project photos — by model & category"},
-      {key:"docs",     icon:"📄", name:"Spec Sheets & Fabrics", sub:"Model spec sheets, fabric collection, color charts"},
+      {key:"docs",     icon:"📄", name:docsCard.name, sub:docsCard.sub},
       {key:"recap",    icon:"📋", name:"Pre-Demo Recap", sub:"At the table, before slide 1"},
       {key:"dodont",   icon:"🎯", name:"Do & Don't", sub:"Every call · The Four Sales"},
       {key:"faq",      icon:"💬", name:"FAQs & Objections", sub:"Verbatim responses, any slide any time"},
@@ -1072,8 +1104,8 @@ function renderCenter(){
     ];
     el.innerHTML = `
       <div class="center-head">
-        <div class="eyebrow">Sunesta® Awnings — rep-only</div>
-        <h1>Sunesta Training Coach</h1>
+        <div class="eyebrow">${productInfo().name} — rep-only</div>
+        <h1>${productInfo().coach} Training Coach</h1>
       </div>
       <div class="center-cards">
         ${cards.map(c=>`
@@ -1098,11 +1130,11 @@ function renderCenter(){
       };
     });
   } else if(centerView === "library"){
-    const cats = Object.keys(PHOTO_LIBRARY);
+    const cats = (PROD.photoCats || Object.keys(PHOTO_LIBRARY)).filter(c=>PHOTO_LIBRARY[c]);
     const cur = PHOTO_LIBRARY[libCat];
     el.innerHTML = `
       <div class="center-head resource">
-        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
+        <button class="back-btn" id="resourceBack">‹ ${productInfo().coach} Coach</button>
       </div>
       <div class="resource-page wide">
         <div class="eyebrow">Photo Library</div>
@@ -1157,13 +1189,13 @@ function renderCenter(){
   } else if(centerView === "docs"){
     el.innerHTML = `
       <div class="center-head resource">
-        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
+        <button class="back-btn" id="resourceBack">‹ ${productInfo().coach} Coach</button>
       </div>
       <div class="resource-page">
         <div class="eyebrow">Documents</div>
-        <h2>Spec Sheets & Fabrics</h2>
+        <h2>${(PROD.docsCard || {}).name || "Docs & Spec Sheets"}</h2>
         <div class="doc-list">
-          ${DOC_LIBRARY.map(d=>`
+          ${(PROD.docs || []).map(d=>`
             <a class="doc-row" href="${d.file}" target="_blank" rel="noopener">
               <span class="doc-icon">${d.kind==="pdf"?"📄":"🎨"}</span>
               <span class="doc-name">${d.name}</span>
@@ -1178,7 +1210,7 @@ function renderCenter(){
   } else {
     el.innerHTML = `
       <div class="center-head resource">
-        <button class="back-btn" id="resourceBack">‹ Sunesta Coach</button>
+        <button class="back-btn" id="resourceBack">‹ ${productInfo().coach} Coach</button>
       </div>
       <div class="resource-page">${trainingBodyHTML(centerView)}</div>
     `;
@@ -1193,7 +1225,7 @@ function renderTopbarNav(){
     // deliberately unlabeled — customers just see a quiet close control
     nav.innerHTML = `<button class="exit-btn" id="exitBtn" aria-label="Exit">✕</button>`;
   } else if(appView==="training-deck"){
-    nav.innerHTML = `<button class="back-btn" id="backCenterBtn">‹ Sunesta Coach</button>`;
+    nav.innerHTML = `<button class="back-btn" id="backCenterBtn">‹ ${productInfo().coach} Coach</button>`;
   } else if(appView==="center"){
     nav.innerHTML = `<button class="back-btn" id="backCoachesBtn">‹ Training Center</button>`;
   } else if(appView==="presentations" || appView==="coaches"){
@@ -1220,7 +1252,7 @@ function renderApp(){
   document.querySelector(".note").style.display           = appView==="home" ? "" : "none";
   // customers see the product brand, not the internal DOGHOUSE name
   document.getElementById("brandText").innerHTML = (appView==="present")
-    ? 'Around The House · <b>Sunesta® Awnings</b>'
+    ? (PROD.brandHTML || ('Around The House · <b>'+productInfo().name+'</b>'))
     : 'Around The House · <b>THE DOGHOUSE</b>';
   renderTopbarNav();
   if(appView==="home") renderHome();
@@ -1235,4 +1267,7 @@ function renderApp(){
 document.getElementById("prevBtn").onclick=goPrev;
 document.getElementById("nextBtn").onclick=goNext;
 
+// Boot on the default product so a bare refresh always has a bound deck.
+// The picker rebinds via setProduct() when a different product is chosen.
+setProduct("sunesta");
 renderApp();

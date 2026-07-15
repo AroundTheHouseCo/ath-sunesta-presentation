@@ -353,38 +353,16 @@ const DECK = {
 // ── Training Mode reference library ─────────────────────────────────────────
 // Rep-facing only. Rendered in the Training Mode side panel (never on slides).
 // Edit freely — same rule as the deck: content lives here, engine in app.js.
-// THE DOGHOUSE product registry — drives the Presentations picker and the
-// Training Center coach picker. Flip ready:true when a product's deck/coach ships.
-const PRODUCTS = [
-  {key:"sunesta",      icon:"⛱️", name:"Sunesta® Awnings",   coach:"Sunesta",       tag:"Retractable awnings — the full demo deck", ready:true},
-  {key:"eclipse",      icon:"🪟", name:"Eclipse® Screens",   coach:"Eclipse",       tag:"Motorized screens & track systems", ready:false},
-  {key:"gutterhelmet", icon:"🍂", name:"Gutter Helmet®",     coach:"Gutter Helmet", tag:"Gutter protection · Helmet Heat", ready:false},
-  {key:"pergola",      icon:"🏛️", name:"Louvered Pergolas",  coach:"Pergola",       tag:"Motorized louvered roofs", ready:false}
-];
 
 const TRAINING_REFERENCE = {
 
   doDont: {
-    dont: [
-      "Don't read slides — know the slides",
-      "Don't info dump",
-      "Don't skip tying back to their goals"
-    ],
+    // Sunesta-specific additions only — the shared Do & Don't core + Four Sales
+    // live in TRAINING_SHARED (js/registry.js) and render on every product.
+    dont: [],
     do: [
-      "Always relate back to THEIR situation",
-      "Slow down at the money slide (Models) — that's the whole game",
-      "Build emotion → then logic → then close"
-    ],
-    fourSales: {
-      intro: "Per the ATH / Profectus framework — the customer needs to be sold on all four before they commit:",
-      items: [
-        "Do the project — they believe the problem is worth solving",
-        "Do it right — they believe the quality justifies the investment",
-        "Do it with ATH — they trust you and the company",
-        "Do it now — they have a reason to move forward today"
-      ],
-      footer: "If you lose the sale, trace it back to which of these four was not fully closed. That is your gap."
-    }
+      "Slow down at the money slide (Models) — that's the whole game"
+    ]
   },
 
   faqs: [
@@ -450,3 +428,16 @@ const TRAINING_REFERENCE = {
   }
 };
 
+// ── Product registration ────────────────────────────────────────────────────
+// THE DOGHOUSE registry (js/registry.js). app.js binds the active product via
+// setProduct(key) and reads everything from this object — the consts above are
+// just how this file builds it.
+PRODUCT_DATA.sunesta = {
+  deck: DECK,
+  training: TRAINING_REFERENCE,
+  logo: IMAGES.sunestaLogo,                                // brand node in videoloop / triangle / warrantyrecap
+  brandHTML: 'Around The House · <b>Sunesta® Awnings</b>', // present-mode topbar (customers see this, never DOGHOUSE)
+  photoCats: ["sunesta","sunstyle","sunlight","awnings","screens"], // Photo Library pill order
+  docs: DOC_LIBRARY,
+  docsCard: {name:"Spec Sheets & Fabrics", sub:"Model spec sheets, fabric collection, color charts"}
+};

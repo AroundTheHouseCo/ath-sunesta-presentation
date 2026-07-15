@@ -17,16 +17,29 @@ branded icon). Plain HTML/CSS/JS — no build step, no dependencies.
 index.html           — shell + PWA meta; loads css/js in order
 css/styles.css       — all styling, one file
 js/images-map.js     — semantic image keys → files in /images (swap photos here)
-js/data.js           — ALL content: DECK (slides), TRAINING_REFERENCE, PRODUCTS registry
+js/registry.js       — PRODUCT_DATA registry + PRODUCTS list + TRAINING_SHARED (Do & Don't core, Four Sales)
+js/data-sunesta.js   — Sunesta content: DECK, TRAINING_REFERENCE → registers PRODUCT_DATA.sunesta
+js/data-<key>.js     — one file per product, same shape; registers itself, load order agnostic
 js/library-data.js   — GENERATED photo library + docs manifest (asset pipeline output)
 js/app.js            — render engine + view routing (touch only for new slide TYPES)
-images/              — slide assets, photo library, frame sequences, icons
+images/              — slide assets, photo library, frame sequences, icons (new products: images/<key>/)
 docs/                — spec-sheet + fabric PDFs (Training Center → Docs)
 ```
 
-**The split is the contract:** content edits live in `data.js`/`images-map.js` and never
-require touching `app.js`. Slide numbers (`#N — Title`) are computed from slide order —
-never hardcode them anywhere (they drift on every insert/delete).
+**The split is the contract:** content edits live in `js/data-<product>.js`/`images-map.js`
+and never require touching `app.js`. Slide numbers (`#N — Title`) are computed from slide
+order — never hardcode them anywhere (they drift on every insert/delete).
+
+**Multi-product:** each `js/data-<key>.js` ends with `PRODUCT_DATA.<key> = {deck, training,
+logo, brandHTML, photoCats, docs, docsCard}`. `setProduct(key)` in app.js rebinds
+`PROD`/`PDECK`/`tabs`/`FLAT_SLIDES`/`libCat`; the picker calls it, boot pins Sunesta.
+**Nothing content-derived may be evaluated at script-load time** — that silently pins the
+boot product (this was the original single-product coupling). Renderer brand/warranty
+strings are data fields with Sunesta-exact fallbacks (`s.sub`, `s.triLabel`, `mo.heroChip`,
+`mo.warrantyTiles`, `mc.title`, `mc.columns`, `cmp.title`, `n.logo`/`PROD.logo`) — a new
+product overrides them in data, Sunesta needs no data entries. A product is enterable only
+when `ready:true` in PRODUCTS **and** its PRODUCT_DATA entry exists; the shared Do & Don't
+core lives in `TRAINING_SHARED` and each product's `training.doDont` lists are appended.
 
 **View state machine** (`appView` in app.js): `home` → `present-picker`/`center-picker`
 (per-product) → `present` (customer-facing deck) or `center` (Training Coach hub:
@@ -104,5 +117,5 @@ badge overlaps them.
   until Jack supplies the Profectus material.
 - DoY/Our People slide is a marked first draft. Awaiting real crew photo, lit-awning
   night shot, myLink app screenshots.
-- Eclipse / Gutter Helmet / Pergola decks + coaches: shells only.
+- Eclipse E-Zip deck in progress (Round 2); Gutter Helmet / Pergola decks + coaches: shells only.
 - Someday: in-app Edit Mode; offline wrap (Capacitor or service worker).
