@@ -70,6 +70,7 @@ const IMAGES = {
   ezRecessedStone: "images/eclipse/recessed-stone.jpg",
   ezHowItWorks: "images/eclipse/ez-how-it-works.svg",
   ezLogoSomfy: "images/eclipse/logo-somfy.png",
+  ezServiceBadge: "images/eclipse/service-badge-ez.svg",
   ezLogoEclipse: "images/logo-eclipse.png",
   logoGutterhelmet: "images/logo-gutterhelmet.jpg",
   pcTier1: "images/pricecond/tier1-shadesail.jpg",

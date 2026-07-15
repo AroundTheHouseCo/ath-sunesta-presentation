@@ -1,0 +1,33 @@
+<svg viewBox="0 0 500 560" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="500" height="560" fill="#f4f4f2"/>
+
+  <!-- ribbon tails -->
+  <g>
+    <polygon points="196,368 158,470 196,448 222,486" fill="#1b5e3f"/>
+    <polygon points="304,368 342,470 304,448 278,486" fill="#2e7d4f"/>
+  </g>
+
+  <!-- badge: outer ring -->
+  <circle cx="250" cy="240" r="158" fill="#1b5e3f"/>
+  <circle cx="250" cy="240" r="158" fill="none" stroke="#f5a623" stroke-width="8"/>
+  <circle cx="250" cy="240" r="126" fill="#fbf6ea"/>
+
+  <!-- scalloped ring dots -->
+  <g fill="#f5a623">
+    <circle cx="250" cy="96" r="5"/><circle cx="322" cy="116" r="5"/><circle cx="374" cy="168" r="5"/>
+    <circle cx="394" cy="240" r="5"/><circle cx="374" cy="312" r="5"/><circle cx="322" cy="364" r="5"/>
+    <circle cx="250" cy="384" r="5"/><circle cx="178" cy="364" r="5"/><circle cx="126" cy="312" r="5"/>
+    <circle cx="106" cy="240" r="5"/><circle cx="126" cy="168" r="5"/><circle cx="178" cy="116" r="5"/>
+  </g>
+
+  <!-- badge text -->
+  <text x="250" y="196" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="52" font-weight="900" fill="#1b5e3f">LOCAL</text>
+  <text x="250" y="234" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="26" font-weight="800" letter-spacing="4" fill="#2e7d4f">SERVICE</text>
+
+  <!-- checkmark -->
+  <circle cx="250" cy="294" r="30" fill="#2e7d4f"/>
+  <path d="M235 294 l11 11 l20 -22" stroke="#ffffff" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- footer text -->
+  <text x="250" y="530" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="15" font-weight="800" letter-spacing="2" fill="#3d3d3d">YOU CALL US — NOT AN 800 NUMBER</text>
+</svg>

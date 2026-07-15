@@ -77,8 +77,8 @@ const ECLIPSE_DECK = {
   {
     id:"ez-install", type:"splitphoto",
     title:"Installed In-House — Level, Parallel, To the Inch",
-    subtext:"The tracks have to be perfectly level and parallel or the screen won't run right — it's not like hanging a curtain. We mount to pergola posts, stucco, wood framing, brick, or soffit. Most installs are a standard 110-volt plug-in, done in a day.",
-    image: IMAGES.ezMonOutside,
+    subtext:"The tracks have to be perfectly level and parallel or the screen won't run right — it's not like hanging a curtain. We surface-mount or recess into the structure — pergola posts, stucco, wood framing, brick, or soffit. Most installs are a standard 110-volt plug-in, done in a day.",
+    image: IMAGES.ezRecessedStone,
     script:"\"This is something worth knowing about before we get into the product.\n\nAll of our installers work for us — and only for us. Same team that does our awnings. They know these systems, and they know how to install them correctly.\n\nThat matters more than people realize with a screen system. The tracks have to be perfectly level and parallel — if they're off, the screen won't operate right. It's not like hanging a curtain. There's real precision involved.\n\nWe prefer a surface mount when the structure allows for it — it's clean, accessible, and easy to service. But we can fit this to virtually any structure — pergola posts, stucco, wood framing, brick, soffit mounting. Whatever your space calls for, we've done it.\n\nAnd electrically — most installs are as simple as a standard 110-volt plug-in. Nothing complicated. Most jobs are done in a day.\"",
     talkingPoints:[
       "Install quality is a close factor — 'who installs this matters just as much as the product'",
@@ -135,18 +135,6 @@ const ECLIPSE_DECK = {
     coach:"That photo is a real install — Pikes Peak, seen straight through the fabric. Let it make the 'keep the view' point for you."
   },
   {
-    id:"ez-gallery", type:"photogrid",
-    title:"Real Projects — Right Here in Southern Colorado",
-    photos:[ IMAGES.ezMonUp, IMAGES.ezMonDown, IMAGES.ezThreePorch, IMAGES.ezNight, IMAGES.ezSunroom, IMAGES.ezWithAwning ],
-    script:"\"Here are some projects we've done right here in the area.\n\nThis one is very similar to what you've got — (reference their situation: west-facing, covered patio, pergola enclosure). Same exposure, same challenge with the afternoon sun and wind.\n\nHere's what it looks like with the screens up — you barely notice they're there. Clean, low profile, looks like it belongs. And here's what it looks like when they're down — the space is completely transformed.\n\nThat homeowner told us they went from basically not using this space during the afternoon to being out there every day. That's the whole point.\"",
-    talkingPoints:[
-      "First two photos are the SAME 18-foot opening in Monument — up, then down. Use them as the before/after pair",
-      "Tie a photo to THEIR situation — proof their problem has already been solved for someone just like them",
-      "Last photo: screens paired with a Sunesta awning — the cross-sell picture"
-    ],
-    coach:"Move at the pace they set — slow down the moment they engage with a photo."
-  },
-  {
     id:"ez-how", type:"splittext",
     title:"How the E-Zip Works",
     bullets:[
@@ -165,21 +153,204 @@ const ECLIPSE_DECK = {
     coach:"Make it simple, visual, and memorable. If you have the track sample in the truck, this is the slide to hand it over."
   },
   {
-    id:"ez-stopanywhere", type:"splitphoto",
-    title:"Any Height, Any Time",
-    subtext:"It doesn't have to be all the way down. Partial shade, partial wind block, full enclosure — you're in control from a remote, a wireless wall switch, or your phone.",
-    image: IMAGES.ezPartWayUp,
-    script:"\"The system comes motorized as standard — that's not an upgrade, it's just how it works. Touch of a button, screen goes up or down. You can stop it wherever you want.\n\nStandard operation is a handheld remote or a wireless wall switch. You can also control it through an app, and it integrates with home automation systems if you want to go that direction.\"\n\n⚠️ Sun and wind sensors are ADD-ONS on the E-Zip (this is different from Sunesta, where the wind sensor is standard). Offer them as options, don't assume.",
-    talkingPoints:[
-      "Present motorized as standard — never make it sound like an option",
-      "Remote, wireless wall switch, or app — their choice, no complicated wiring",
-      "Full smart-control and Somfy detail gets its own slide in the options section (Round 3)"
+    id:"ez-systems", type:"models", cardGraphic:"screen",
+    title:"Cassette Sizes & System Options",
+    sub:"Three cassette sizes — we size the system to your exact opening. Every unit is custom made to the inch, in two-piece powder-coated extruded aluminum.",
+    models:[
+      {name:"4-inch", tag:"Standard duty · smaller openings", c1:"#3a6ea5", c2:"#5a8fc0", chipHero:false,
+       heroChip:"STANDARD DUTY",
+       chips:["To 14' wide","To 12' drop","70mm roller"],
+       warrantyTiles:[{num:"Lifetime",label:"Frame"},{num:"Lifetime",label:"Fabric",hero:true},{num:"Lifetime",label:"Motor"},{num:"Lifetime",label:"Electronics"}],
+       specs:[
+         ["Max width","14 feet — custom-built to the inch"],
+         ["Max drop","12 feet (fabric-dependent)"],
+         ["Roller tube","70 mm — largest for the size, so fabric hangs flat"],
+         ["Duty level","Standard duty only"],
+         ["Wind","Class 6 wind resistance — tested to 80 mph"],
+         ["Operation","Motorized Somfy — manual crank optional"],
+         ["Mounting","Surface, recessed, or between-post"],
+         ["Cassette","Two-piece powder-coated extruded aluminum"]
+       ],
+       bestFor:"Smaller openings — porches, single windows, and tighter spans up to about 14 feet."},
+      {name:"5-inch", tag:"Our most common — Standard or Super Duty", c1:"#1b5e3f", c2:"#2e7d4f", chipHero:true,
+       heroChip:"STANDARD or SUPER DUTY",
+       chips:["To 24' wide","To 16'+ drop","78mm roller"],
+       warrantyTiles:[{num:"Lifetime",label:"Frame"},{num:"Lifetime",label:"Fabric",hero:true},{num:"Lifetime",label:"Motor"},{num:"Lifetime",label:"Electronics"}],
+       specs:[
+         ["Max width","24 feet — custom-built to the inch"],
+         ["Max drop","16 feet (20 ft with select fabrics)"],
+         ["Roller tube","78 mm — larger tube, sag-resistant across the span"],
+         ["Duty level","Standard or Super Duty"],
+         ["Wind","Class 6 wind resistance — tested to 80 mph"],
+         ["Operation","Motorized Somfy — manual crank optional"],
+         ["Mounting","Surface, recessed, or between-post"],
+         ["Cassette","Two-piece powder-coated extruded aluminum"]
+       ],
+       bestFor:"The vast majority of residential openings — and the only size offered in both Standard and Super Duty, so it fits almost any situation."},
+      {name:"7-inch", tag:"Super Duty · the largest openings", c1:"#5a5f66", c2:"#7c828a", chipHero:false,
+       heroChip:"SUPER DUTY",
+       chips:["To 26' wide","To 20' drop","Largest roller"],
+       warrantyTiles:[{num:"Lifetime",label:"Frame"},{num:"Lifetime",label:"Fabric",hero:true},{num:"Lifetime",label:"Motor"},{num:"Lifetime",label:"Electronics"}],
+       specs:[
+         ["Max width","26 feet — custom-built to the inch"],
+         ["Max drop","20 feet (fabric-dependent)"],
+         ["Roller tube","Largest available (up to 140 mm)"],
+         ["Duty level","Super Duty only"],
+         ["Wind","Engineered for the widest spans and highest exposure"],
+         ["Operation","Motorized Somfy only"],
+         ["Mounting","Surface mount only"],
+         ["Cassette","Two-piece powder-coated extruded aluminum"]
+       ],
+       bestFor:"The largest openings and full enclosures — Super Duty engineering, motorized and surface-mounted."}
     ],
-    coach:"Rep-only when it comes up: the motorized package runs about $400 over a manual crank — a specific talking point that always lands. Keep the number off the slide."
+    modelCompare:{
+      title:"4-inch · 5-inch · 7-inch",
+      columns:[
+        {name:"4-inch", sub:"Standard duty"},
+        {name:"5-inch", sub:"Most common"},
+        {name:"7-inch", sub:"Super Duty"}
+      ],
+      cats:[
+        {key:"size", label:"Sizing & Reach", rows:[
+          {label:"Max width", cells:[["check","14'"],["check","24'"],["check","26'"]]},
+          {label:"Max drop", cells:[["check","12'"],["check","16–20'"],["check","20'"]]},
+          {label:"Roller tube", cells:[["check","70 mm"],["check","78 mm"],["check","Up to 140 mm"]]}
+        ]},
+        {key:"duty", label:"Duty & Operation", rows:[
+          {label:"Duty level", cells:[["warn","Standard only"],["check","Standard or Super"],["warn","Super only"]]},
+          {label:"Operation", cells:[["check","Motor or crank"],["check","Motor or crank"],["warn","Motorized only"]]},
+          {label:"Mounting", cells:[["check","Surface · recess · post"],["check","Surface · recess · post"],["warn","Surface only"]]}
+        ]},
+        {key:"eng", label:"Engineering", rows:[
+          {label:"Wind rating", cells:[["check","Class 6 · 80 mph"],["check","Class 6 · 80 mph"],["check","Largest-span build"]]},
+          {label:"Cassette", cells:[["check","2-pc extruded alum."],["check","2-pc extruded alum."],["check","2-pc extruded alum."]]},
+          {label:"In production since", cells:[["check","2013"],["check","2013"],["check","2019"]]}
+        ]}
+      ]
+    },
+    gallery:[
+      {img:IMAGES.ezRecessedStone, label:"Recessed cassette — clean, built-in look"},
+      {img:IMAGES.ezHowItWorks, label:"Cassette · zipper track · hem bar"},
+      {img:IMAGES.ezThreePorch, label:"Side tracks across a full porch enclosure"},
+      {img:IMAGES.ezMonUp, label:"Cassette up — barely there"}
+    ],
+    comparison:{
+      columns:[
+        {name:"Eclipse E-Zip", sub:"Installed by ATH", badge:"★ OUR PICK"},
+        {name:"Generic Roll-Down", sub:"No zipper track"},
+        {name:"Glass Sunroom", sub:"Permanent structure"}
+      ],
+      rows:[
+        {label:"Holds fabric in wind", cells:[{s:"check",t:"Zipper-locked, stays taut"},{s:"x",t:"Flaps & billows"},{s:"check",t:"Solid — but sealed in"}]},
+        {label:"Keeps the outdoor feel", cells:[{s:"check",t:"Air moves through"},{s:"check",t:"It's a screen"},{s:"x",t:"Traps heat"}]},
+        {label:"Bug & no-see-um seal", cells:[{s:"check",t:"Tight SunTex + brush seal"},{s:"warn",t:"Depends on fit"},{s:"check",t:"Sealed"}]},
+        {label:"Retracts out of sight", cells:[{s:"check",t:"Into the cassette"},{s:"warn",t:"Basic housing"},{s:"x",t:"Permanent"}]},
+        {label:"Warranty", cells:[{s:"check",t:"Lifetime via PPP"},{s:"x",t:"Limited / by component"},{s:"warn",t:"Varies by builder"}]},
+        {label:"Investment", cells:[{s:"check",t:"A fraction of a glass room"},{s:"check",t:"Low — but short-lived"},{s:"x",t:"$50,000+"}]}
+      ],
+      footer:"Glass sunrooms commonly run $50,000 and up and trap heat by design. Generic roll-downs without a zipper track flap in the wind and fail. Always ask what's actually behind the price."
+    },
+    script:"\"Eclipse makes three cassette sizes — a 4-inch, a 5-inch, and a 7-inch — and we size the system to your specific opening. Every unit is custom made to your exact dimensions.\n\nFor most of the residential projects we do, the 5-inch is our most common. It handles openings up to 24 feet wide and drops up to 20 feet, which covers the vast majority of what we see.\n\nThe cassette itself is two-piece powder-coated extruded aluminum. That matters because a lot of cheaper systems use thin roll-form housing — essentially painted sheet metal. This is structurally different. And inside is the largest roller tube possible for that cassette size — a bigger, sag-resistant tube means your fabric hangs flat and operates smoothly for years.\n\nThe side tracks are what make this system stand out. The fabric edge zips into the track with a PVC insert — and on our Super Duty version, the track has stainless steel spring clips every 12 to 16 inches. That's what gives you a wrinkle-free, taut fabric even on wider openings.\"\n\n🔹 STANDARD vs SUPER DUTY — present as a natural choice:\n\"For most projects, the Standard E-Zip is the right call. It's Class 6 wind resistance, tested to 80 miles per hour, and it handles Colorado wind extremely well. For openings under about 18 feet, this is what we typically recommend.\n\nThe Super Duty is an upgrade we recommend in a few specific situations — a particularly high-wind location, an opening wider than 18 feet, or if you simply want the most robust system available. It uses the stainless steel spring clips, a heavier hem bar with an internal steel channel, and superior side tension. We'll show you both in the pricing so you can see what that upgrade looks like.\"",
+    talkingPoints:[
+      "THE money slide — slow down, build the value here",
+      "Three cassette sizes; we size to the opening — every unit custom to the inch",
+      "Two-piece powder-coated EXTRUDED aluminum — not thin roll-form sheet metal",
+      "Largest roller tube for the size = flat, sag-free fabric",
+      "The real choice is Standard vs Super Duty: Super Duty = stainless spring clips + heavier steel-channel hem bar, for wide/high-wind openings",
+      "Tap a size → full specs · ⇄ compares all three · 'vs. the competition' for the roll-down & sunroom contrast"
+    ],
+    coach:"THIS IS YOUR MONEY SLIDE. Slow down. Cassette size is set by the opening — the customer's real decision is Standard vs Super Duty, and it's an upgrade conversation, not the opening offer. Rep-only guardrail: 80 mph / Class 6 applies to the 4\" and 5\" only — never quote a wind number for the 7\", and never a '130 mph' figure for Super Duty; none is documented."
+  },
+  {
+    id:"ez-fabric", type:"splittext",
+    title:"The Fabric — SunTex® by Phifer",
+    bullets:[
+      "Every fabric is Phifer SunTex® — GREENGUARD Gold certified, made for the outdoors",
+      "All colors cost the same — the only real decision is openness",
+      "Openness factor = how much UV it blocks versus how much you see through",
+      "SunTex 95 is the most popular by far — blocks about 95% of the UV, stays roughly 5% open",
+      "From inside you keep your view; from outside a dark fabric reads like a mirror by day — privacy without losing the light",
+      "Prefer full blackout? A solid fabric gives total shade and privacy for an extreme exposure",
+      "Colors from near-black to white — 6 shades on SunTex 80/90, 10 on SunTex 95/97"
+    ],
+    image: IMAGES.ezMonOutside,
+    script:"\"For fabric, we work exclusively with Phifer — one of the most respected shading fabric manufacturers in the world. GreenGuard certified, built specifically for exterior applications.\n\nThe good news — all fabrics are the same price. So the only decision you're making is what works best for your space.\n\nThe main thing to understand is openness factor — essentially how much UV the fabric blocks versus how much you can see through it.\n\n(Hand them the SunTex 95 sample)\n\nThis is what most of our customers go with — it blocks about 95% of the UV, but you can still see through it from the inside. And from the outside — from a neighbor's yard or the street — it creates almost a mirror effect during the day. They can't see in. You can see out.\n\nIf total blackout is what you're after — complete privacy, or an extreme west-facing exposure — we can go to a solid fabric. But most people find the 95% gives them everything they need. Take a look at the colors and let's figure out what fits your home.\"",
+    talkingPoints:[
+      "All fabrics cost the same — the only decision is openness, not price",
+      "SunTex 95 ≈ 95% UV blocked / ~5% open — the popular pick; hand them the sample to look through",
+      "Mirror effect from outside by day = privacy without losing your view",
+      "Solid fabric available for full blackout / extreme exposure",
+      "6 colors on 80/90, 10 on 95/97 — full spec sheets are in the Docs library"
+    ],
+    coach:"Do NOT say \"95% openness\" — that's backwards. SunTex 95 BLOCKS ~95% of UV and is only ~5% OPEN; the number in the name is UV blockage, not openness. Bring the physical sample — letting them look through the 95 is what sells this slide."
+  },
+  {
+    id:"ez-smart", type:"splittext",
+    title:"Smart Control — One Button, Total Command",
+    bullets:[
+      "Motorized is standard — not an upgrade. Touch a button; stop it at any height",
+      "Somfy drive — the industry's gold standard, covered for life under Platinum Protection Plus",
+      "Control by handheld remote, wireless wall switch, or the app on your phone",
+      "Integrates with home automation — works right alongside the rest of your smart home",
+      "Sun and wind sensors available as add-ons — automate it to the weather",
+      "Standard 110-volt plug-in in most homes — no panel upgrades, no complicated wiring"
+    ],
+    image: IMAGES.ezPartWayUp,
+    script:"\"The system comes motorized as standard — that's not an upgrade, it's just how it works. Touch of a button, the screen goes up or down, and you can stop it wherever you want.\n\nThe motor is Somfy — the same brand used in premium motorized systems around the world, and it's covered for life. Standard operation is a handheld remote or a wireless wall switch. You can also control it through an app, and it integrates with home automation systems if you want to go that direction.\n\nWe also offer sun and wind sensors as add-ons — so the screen can react to the weather on its own.\n\nElectrically, most installs are as simple as a standard 110-volt plug-in. No panel upgrades, no complicated wiring in most cases — we handle it as part of the install.\"\n\n💵 REP-ONLY (never on the slide): the motorized package runs about $400 over a manual crank, and it carries a lifetime warranty — one of the best values in the whole system. Make it a specific talking point; it always lands.",
+    talkingPoints:[
+      "Present motorized as STANDARD — never make it sound like an option",
+      "Somfy = a name they can Google; covered for life under PPP",
+      "Remote / wireless wall switch / app / home automation — their choice",
+      "Sun + wind sensors are ADD-ONS on the E-Zip (unlike the Sunesta wind sensor, which is standard)",
+      "Rep-only: motor ≈ $400 over a manual crank — a specific value line; keep the number off the slide"
+    ],
+    coach:"Present motorized as the default, not an upsell. The $400 motor value line always lands — say it out loud, don't put it on a slide. Sensors are add-ons here; do NOT carry over the Sunesta standard-wind-sensor ruling."
+  },
+  {
+    id:"ez-gallery", type:"photogrid",
+    title:"Real Projects — Right Here in Southern Colorado",
+    photos:[ IMAGES.ezMonUp, IMAGES.ezMonDown, IMAGES.ezThreePorch, IMAGES.ezNight, IMAGES.ezSunroom, IMAGES.ezWithAwning ],
+    script:"\"Here are some projects we've done right here in the area.\n\nThis one is very similar to what you've got — (reference their situation: west-facing, covered patio, pergola enclosure). Same exposure, same challenge with the afternoon sun and wind.\n\nHere's what it looks like with the screens up — you barely notice they're there. Clean, low profile, looks like it belongs. And here's what it looks like when they're down — the space is completely transformed.\n\nThat homeowner told us they went from basically not using this space during the afternoon to being out there every day. That's the whole point.\"",
+    talkingPoints:[
+      "First two photos are the SAME 18-foot opening in Monument — up, then down. Use them as the before/after pair",
+      "Tie a photo to THEIR situation — proof their problem has already been solved for someone just like them",
+      "Last photo: screens paired with a Sunesta awning — the cross-sell picture"
+    ],
+    coach:"Move at the pace they set — slow down the moment they engage with a photo."
   }
 ],
 
 "WRAP-UP": [
+  {
+    id:"ez-warranty", type:"warrantyrecap",
+    title:"The Warranty — Recapped",
+    subtext:"Platinum Protection Plus — included on every ATH quote. Lifetime coverage on the frame, fabric, motor, and electronics.<br><span style=\"font-size:.82em;opacity:.72\">Most SunTex fabrics; optional clear windows excluded. Backed and serviced locally by ATH.</span>",
+    tiles:[
+      {num:"Lifetime", label:"Frame", sub:"extruded aluminum & powder coat"},
+      {num:"Lifetime", label:"Fabric", sub:"most SunTex fabrics", hero:true},
+      {num:"Lifetime", label:"Motor", sub:"Somfy drive"},
+      {num:"Lifetime", label:"Electronics", sub:"remotes & controls"},
+      {num:"Included", label:"Platinum Protection Plus", sub:"standard on every ATH quote"}
+    ],
+    nodes:[
+      {id:"ath", kind:"logo-ath", title:"Around The House", detail:"Your local team — design, install, and warranty service all handled right here in Monument. When you need service, you call us, not a national 800 number.", photo:IMAGES.dealerFamily},
+      {id:"eclipse", kind:"logo", logo:IMAGES.ezLogoEclipse, title:"Eclipse", detail:"The manufacturer — Eclipse Shading Systems has built the E-Zip since 2013. Platinum Protection Plus is the coverage that takes the frame, fabric, motor, and electronics to lifetime.", photo:null},
+      {id:"phifer", kind:"text", title:"Phifer", detail:"The fabric maker. Phifer's SunTex carries its own 10-year exterior fabric warranty and GREENGUARD Gold certification — the foundation under the PPP fabric coverage.", photo:null}
+    ],
+    serviceBadge: IMAGES.ezServiceBadge,
+    service:{title:"Serviced locally — for the life of the system", items:["You call us — never an 800 number","Same team that installed it","PPP registered at install"], foot:"Included with every ATH installation"},
+    triLabel:"One system, backed three ways — tap a logo",
+    script:"\"One more thing worth knowing before we get to pricing — and this is genuinely one of the best warranties in the industry.\n\nEclipse covers the frame, the fabric, the motor, and the electronics — all of it. Lifetime coverage across the board with the Platinum Protection Plus package, and that's included on your quote. Most competitors cover components separately, with shorter terms, and often with exclusions.\n\nOut here in Colorado — with the UV at elevation, the wind, the hail — that kind of coverage isn't just a nice-to-have. It's real protection on a real investment.\n\nAnd when you need warranty service, you're calling us — not a national 800 number. We're local, we're accountable, and we come out and take care of it.\n\nOne detail worth knowing: every manufacturer requires correct installation for the warranty to be valid at all — another reason who installs this matters as much as the product.\"\n\nTransition: \"Any questions about the warranty before we look at options?\"",
+    talkingPoints:[
+      "Lifetime on frame, fabric, motor & electronics — via Platinum Protection Plus, included on every quote",
+      "The most comprehensive coverage in the exterior-screen industry",
+      "Competitors cover components separately — shorter terms, more exclusions",
+      "Serviced locally by ATH — you call us, not an 800 number",
+      "Tap a logo (ATH · Eclipse · Phifer) for the three-way backing",
+      "End on: 'Any questions about the warranty before we look at options?'"
+    ],
+    coach:"⏱ Keep it tight — 1.5–2 minutes. PPP is included on every ATH quote (Jack's ruling), so \"lifetime\" is fair to state WITH the PPP framing and the caveat (most fabrics; clear windows excluded). The base factory warranty WITHOUT PPP is 10-yr frame/fabric and 5-yr motor/electronics — that lives here in coach only. The opt-out exists for the rare customer who asks, but a rep never proactively raises it."
+  },
   {
     id:"ez-process", type:"processsteps",
     title:"Our Proven Process",
@@ -206,10 +377,10 @@ const ECLIPSE_DECK = {
     image: IMAGES.ezHalfDeployed,
     script:"\"It really doesn't feel like an enclosure — and that's an important distinction. Unlike a glass sunroom, this is a screen. Air moves through it. You still feel like you're outside — just without the sun beating on you and without the wind pushing you back in.\n\nAnd because it's motorized, you control it completely. All the way down, partially down, or fully up in seconds. It's not a permanent enclosure. It's more like a wall you can make disappear whenever you want.\"",
     talkingPoints:[
-      "This is the emotional recap before options & pricing (Round 3 continues here)",
+      "The emotional recap — the last beat before you transition to the proposal",
       "Never use the word 'cage' unless the customer brings it up first"
     ],
-    coach:"Build emotion → then logic → then close. This slide is the emotion. The cassette sizes, fabrics, warranty, and pricing frame land next (Round 3)."
+    coach:"Build emotion → then logic → then close. This slide is the emotion. From here, recap their Accomplish List and move to the proposal — the close scripts (micro-close, preference close, and the 10% same-day incentive) live in the Training Coach under Pricing & Close."
   }
 ]
 
@@ -254,18 +425,24 @@ const ECLIPSE_TRAINING = {
     {tag:"Objection", q:"\"Is it going to feel like a cage or a sunroom?\"",
      a:"It really doesn't — and that's an important distinction.\n\nUnlike a glass sunroom, this is a screen. Air moves through it. It doesn't trap heat the way an enclosed glass room does. You still feel like you're outside — just without the sun beating on you and without the wind pushing you back in.\n\nAnd because it's motorized, you control it completely. You can have it all the way down, partially down, or fully up in seconds. It's not a permanent enclosure. It's more like a wall you can make disappear whenever you want."},
     {tag:"Objection", q:"\"We got a quote from someone else for a lot less.\"",
-     a:"That's worth understanding — because not all screen systems are the same, and the price difference usually comes down to a few specific things.\n\nThe biggest one is whether it uses a true zipper retention system. A generic roll-down screen with no zipper track will flap in the wind and eventually fail. The zipper is what keeps this system taut and functional in Colorado conditions.\n\nSecond is the warranty. Most cheaper systems have a limited warranty on components, shorter terms, and often require you to deal with a manufacturer directly rather than a local dealer.\n\nThird is the fabric — Phifer is a specific manufacturer with a documented track record.\n\nWe'd rather show you exactly what the difference is than just ask you to take our word for it."}
+     a:"That's worth understanding — because not all screen systems are the same, and the price difference usually comes down to a few specific things.\n\nThe biggest one is whether it uses a true zipper retention system. A generic roll-down screen with no zipper track will flap in the wind and eventually fail. The zipper is what keeps this system taut and functional in Colorado conditions.\n\nSecond is the warranty. Most cheaper systems have a limited warranty on components, shorter terms, and often require you to deal with a manufacturer directly rather than a local dealer.\n\nThird is the fabric — Phifer is a specific manufacturer with a documented track record.\n\nWe'd rather show you exactly what the difference is than just ask you to take our word for it."},
+    {tag:"Rep Ref", q:"E-Zip vs. Sunesta — the quick rep contrast",
+     a:"When both are on the table, or you're switching gears mid-appointment:\n\nPrimary benefit — Sunesta: overhead shade & sun projection. E-Zip: full opening control — sun, wind, and privacy.\n\nCustomer pain — Sunesta: can't use the space during the day. E-Zip: the elements push them off the patio entirely.\n\nWind story — Sunesta: arms tested to 98 mph. E-Zip: Class 6, tested to 80 mph, zipper retention keeps it taut.\n\nKey differentiator — Sunesta: Smart Case, strong arms, cable system. E-Zip: the zipper-retention track — no flapping, no gaps.\n\nFabric decision — Sunesta: color & pattern. E-Zip: openness factor — SunTex 95 is almost always right.\n\nThe two options — Sunesta: Sunesta vs Sunstyle. E-Zip: Standard vs Super Duty.\n\nCommon objection — Sunesta: will it block our view? E-Zip: will I still be able to see through it?\n\nCompetitor contrast — Sunesta: Frankenstein awnings. E-Zip: generic roll-downs and glass sunrooms.\n\nCross-sell — Sunesta: drop screen, LED lights. E-Zip: additional screens, louvered-roof pairing.\n\nInstall — Sunesta: one day typically. E-Zip: one day, sometimes two on larger enclosures."}
   ],
 
   close: {
-    note:"⚠️ ROUND 3 HOLD — the urgency mechanic is an open decision for Jack: the master script uses a 10% same-day incentive introduced once, after the price lands; the older memo used a one-year price lock instead. Nothing below presents either. The close structure itself is settled.",
+    note:"Urgency mechanic (Jack's call, 2026-07-15): the 10% SAME-DAY incentive — introduced calmly, once, AFTER the price lands and is absorbed. Never lead with it, never repeat it as a pressure tactic. Rep-only; it never appears on a customer slide.",
     sections:[
+      {title:"Transition to pricing — outcome first, price second",
+       body:"Always revisit the Accomplish List before showing a number. This is not \"here's the price\" — it's \"here's the solution to what you asked for.\"\n\n\"So based on everything we talked through — and your goals of…\" (repeat their list, in their words) \"…this is what I put together for you. Each screen is custom made to your exact opening — nothing off the shelf.\""},
       {title:"Micro-close — before the real close",
        body:"\"Does this all make sense so far?\"\n\nStop talking. Wait. Do not fill the silence.\n\nIf they say yes and seem engaged — move to close. If they hesitate — something is unresolved. Find it before you ask for the decision."},
       {title:"The close is a preference question",
        body:"\"Between the two options we walked through — which one feels like the right fit for what you're trying to accomplish?\"\n\nNOT \"What do you think?\" and NOT \"Any questions?\" — give them a direction to move in, not a yes/no.\n\nMost customers: \"Let's go with the Standard — the warranty and wind rating are exactly what we need.\" If they ask what the Super Duty actually does for them — that's a buying question. Walk it again and let them decide."},
       {title:"Two options, always",
-       body:"Option 1 is the ideal, full recommendation — presented first, never the lesser option. Option 2 is the alternative: the Super Duty upgrade or a scope adjustment. Each screen is priced per opening, custom to their exact dimensions.\n\nIf price pushback is about scope, adjust scope — never discount without adjusting scope first."}
+       body:"Option 1 is the ideal, full recommendation — presented first, never the lesser option. Option 2 is the alternative: the Super Duty upgrade or a scope adjustment. Each screen is priced per opening, custom to their exact dimensions.\n\nIf price pushback is about scope, adjust scope — never discount without adjusting scope first."},
+      {title:"The same-day incentive — once, after the price lands",
+       body:"After the first number has landed and been absorbed:\n\n\"And one more thing — we do offer a same-day incentive. If you decide to move forward today, we can take 10% off the total. No pressure on that — I just want to make sure you have the full picture.\"\n\nIntroduce it calmly, ONCE, after the price — never lead with it, never repeat it as pressure. It's one of the Four Sales (\"do it now\"): the incentive plus the 3–5 week install window are what support moving today."}
     ]
   },
 

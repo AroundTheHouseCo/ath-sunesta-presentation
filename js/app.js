@@ -134,6 +134,27 @@ function awningSVG(c1="#1b5e3f", c2="#2e7d4f"){
   </svg>`;
 }
 
+// Cassette-over-screen glyph for the Eclipse "models" cards — same 240×130 box as awningSVG.
+// Selected per-card via s.cardGraphic==="screen"; without it the models slide draws the awning (Sunesta unchanged).
+function screenSVG(c1="#1b5e3f", c2="#2e7d4f"){
+  const pid = "scr"+c2.replace('#','');
+  return `
+  <svg viewBox="0 0 240 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;">
+    <defs>
+      <pattern id="${pid}" width="11" height="11" patternUnits="userSpaceOnUse">
+        <rect width="11" height="11" fill="${c2}" opacity="0.14"/>
+        <path d="M0 5.5 H11 M5.5 0 V11" stroke="${c2}" stroke-width="1" opacity="0.5"/>
+      </pattern>
+    </defs>
+    <rect x="46" y="30" width="9" height="80" rx="3" fill="${c2}"/>
+    <rect x="185" y="30" width="9" height="80" rx="3" fill="${c2}"/>
+    <rect x="55" y="34" width="130" height="74" fill="url(#${pid})"/>
+    <rect x="38" y="10" width="164" height="26" rx="7" fill="${c1}"/>
+    <circle cx="60" cy="23" r="7" fill="${c2}"/>
+    <rect x="52" y="104" width="136" height="12" rx="4" fill="${c1}"/>
+  </svg>`;
+}
+
 // --- YouTube segment loop (intro videoloop slide) ---
 // Streams a [start,end] window of the ATH YouTube video, muted, looping.
 // If the IFrame API can't load (no internet at the appointment), nothing is
@@ -679,7 +700,7 @@ function renderSlide(){
           <div class="wr-tri-label">${s.triLabel || 'One warranty, backed three ways — tap a logo'}</div>
         </div>
         <div class="wr-service">
-          <img src="${IMAGES.serviceBadge}" alt="">
+          <img src="${s.serviceBadge || IMAGES.serviceBadge}" alt="">
           <div>
             <div class="wr-service-title">${s.service.title}</div>
             <div class="wr-service-items">${s.service.items.map(i=>`<span>${i}</span>`).join("")}</div>
@@ -733,7 +754,7 @@ function renderSlide(){
       <div class="mv2-cards">
         ${s.models.map((mo,i)=>`
           <div class="mv2-card" data-i="${i}">
-            ${awningSVG(mo.c1,mo.c2)}
+            ${s.cardGraphic==="screen" ? screenSVG(mo.c1,mo.c2) : awningSVG(mo.c1,mo.c2)}
             <div class="mv2-name">${mo.name}</div>
             <div class="mv2-tag">${mo.tag}</div>
             <div class="mv2-chips">${mo.chips.map(c=>`<span>${c}</span>`).join("")}</div>
