@@ -1,81 +1,108 @@
-# Sunesta Awning — Presentation & Training App
+# THE DOGHOUSE — ATHHS Sales Presentation & Training App
 
-## What this is
+The all-product sales asset for Around The House Home Solutions reps: customer-facing
+presentations plus rep-only "Training Coach" resources, per product. Sunesta® Awnings
+is fully built (22-slide deck + Sunesta Coach); Eclipse® Screens, Gutter Helmet®, and
+Louvered Pergolas are registered shells waiting for content (`PRODUCTS` in `js/data.js`,
+flip `ready:true` when a product ships).
 
-An Ingage-style interactive sales presentation for Sunesta Awning, with a built-in
-Training Mode that shows reps the word-for-word script alongside each slide. Runs
-in any browser now; the plan is to wrap it in Capacitor later for offline iPad use.
+**Live:** https://aroundthehouseco.github.io/the-dog-house/ — GitHub Pages, repo
+`AroundTheHouseCo/the-dog-house`, served from `main` `/` (root). Pushing to `main`
+redeploys (~30–60s). Installed on iPads via Add to Home Screen (PWA: standalone,
+branded icon). Plain HTML/CSS/JS — no build step, no dependencies.
 
-## Project structure
+## Architecture
 
 ```
-index.html          — shell page, loads css/js in order
+index.html           — shell + PWA meta; loads css/js in order
 css/styles.css       — all styling, one file
-js/images-map.js     — maps semantic image names → files in /images (edit this to swap any photo)
-js/data.js           — ALL content: slide text, scripts, hotspot copy, tab order (edit this to change content)
-js/app.js            — render engine + interactions (only touch this to add new slide *types*, not content)
-images/              — real image files (currently placeholders from a screen recording)
+js/images-map.js     — semantic image keys → files in /images (swap photos here)
+js/data.js           — ALL content: DECK (slides), TRAINING_REFERENCE, PRODUCTS registry
+js/library-data.js   — GENERATED photo library + docs manifest (asset pipeline output)
+js/app.js            — render engine + view routing (touch only for new slide TYPES)
+images/              — slide assets, photo library, frame sequences, icons
+docs/                — spec-sheet + fabric PDFs (Training Center → Docs)
 ```
 
-This split matters: **content changes (js/data.js, js/images-map.js) never require
-touching app.js.** That's the whole point — Jack or Matt (or a future non-coding
-Edit Mode UI) should be able to update a script, swap a photo, or reorder slides
-without touching the render engine at all.
+**The split is the contract:** content edits live in `data.js`/`images-map.js` and never
+require touching `app.js`. Slide numbers (`#N — Title`) are computed from slide order —
+never hardcode them anywhere (they drift on every insert/delete).
 
-## How to run it locally
+**View state machine** (`appView` in app.js): `home` → `present-picker`/`center-picker`
+(per-product) → `present` (customer-facing deck) or `center` (Training Coach hub:
+deck-with-notes, 10-Step Process, Pre-Demo Recap, Do & Don't, FAQs, Pricing & Close,
+Photo Library, Docs). **Customer mode must never show training UI** — no "training",
+"coach", "script", or "rep-only" text may be visible; verify with a DOM text sweep, not
+by eyeballing. Training Mode reads `script`/`talkingPoints`/`coach`/`personalTouch`
+straight from each slide's data, so slide edits update both modes automatically.
 
-Any static file server works, e.g. from this folder:
-```
-python3 -m http.server 8000
-```
-then open `http://localhost:8000`. It's plain HTML/CSS/JS — no build step, no
-dependencies, nothing to install.
+**Slide types** (all data-driven): videoloop (YouTube segment loop), splittext/splitphoto
+(optional `cert`, `scrub` mini-video-scrubber, `docViewer` in-app document book),
+herosplit, photogrid, credibility, difference, triangle, reasonsphoto (pill hotspots w/
+popup photos), reasonsgrid (`columns:1` variant), productcards (photo cards; `num` chips,
+`popPhoto` popovers, `eyebrow`, auto-`dense` grid when >3 rows), models (spec popups +
+3-model compare + competitor chart), videoscrub (frame-sequence scrubber), processsteps
+(icon timeline), warrantyrecap (tiles + interactive triangle + service strip).
+**New-type bar:** only add a type when every existing one demonstrably fails.
 
-## What's built (14 of ~30 slides)
+## The z-index / stacking-context trap (has bitten repeatedly)
 
-**WHY SUNESTA:** intro video placeholder, dealer bio, factory training,
-National Dealer of the Year award, Fall In Love photo grid (expandable)
-**STORY OF SUNESTA:** brand difference, credibility badges + Google reviews,
-Triangle of Strength (interactive)
-**AWNINGS:** Reasons for Shade (pill hotspots), perfect-day transition, drag-slider
-demo, the money slide (models + options gallery + comparison chart)
-**SMART TECHNOLOGY:** intro, sensors
+Invisible tap-to-advance nav zones sit at **z-index 5** over most slides. Any
+`clip-path`, `transform`, `opacity<1`, or `filter` on a *container* of clickable
+children creates a stacking context that silently traps them below the nav zones.
 
-Every slide type built so far (static, hotspot, pill-hotspot, drag-slider, split-photo,
-split-text, hero-split, photo-grid, triangle-diagram, credibility-rows,
-difference-rows, models-with-popups) is reusable — new slides mostly mean adding a
-data entry in `js/data.js`, not new code.
+Layer map: nav zones **5** · interactive children (pills, cards, tri-nodes) **6–10** ·
+popovers **20** · modals/fullscreen popups **30** · slide-number badge **50** ·
+in-app doc viewer **60** (covers the badge deliberately).
 
-## What's left
+Rules: interactive *containers* stay free of those four properties; interactive
+*children* get explicit z-index ≥6; `photogrid` and `models` have **no nav zones by
+design** (arrows/dots only). Fullscreen headers need top padding (~46px) or the #N
+badge overlaps them.
 
-1. **Finish the remaining ~16 slides** — Drop Screen, 10 Reasons, Fabrics, MyLink,
-   The Sunboot, LED Lights expanded, the rest of Smart Technology, plus the Eclipse
-   Screens and pergola content whenever those are ready to start.
-2. **Real photography** — everything currently in `/images` is a placeholder pulled
-   from a screen recording or your uploads. Swap files in `/images` with the same
-   filenames and every slide updates automatically — no code changes.
-3. **Edit Mode** — a real in-app UI (GitHub-backed, same pattern as the Training
-   Library) so you and Matt can edit `js/data.js` content without opening a code editor.
-4. **Capacitor wrap** — for true offline iPad installation once the content is stable.
-   No point wrapping this before the slide set and content are further along.
+## Verification standard (every change)
 
-## Recommended next step
+1. `node --check` all touched JS.
+2. Walk **all** slides in both customer and training modes: every slide has its badge,
+   no `img` with missing/`undefined` src, zero console errors/warnings.
+3. Hit-test every touched interactive slide with `document.elementFromPoint()` at real
+   coordinates — programmatic `.click()` bypasses the stacking bug you're checking for.
+   Confirm: element receives the tap AND empty space still advances.
+4. Screenshot anything structurally new for review before it ships.
+5. After push: poll the live URL until the change lands, `diff` live files vs committed
+   (`git show HEAD:path` vs `curl`), and spot-check new assets return 200 with correct
+   MIME types. Pages caches ~10 min — hard-refresh the iPad after deploys.
 
-Move this into **Claude Code** pointed at this folder. The back-and-forth we've
-been doing in chat (patch → rebuild → screenshot → verify) is exactly what Claude
-Code's file access + dev server removes — real hot reload, no multi-MB file
-round-trips, faster iteration on the remaining slides and on Edit Mode.
+## Design language
 
-## Known constraints / notes for whoever picks this up
+- Palette via CSS vars: `--green-dark #1b5e3f`, `--green #2e7d4f`, `--orange #F5A623`,
+  charcoal/cream/bg (see `:root`). Em-dash-heavy, plain-spoken copy.
+- **Native SVG over screenshots** — never bake text into raster images. Icon style:
+  200×200 viewBox, `#eef6ee` rounded-18 background, green/orange strokes.
+- Recurring motifs: green chevron divider, ATH footer banner, pill hotspots, warranty
+  tiles (`.wt`), numbered chips. GitHub Pages is **case-sensitive** and serves from a
+  subpath — asset paths stay lowercase and **relative** (never leading-slash).
 
-- Any slide type using `clip-path`, `transform`, `opacity<1`, or `filter` on a
-  container that has clickable children needs a **z-index audit** — those CSS
-  properties create a new stacking context that can silently trap child z-index
-  values below the invisible tap-to-advance nav zones. Hit this twice already
-  (models slide, photo-grid slide, reasons-for-shade slide). Test every new
-  interactive slide type by clicking every clickable element AND clicking empty
-  space to confirm navigation still works.
-- Slide numbers (`#N — Title`) are computed live from slide order in `js/data.js`
-  — don't hardcode numbers anywhere, they'll drift.
-- Two slides currently share the title "Experience the Sunesta Difference" (#6
-  and #7) — worth giving #7 ("Trust & Credibility" or similar) its own name.
+## Content rules (binding — see the script doc + project memory for rulings)
+
+- Source of truth for Sunesta copy: `Sunesta Awning Master Script — FINAL DRAFT
+  2026-07-14.md` (Rev 2, Desktop) — use its language verbatim, don't paraphrase.
+- Warranty per the 2026 doc: frame lifetime · arms Sunesta lifetime / Sunstyle 15yr /
+  Sunlight 12yr · fabric 10yr · motor 10yr · electronics 5yr. Wind sensor is **standard**
+  on motorized units, never an add-on.
+- Unverified claims (NC/FL manufacturing, 80k cycles, wind-sensor mechanism) stay OUT of
+  customer-facing copy — training scripts only, prefixed `⚠️ UNVERIFIED`.
+- Rep-facing pricing (drop-screen motor ~$1k, LED return-trip, rebuttal scripts) lives in
+  `script`/`coach` fields only, never in bullets/labels customers see.
+- CC-licensed photos require credits (kept as comments in `js/data.js`).
+
+## Known gaps / backlog
+
+- Reference Map slide ships a labeled placeholder — real map asset pending.
+- Pending from Matt: crossarms explainer, drop-screen selling points, high-end price
+  rebuttal ending, competitor estimate photos. Money Fork / Thermometer Close: blocked
+  until Jack supplies the Profectus material.
+- DoY/Our People slide is a marked first draft. Awaiting real crew photo, lit-awning
+  night shot, myLink app screenshots.
+- Eclipse / Gutter Helmet / Pergola decks + coaches: shells only.
+- Someday: in-app Edit Mode; offline wrap (Capacitor or service worker).
