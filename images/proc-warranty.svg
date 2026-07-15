@@ -1,0 +1,13 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step 5: warranty activated -->
+  <rect width="200" height="200" rx="18" fill="#eef6ee"/>
+  <!-- shield -->
+  <path d="M100 30 L152 48 L152 92 Q152 142 100 166 Q48 142 48 92 L48 48 Z" fill="#2e7d4f"/>
+  <path d="M100 42 L140 56 L140 92 Q140 132 100 152 Q60 132 60 92 L60 56 Z" fill="#1b5e3f"/>
+  <path d="M80 96 l14 14 l28 -30" stroke="#ffffff" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- envelope corner -->
+  <g transform="translate(120,124)">
+    <rect x="0" y="0" width="56" height="40" rx="6" fill="#f5a623"/>
+    <path d="M2 4 L28 24 L54 4" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

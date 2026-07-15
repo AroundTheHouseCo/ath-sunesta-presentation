@@ -1,0 +1,17 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step 4: final walk-through / QA -->
+  <rect width="200" height="200" rx="18" fill="#eef6ee"/>
+  <!-- checklist sheet -->
+  <rect x="46" y="34" width="86" height="118" rx="10" fill="#ffffff" stroke="#c9d4c9" stroke-width="3"/>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M58 62 l6 6 l11 -11" stroke="#2e7d4f" stroke-width="5" fill="none"/>
+    <line x1="84" y1="60" x2="120" y2="60" stroke="#c9d4c9" stroke-width="4"/>
+    <path d="M58 90 l6 6 l11 -11" stroke="#2e7d4f" stroke-width="5" fill="none"/>
+    <line x1="84" y1="88" x2="120" y2="88" stroke="#c9d4c9" stroke-width="4"/>
+    <path d="M58 118 l6 6 l11 -11" stroke="#2e7d4f" stroke-width="5" fill="none"/>
+    <line x1="84" y1="116" x2="112" y2="116" stroke="#c9d4c9" stroke-width="4"/>
+  </g>
+  <!-- magnifier -->
+  <circle cx="132" cy="128" r="26" fill="#cfe6d6" fill-opacity="0.55" stroke="#1b5e3f" stroke-width="7"/>
+  <line x1="150" y1="146" x2="168" y2="164" stroke="#1b5e3f" stroke-width="10" stroke-linecap="round"/>
+</svg>

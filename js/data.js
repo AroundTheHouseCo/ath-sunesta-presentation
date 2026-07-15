@@ -87,15 +87,17 @@ const DECK = {
       coach:"Stack credibility fast and keep moving. BBB sits last deliberately — Matt: it 'always felt very disruptive' up front. Each badge shows its proof line on the slide; tap for fuller detail; the Google row links out to the live review page."
     },
     {
-      id:"process", type:"reasonsgrid", columns:1,
+      id:"process", type:"processsteps",
       title:"Our Proven Process",
-      reasons:[
-        {title:"Your Project Manager", text:"Once the details are finalized, we assign you a project manager who reaches out to identify and manage your needs. If an HOA is involved, we prepare a packet you can send in for review and approval — and help with any additional paperwork they require."},
-        {title:"A Clean, Respectful Site", text:"We maintain a clean, respectful, and professional construction site from start to finish."},
-        {title:"Half-Day Installation", text:"Install typically takes about half a day. If weather or a complex install pushes past one day, we're typically back the next day to finish as soon as possible."},
-        {title:"Final Walk-Through", text:"A quality-assurance walk-through of the project — we check pitch and head clearance against your space to make sure the setup works best for you."},
-        {title:"Warranty Activated", text:"We activate and send out your warranty packet — and leave you with a home you're happy with and a relationship with the Around the House team you can count on."}
+      subtext:"Five steps, zero surprises — the process behind our Dealer of the Year award.",
+      steps:[
+        {icon:IMAGES.procManager, title:"Your Project Manager", text:"One point of contact — HOA packets handled too"},
+        {icon:IMAGES.procSite, title:"A Respectful Site", text:"Clean & professional, start to finish"},
+        {icon:IMAGES.procInstall, title:"Half-Day Install", text:"Most projects finish in a morning"},
+        {icon:IMAGES.procWalkthrough, title:"Final Walk-Through", text:"Pitch & clearance dialed to your space"},
+        {icon:IMAGES.procWarranty, title:"Warranty Activated", text:"Packet sent — you're covered for the long haul"}
       ],
+      trust:"One of the reasons Sunesta named us 2025 National Dealer of the Year",
       script:"👉 Engagement question: \"Have you had any work done at your home? How was that experience?\"\nIf good: \"That's awesome — we love hearing that.\" If bad: the industry is notorious for complaints — communication and project timelines most of all — assure them we focus on communication and delivering a great experience.\n\nThis is actually one of the factors that helped us win our Sunesta Dealer of the Year award. As you move forward with us, here is our proven process that you can rely on:\n\nOnce the details are finalized, we'll assign you a project manager who will reach out to identify and manage your needs. If an HOA is involved, we'll prepare a packet you can send in for review and approval — and if the HOA requires any additional information or paperwork, we're always happy to help.\n\nInstallation typically takes about half a day. If it happens to take more than one day — due to weather or a more complex install — we'll typically come back the following day to ensure your project is completed as soon as possible.\n\nWe'll maintain a clean, respectful, and professional construction site from start to finish.\n\nWe'll perform a final walk-through of the project for quality assurance and craftsmanship — we'll check the pitch and head clearance versus your space to make sure the setup works best for you.\n\nAnd at the end of it all, we'll activate and send out your warranty packets and leave you with a home you can be happy with and a relationship with the Around the House team you can count on.",
       talkingPoints:["Early in the deck on purpose — what it's like to work with us, before the product","Engagement Q: 'Have you had any work done at your home?' — handle good or bad answers","Tie to the award: this process helped win Dealer of the Year","HOA? We prepare the packet and help with the paperwork","Half-day install — honest expectations · walk-through dials pitch + head clearance"],
       coach:"Moved early per the finalized script — working-with-us before the product. If they had a bad contractor experience before, this is where you address it: the industry is notorious for communication complaints; we're the opposite."
@@ -325,19 +327,25 @@ const DECK = {
       coach:"⏱ Keep this tight: 1.5–2 minutes, NOT 15 (Matt's explicit note). Tap a triangle logo for detail — the family and awning photos are in the popups. Service inclusions are DRAFT from Matt's outline — confirm before leaning on specifics."
     },
     {
-      id:"pricecond", type:"reasonsgrid", columns:1,
+      // Photo credits (CC via Openverse/Flickr): tier1 "First Shot, New Lens" by tdlucas5000 (CC BY 2.0);
+      // tier2 "Fix broken awning frame, patch awning" by sf-dvs (CC BY 2.0); tier3 "Collapsed Awning" by
+      // Fire At Will [Photography] (CC BY-SA 2.0); tier4 "Red Retractable Awning" by ersshading (CC BY 2.0).
+      // tier5 + tier6 are ATH's own photos (Sunesta beauty shot · Latitude pergola from aroundthehouseco.com).
+      id:"pricecond", type:"productcards",
+      eyebrow:"Know the market — position, don't surprise",
       title:"Not All Shade Costs the Same",
-      reasons:[
-        {title:"Shade sails & cheap manual shades", text:"Entry-level overhead fabric — no engineering, no wind rating, no real warranty to speak of."},
-        {title:"DIY / buy-it-online + handyman install", text:"Stock units shipped in a box. Whoever installs it owns the mistakes — and the manufacturer may not honor the warranty."},
-        {title:"Lower-grade companies", text:"Manual awnings with low wind ratings — or if motorized, an imported motor with a 1-year warranty, 2-cable arms, and thinner hardware."},
-        {title:"Mid-tier", text:"A hood but no full cassette, 1–5 year motor warranties — and trip charges and service-call fees after the install."},
-        {title:"Higher-end products", text:"Something like what we offer — higher-quality hardware and a protective case for the fabric."},
-        {title:"Cedar & high-end aluminum pergolas", text:"With motorized screens — the top of the shade market, at a very different budget."}
+      paragraph:"Six tiers of shade, from a sail on poles to a motorized louvered roof. Tap any tier to see what your money actually buys.",
+      rows:[
+        {num:1, photo:IMAGES.pcTier1, popPhoto:IMAGES.pcTier1, label:"Shade sails & manual shades", sublabel:"No engineering · no wind rating", detail:"Entry-level overhead fabric — no engineering, no wind rating, no real warranty to speak of."},
+        {num:2, photo:IMAGES.pcTier2, popPhoto:IMAGES.pcTier2, label:"DIY / online + handyman", sublabel:"Whoever installs it owns the mistakes", detail:"Stock units shipped in a box. Whoever installs it owns the mistakes — and the manufacturer may not honor the warranty. Sooner or later, you're the one on the ladder patching it."},
+        {num:3, photo:IMAGES.pcTier3, popPhoto:IMAGES.pcTier3, label:"Lower-grade companies", sublabel:"1-yr motors · 2-cable arms · thin hardware", detail:"Manual awnings with low wind ratings — or if motorized, an imported motor with a 1-year warranty, 2-cable arms, and thinner hardware. This is what failure looks like: a buckled arm and the fabric on the railing."},
+        {num:4, photo:IMAGES.pcTier4, popPhoto:IMAGES.pcTier4, label:"Mid-tier", sublabel:"Hood, no cassette · fees after install", detail:"A decent-looking product — a hood but no full cassette, 1–5 year motor warranties, and trip charges and service-call fees after the install."},
+        {num:5, photo:IMAGES.pcTier5, popPhoto:IMAGES.pcTier5, label:"Higher-end — where we live", sublabel:"Quality hardware + full SmartCase", detail:"Something like what we offer — higher-quality hardware, a full SmartCase protecting the fabric, lifetime arms, and a local team behind it."},
+        {num:6, photo:IMAGES.pcTier6, popPhoto:IMAGES.pcTier6, label:"Cedar & aluminum pergolas", sublabel:"Top of the market — our Latitude line", detail:"Motorized louvered roofs with screens — the top of the shade market, at a very different budget. That's our own Latitude line in the photo; we install these too."}
       ],
       script:"Walk the ladder low to high — their quote should feel positioned, not surprising. Reference competitor estimates and photos as they're available.\n\n(LOW END — verbatim): \"If anyone comes in here and asks for $X.00 for a motorized retractable awning — ask them a lot of questions… How is it so cheap? How long have you been in business? Where do you get your installers? This is almost certainly an awning that will fail sooner than you'd like, and you may have to replace it within a few years.\"\n\n(HIGH END): \"If anyone comes in here and asks for $X.00 —\"\n🕳 UNFINISHED IN SOURCE — the high-end rebuttal cuts off exactly here in Matt's notes. Needs Matt's ending — don't improvise it.\n\n(MID TO UPSCALE — verbatim): \"A professionally installed, high-quality awning with a legitimate company and warranty will cost somewhere between $X and $X. We're typically going to fall somewhere in between this range…\"",
       talkingPoints:["Position the market BEFORE your number lands","Low-end objection: ask a lot of questions — how is it so cheap?","Dollar figures stay verbal — nothing on the slide","Rungs 3–5 are where competitors live; we sit high-mid with lifetime arms + Smart Case standard","High-end rebuttal is unfinished — parked until Matt supplies the ending"],
-      coach:"🕳 WAITING ON ASSETS — competitor estimate photos & comparison images are coming from Matt; the ladder ships text-only until then. Sets up the Transition to Pricing (see the Close reference in the Coach)."
+      coach:"Tier photos are in — CC-licensed finds plus our own Sunesta and Latitude shots (credits in js/data.js). Tap a card and the popup shows the photo big. Still waiting on Matt: competitor ESTIMATE photos for the training layer, and the high-end rebuttal ending. Sets up the Transition to Pricing (see the Close reference in the Coach)."
     }
   ]
 };

@@ -1,0 +1,18 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step 2: clean, respectful site -->
+  <rect width="200" height="200" rx="18" fill="#eef6ee"/>
+  <!-- broom -->
+  <line x1="126" y1="36" x2="86" y2="118" stroke="#8a6c48" stroke-width="9" stroke-linecap="round"/>
+  <path d="M92 106 L118 120 L96 156 Q84 166 66 158 Q52 152 54 138 Z" fill="#f5a623"/>
+  <g stroke="#d98e12" stroke-width="4" stroke-linecap="round">
+    <line x1="66" y1="132" x2="60" y2="152"/>
+    <line x1="80" y1="136" x2="72" y2="158"/>
+    <line x1="94" y1="132" x2="86" y2="158"/>
+  </g>
+  <!-- sparkles -->
+  <g fill="#2e7d4f">
+    <path d="M146 76 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4 z"/>
+    <path d="M162 118 l3 7 l7 3 l-7 3 l-3 7 l-3 -7 l-7 -3 l7 -3 z"/>
+    <path d="M132 148 l2.5 6 l6 2.5 l-6 2.5 l-2.5 6 l-2.5 -6 l-6 -2.5 l6 -2.5 z"/>
+  </g>
+</svg>

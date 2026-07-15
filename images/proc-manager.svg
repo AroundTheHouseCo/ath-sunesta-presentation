@@ -1,0 +1,19 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Step 1: your project manager -->
+  <rect width="200" height="200" rx="18" fill="#eef6ee"/>
+  <!-- person -->
+  <circle cx="78" cy="72" r="26" fill="#2e7d4f"/>
+  <path d="M36 152 q0 -42 42 -42 q42 0 42 42 l0 10 l-84 0 z" fill="#2e7d4f"/>
+  <!-- headset -->
+  <path d="M52 68 a26 26 0 0 1 52 0" fill="none" stroke="#1b5e3f" stroke-width="7" stroke-linecap="round"/>
+  <rect x="46" y="64" width="10" height="18" rx="5" fill="#1b5e3f"/>
+  <rect x="100" y="64" width="10" height="18" rx="5" fill="#1b5e3f"/>
+  <path d="M105 84 q0 14 -16 16" fill="none" stroke="#1b5e3f" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="87" cy="101" r="5" fill="#f5a623"/>
+  <!-- clipboard -->
+  <rect x="122" y="84" width="48" height="66" rx="8" fill="#ffffff" stroke="#c9d4c9" stroke-width="3"/>
+  <rect x="136" y="77" width="20" height="12" rx="4" fill="#f5a623"/>
+  <line x1="132" y1="106" x2="160" y2="106" stroke="#c9d4c9" stroke-width="4" stroke-linecap="round"/>
+  <line x1="132" y1="120" x2="160" y2="120" stroke="#c9d4c9" stroke-width="4" stroke-linecap="round"/>
+  <path d="M132 134 l7 7 l13 -13" stroke="#2e7d4f" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

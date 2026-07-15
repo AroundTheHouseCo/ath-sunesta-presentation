@@ -329,12 +329,13 @@ function renderSlide(){
 
   if(s.type==="productcards"){
     const panel = document.createElement("div");
-    panel.className="products-panel";
+    panel.className="products-panel"+(s.rows.length>3?" dense":"");
     const cardsHTML = s.rows.map((r,i)=>`
       <div class="pcard" data-i="${i}">
         <div class="pcard-photo">
           <img src="${r.photo}" alt="">
           ${r.icon?`<div class="pcard-icon"><img src="${r.icon}"></div>`:""}
+          ${r.num?`<div class="pcard-num">${r.num}</div>`:""}
         </div>
         <div class="pcard-body">
           <div class="pcard-name">${r.label}</div>
@@ -347,7 +348,7 @@ function renderSlide(){
       </div>`).join("");
     panel.innerHTML = `
       <div class="products-head">
-        <div class="products-eyebrow">Around The House · Home Solutions</div>
+        <div class="products-eyebrow">${s.eyebrow||"Around The House · Home Solutions"}</div>
         <h2>${s.title}</h2>
         ${s.paragraph?`<p>${s.paragraph}</p>`:""}
       </div>
@@ -363,6 +364,7 @@ function renderSlide(){
       pop.className="popover";
       pop.style.zIndex=20;
       pop.innerHTML = `<div class="popover-card"><button class="popover-close">✕</button>
+        ${r.popPhoto?`<img class="reason-pop-img" src="${r.popPhoto}">`:""}
         ${r.logo?`<img class="popover-logo" src="${r.logo}">`:""}
         <h3>${r.label}</h3><p>${r.detail}</p></div>`;
       pop.onclick=(e)=>{ e.stopPropagation(); if(e.target===pop){ openHotspot=null; renderSlide(); } };
@@ -609,6 +611,29 @@ function renderSlide(){
     // keep slider gestures from bubbling to slide navigation
     ["mousedown","touchstart","pointerdown","click"].forEach(ev=> range.addEventListener(ev,(e)=>e.stopPropagation()));
     wrap.addEventListener("click",(e)=>e.stopPropagation());
+  }
+
+  if(s.type==="processsteps"){
+    const panel = document.createElement("div");
+    panel.className="ps-panel";
+    panel.innerHTML = `
+      <div class="ps-head">
+        <h2>${s.title}</h2>
+        ${s.subtext?`<div class="ps-sub">${s.subtext}</div>`:""}
+      </div>
+      <div class="ps-steps">
+        <div class="ps-line"></div>
+        ${s.steps.map((st,i)=>`
+          <div class="ps-step">
+            <div class="ps-icon"><img src="${st.icon}" alt=""><div class="ps-num">${i+1}</div></div>
+            <div class="ps-title">${st.title}</div>
+            <div class="ps-text">${st.text}</div>
+          </div>`).join("")}
+      </div>
+      ${s.trust?`<div class="ps-trust"><img src="${IMAGES.athLogo}" alt="Around The House"><span>${s.trust}</span></div>`:""}
+    `;
+    area.appendChild(panel);
+    addNavZones(area);
   }
 
   if(s.type==="warrantyrecap"){
