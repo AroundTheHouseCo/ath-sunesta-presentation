@@ -60,7 +60,7 @@ const ECLIPSE_DECK = {
     title:"Your Eclipse Dealer — Local & Family-Owned",
     bullets:[
       "Founded in 2004 — over 20 years, family-owned, based in Monument",
-      "Thousands of installations across Southern Colorado",
+      "Thousands of installations across the Front Range",
       "You call us, you get us — not a call center, not someone three states away",
       "Same trained install team as our awning division",
       "Eclipse: a nationally recognized screen brand, backed by a local company that stands behind every install"
@@ -72,7 +72,7 @@ const ECLIPSE_DECK = {
       "Real accountability — when you call, you get us",
       "National brand + local company = both halves of trust"
     ],
-    coach:"Slide copy says \"Southern Colorado\" (matches the rest of the deck); the script says \"Front Range\" — Jack to pick one, correct on sight."
+    coach:"Fixed per Jack's ruling (2026-07-15): slide copy now matches the spoken script — \"Front Range\" throughout."
   },
   {
     id:"ez-install", type:"splitphoto",
@@ -360,15 +360,17 @@ const ECLIPSE_DECK = {
       {icon: IMAGES.procManager,     title:"Project Manager",       text:"One point of contact keeps your project moving and you informed."},
       {icon: IMAGES.procInstall,     title:"Installation Day",      text:"Our trained crew sets the tracks level and parallel — most jobs done in a day."},
       {icon: IMAGES.procWalkthrough, title:"Final Walk-Through",    text:"We run every screen with you and don't leave until you're happy."},
-      {icon: IMAGES.procWarranty,    title:"Warranty Activated",    text:"We register your coverage and service it locally — you call us, not an 800 number."}
+      {icon: IMAGES.procWarranty,    title:"Warranty Activated",    text:"We register your coverage and service it locally — you call us, not an 800 number."},
+      {icon: IMAGES.procService,     title:"12-Month Shade Service", text:"A free cleaning visit at the one-year mark — on us."}
     ],
     trust:"Serving Southern Colorado since 2004",
-    script:"\"From here, the process is simple. We take exact measurements of every opening, and everything is custom made to your dimensions. You get a project manager as your single point of contact. Install day, our crew sets the tracks perfectly level and parallel — most jobs are done in a day. We do a final walk-through together, run every screen, and make sure you're happy. Then we activate your warranty coverage — and if you ever need service, you call us, right here.\"",
+    script:"\"From here, the process is simple. We take exact measurements of every opening, and everything is custom made to your dimensions. You get a project manager as your single point of contact. Install day, our crew sets the tracks perfectly level and parallel — most jobs are done in a day. We do a final walk-through together, run every screen, and make sure you're happy. Then we activate your warranty coverage — and if you ever need service, you call us, right here.\n\nAnd one more thing that's included — at the one-year mark, we come back out and give the screens a free cleaning visit. No charge, no catch.\"",
     talkingPoints:[
       "A clean, respectful, professional construction site — every time",
-      "Warranty serviced locally by ATH — no national 800 number"
+      "Warranty serviced locally by ATH — no national 800 number",
+      "Free 12-month Shade Service cleaning visit — included, confirmed current policy"
     ],
-    coach:"⚠️ UNCONFIRMED: the free 12-month 'Shade Service' cleaning visit is NOT on this slide and stays out of customer copy until Jack confirms it's current policy."
+    coach:"12-Month Shade Service is confirmed current policy (Jack, 2026-07-15) — same pattern as Sunesta's confirmed 1-year free service. Deliver it plainly and confidently, no hedging."
   },
   {
     id:"ez-viewstays", type:"herosplit",

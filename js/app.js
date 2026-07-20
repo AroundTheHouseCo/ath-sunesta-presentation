@@ -660,7 +660,7 @@ function renderSlide(){
         <h2>${s.title}</h2>
         ${s.subtext?`<div class="ps-sub">${s.subtext}</div>`:""}
       </div>
-      <div class="ps-steps">
+      <div class="ps-steps" style="grid-template-columns:repeat(${s.steps.length},1fr);">
         <div class="ps-line"></div>
         ${s.steps.map((st,i)=>`
           <div class="ps-step">

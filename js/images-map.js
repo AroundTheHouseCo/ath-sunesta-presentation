@@ -53,6 +53,7 @@ const IMAGES = {
   procInstall: "images/proc-install.svg",
   procWalkthrough: "images/proc-walkthrough.svg",
   procWarranty: "images/proc-warranty.svg",
+  procService: "images/proc-service.svg",
 
   // — Eclipse E-Zip (images/eclipse/) —
   ezHeroDusk: "images/eclipse/byerly-1.jpg",
