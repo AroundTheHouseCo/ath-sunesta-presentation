@@ -815,12 +815,12 @@ const DOC_LIBRARY = [
  },
  {
   "name": "Frame Colors",
-  "file": "docs/frame-colors.jpg",
+  "file": "images/fabric-pages/z-frame-colors.jpg",
   "kind": "image"
  },
  {
   "name": "SmartDrop Screen Colors",
-  "file": "docs/smartdrop-colors.jpg",
+  "file": "images/fabric-pages/z-smartdrop-colors.jpg",
   "kind": "image"
  }
 ];

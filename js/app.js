@@ -1360,12 +1360,21 @@ initSwipeNav();
 setProduct("sunesta");
 renderApp();
 
-// Offline support (Tier 1 core — both decks' slide assets, ~18MB).
-// Registration is async and non-blocking, so it's safe to fire immediately
-// rather than gate on window "load" (which on some embedded/automation
-// browser contexts can already have fired by the time this script runs).
+// Offline support. Registration is async and non-blocking, so it's safe
+// to fire immediately rather than gate on window "load" (which on some
+// embedded/automation browser contexts can already have fired by the
+// time this script runs).
 if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js").catch((err) => {
+  navigator.serviceWorker.register("sw.js").then(() => {
+    // Nudge Tier 2 (Photo Library + Docs) background caching on every
+    // online app open, not just first install — a pass interrupted by
+    // spotty wifi (or a version bump that added new Tier 2 files) picks
+    // back up here instead of silently staying incomplete. Cheap no-op
+    // once everything is already cached (sw.js skips files it already has).
+    return navigator.serviceWorker.ready;
+  }).then((reg) => {
+    if(navigator.onLine && reg.active) reg.active.postMessage({type:"CACHE_TIER2"});
+  }).catch((err) => {
     console.warn("Service worker registration failed:", err);
   });
 }
