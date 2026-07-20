@@ -1292,3 +1292,13 @@ document.getElementById("nextBtn").onclick=goNext;
 // The picker rebinds via setProduct() when a different product is chosen.
 setProduct("sunesta");
 renderApp();
+
+// Offline support (Tier 1 core — both decks' slide assets, ~18MB).
+// Registration is async and non-blocking, so it's safe to fire immediately
+// rather than gate on window "load" (which on some embedded/automation
+// browser contexts can already have fired by the time this script runs).
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("sw.js").catch((err) => {
+    console.warn("Service worker registration failed:", err);
+  });
+}
