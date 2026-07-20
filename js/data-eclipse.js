@@ -308,7 +308,7 @@ const ECLIPSE_DECK = {
   },
   {
     id:"ez-gallery", type:"photogrid",
-    title:"Real Projects — Right Here in Southern Colorado",
+    title:"Real Projects — Right Here on the Front Range",
     photos:[ IMAGES.ezMonUp, IMAGES.ezMonDown, IMAGES.ezThreePorch, IMAGES.ezNight, IMAGES.ezSunroom, IMAGES.ezWithAwning ],
     script:"\"Here are some projects we've done right here in the area.\n\nThis one is very similar to what you've got — (reference their situation: west-facing, covered patio, pergola enclosure). Same exposure, same challenge with the afternoon sun and wind.\n\nHere's what it looks like with the screens up — you barely notice they're there. Clean, low profile, looks like it belongs. And here's what it looks like when they're down — the space is completely transformed.\n\nThat homeowner told us they went from basically not using this space during the afternoon to being out there every day. That's the whole point.\"",
     talkingPoints:[
@@ -363,7 +363,7 @@ const ECLIPSE_DECK = {
       {icon: IMAGES.procWarranty,    title:"Warranty Activated",    text:"We register your coverage and service it locally — you call us, not an 800 number."},
       {icon: IMAGES.procService,     title:"12-Month Shade Service", text:"A free cleaning visit at the one-year mark — on us."}
     ],
-    trust:"Serving Southern Colorado since 2004",
+    trust:"Serving the Front Range since 2004",
     script:"\"From here, the process is simple. We take exact measurements of every opening, and everything is custom made to your dimensions. You get a project manager as your single point of contact. Install day, our crew sets the tracks perfectly level and parallel — most jobs are done in a day. We do a final walk-through together, run every screen, and make sure you're happy. Then we activate your warranty coverage — and if you ever need service, you call us, right here.\n\nAnd one more thing that's included — at the one-year mark, we come back out and give the screens a free cleaning visit. No charge, no catch.\"",
     talkingPoints:[
       "A clean, respectful, professional construction site — every time",
