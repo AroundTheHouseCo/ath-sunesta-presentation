@@ -8,7 +8,7 @@
 // New product/slide additions don't need a bump on their own — they're
 // just new entries in PRECACHE_URLS, picked up on next deploy — but any
 // edit to an *existing* file's content needs one.
-const CACHE_VERSION = "2026-07-20.1";
+const CACHE_VERSION = "2026-07-20.2";
 const CACHE_NAME = `doghouse-tier1-${CACHE_VERSION}`;
 
 // Tier 1 — everything needed to run both decks (customer + training,

@@ -111,6 +111,67 @@ function addNavZones(area){
   area.appendChild(right);
 }
 
+// Customer-facing ("present" mode) swipe navigation. Mirrors exactly what
+// resetSlideState() clears — the full set of per-slide overlay/popup state
+// (fabric-book viewer, gallery, compare, model spec, triangle popover,
+// hotspot popover, photogrid lightbox). Gating on these flags directly,
+// rather than relying on each overlay's own event.stopPropagation(), is
+// deliberate: several overlays (docViewer, the photogrid lightbox) only
+// stop "click", not touch events, so a bubbling touch listener here would
+// otherwise still see touches meant for scrolling/interacting with them.
+function isSlideOverlayOpen(){
+  return !!(docViewer || galleryOpen || compareOpen || modelSpec !== null ||
+    modelCompare || triNodeOpen !== null || openHotspot !== null || lightboxIndex !== null);
+}
+
+// Attached once at boot to the stable #slideArea node (renderSlide() only
+// rebuilds its innerHTML, never replaces the node itself) rather than
+// re-attached per render. Present-mode only — Training Mode keeps its
+// arrow buttons and is untouched by this. Videoscrub's own <input
+// type="range"> already stops touchstart from bubbling (js/app.js, the
+// videoscrub and mini-scrub blocks), so a drag that starts on the scrub
+// control itself never reaches this handler — no conflict with drag-to-
+// extend/drag-to-scrub, which keeps owning its own strip of the slide.
+function initSwipeNav(){
+  const area = document.getElementById("slideArea");
+  const H_THRESHOLD = 60;   // minimum horizontal travel, px, to count as a swipe
+  const V_TOLERANCE = 1.5;  // horizontal travel must exceed vertical by this ratio
+  const MAX_DURATION = 800; // ms — slower than this reads as a hold/scroll, not a swipe
+  let tracking = false, axis = null, startX = 0, startY = 0, startTime = 0;
+
+  area.addEventListener("touchstart", (e) => {
+    tracking = appView === "present" && !isSlideOverlayOpen() && e.touches.length === 1;
+    if(!tracking) return;
+    axis = null;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    startTime = Date.now();
+  }, {passive:true});
+
+  area.addEventListener("touchmove", (e) => {
+    if(!tracking) return;
+    const t = e.touches[0];
+    const dx = t.clientX - startX, dy = t.clientY - startY;
+    if(axis === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)){
+      axis = Math.abs(dx) > Math.abs(dy) * V_TOLERANCE ? "x" : "y";
+    }
+    if(axis === "x") e.preventDefault(); // own the gesture — no rubber-band scroll fighting the swipe
+  }, {passive:false});
+
+  area.addEventListener("touchend", (e) => {
+    if(!tracking) return;
+    tracking = false;
+    if(axis !== "x") return;
+    if(appView !== "present" || isSlideOverlayOpen()) return; // re-check — state may have changed mid-gesture
+    const dx = e.changedTouches[0].clientX - startX, dy = e.changedTouches[0].clientY - startY;
+    if(Date.now() - startTime > MAX_DURATION) return;
+    if(Math.abs(dx) < H_THRESHOLD || Math.abs(dx) < Math.abs(dy) * V_TOLERANCE) return;
+    if(dx < 0) goNext(); else goPrev();
+  }, {passive:true});
+
+  area.addEventListener("touchcancel", () => { tracking = false; axis = null; });
+}
+
 function awningSVG(c1="#1b5e3f", c2="#2e7d4f"){
   let stripes = "";
   const stripeW = 18;
@@ -1270,6 +1331,11 @@ function renderApp(){
   document.getElementById("stage").style.display          = showDeck ? "" : "none";
   document.querySelector(".slidebar").style.display       = showDeck ? "" : "none";
   document.getElementById("tabbar").style.display         = showDeck ? "" : "none";
+  // Customer-facing mode navigates by swipe (see initSwipeNav) — the tap
+  // arrows are Training Mode only, where the existing nav is untouched.
+  const showArrows = showDeck && appView !== "present";
+  document.getElementById("prevBtn").style.display = showArrows ? "" : "none";
+  document.getElementById("nextBtn").style.display = showArrows ? "" : "none";
   document.querySelector(".note").style.display           = appView==="home" ? "" : "none";
   // customers see the product brand, not the internal DOGHOUSE name
   document.getElementById("brandText").innerHTML = (appView==="present")
@@ -1287,6 +1353,7 @@ function renderApp(){
 
 document.getElementById("prevBtn").onclick=goPrev;
 document.getElementById("nextBtn").onclick=goNext;
+initSwipeNav();
 
 // Boot on the default product so a bare refresh always has a bound deck.
 // The picker rebinds via setProduct() when a different product is chosen.
