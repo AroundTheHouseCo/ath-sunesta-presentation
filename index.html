@@ -12,9 +12,31 @@
 <meta name="apple-mobile-web-app-title" content="DOGHOUSE">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1b5e3f">
-<link rel="apple-touch-icon" href="images/icon-180.png">
+
+<!-- apple-touch-icon: iOS ignores the manifest's icons[] entirely for the
+     home-screen icon — these <link> tags are the only thing that matters.
+     Listed largest-first; iOS picks the closest match for the device. -->
+<link rel="apple-touch-icon" sizes="180x180" href="images/icon-180.png">
+<link rel="apple-touch-icon" sizes="167x167" href="images/icon-167.png">
+<link rel="apple-touch-icon" sizes="152x152" href="images/icon-152.png">
+<link rel="apple-touch-icon" sizes="120x120" href="images/icon-120.png">
 <link rel="icon" type="image/svg+xml" href="images/app-icon.svg">
 <link rel="manifest" href="manifest.webmanifest">
+
+<!-- apple-touch-startup-image: the iOS splash shown the instant the icon is
+     tapped, before any CSS/JS loads. Without an exact device-width/height/DPR
+     match, iOS shows a blank white screen instead — these four cover the
+     11" and 12.9" iPad Pro (portrait + landscape), the only iPads in scope.
+     Values are in CSS points, not pixels — Apple's standard figures for
+     these two screen classes, unchanged across generations since 2018. -->
+<link rel="apple-touch-startup-image" href="images/splash-1668x2388.jpg"
+      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="images/splash-2388x1668.jpg"
+      media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
+<link rel="apple-touch-startup-image" href="images/splash-2048x2732.jpg"
+      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+<link rel="apple-touch-startup-image" href="images/splash-2732x2048.jpg"
+      media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
 
 <link rel="stylesheet" href="css/styles.css">
 </head>
