@@ -560,6 +560,8 @@
     min-height:0;
     position:relative;
     display:grid;
+    /* grid-template-columns/rows set inline per-slide (js/app.js), sized to
+       the actual photo count — this 2x2 is just the pre-JS fallback */
     grid-template-columns:1fr 1fr;
     grid-template-rows:1fr 1fr;
     gap:3px;
@@ -645,7 +647,7 @@
     padding:0 24px;
     z-index:4;
   }
-  .footer-banner img{height:46px;width:auto;flex-shrink:0;}
+  .footer-banner img{height:58px;width:auto;flex-shrink:0;}
   .footer-banner .footer-title{
     color:var(--green-bright);
     font-size:32px;
@@ -1438,6 +1440,9 @@
     flex:1;min-height:0;
     display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
   }
+  /* exactly 4 cards (e.g. Eclipse's product lineup) — clean 2x2 instead of
+     the default 3-column grid's 3-then-1 wrap */
+  .products-cards.grid-2x2{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);}
   .pcard{
     position:relative;z-index:6;
     background:#fff;border:1px solid #e7e4da;border-radius:12px;

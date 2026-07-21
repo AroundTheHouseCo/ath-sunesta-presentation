@@ -24,6 +24,10 @@ const ECLIPSE_DECK = {
     title:"Eclipse® E-Zip Motorized Screens",
     subtext:"Control the sun. Beat the wind. Love your outdoor space.<br><br>Every screen is custom made for your opening — nothing off the shelf here.",
     image: IMAGES.ezHeroDusk,
+    // Source photo has a slight camera-roll tilt (horizon + deck railing both
+    // lean up-right) — leveled here with a small CSS rotation rather than a
+    // forced crop; scale compensates for the corner gap the rotation opens up.
+    imageRotate: 1.3, imageScale: 1.07,
     script:"\"So what I'd like to do is take about 10 to 15 minutes and walk you through how these screen systems work, what makes them different from anything else out there, and how we'd design this specifically for your space. Then we'll look at some options together and figure out what actually makes the most sense for you. Sound good?\"\n\n\"Before we jump in — when you're out here trying to enjoy this space, what's the thing that pushes you back inside most often?\"\n\n(Let them answer. Listen for sun angle, wind, heat, or privacy.)\n\n\"And what time of day is it usually the worst?\"\n\n\"So really the goal here is to make this space actually usable — on your terms, when you want to be out here — without fighting the elements every time. That's exactly what we're going to walk through.\"",
     talkingPoints:[
       "You are the guide, not a presenter — set the 10–15 minute frame before you sit down",
@@ -42,10 +46,10 @@ const ECLIPSE_DECK = {
        detail:"Motorized exterior screens with zipper retention — sun, wind, bug, and privacy control for patios, decks, and porches. Custom made to your exact opening."},
       {photo: IMAGES.triSunestaAwning, logo: IMAGES.sunestaLogo, label:"Sunesta® Retractable Awnings", sublabel:"Overhead shade on demand",
        detail:"Custom retractable awnings — shade over the whole space when you want it, sun when you don't. Pairs beautifully with E-Zip screens."},
-      {photo: IMAGES.prodLouverPhoto, logo: IMAGES.ezLogoEclipse, label:"Eclipse® Latitude™ Louvered Roofs", sublabel:"A true outdoor room",
-       detail:"Motorized louvered roof systems — overhead coverage that opens and closes. Many customers pair a louvered roof with E-Zip screens on the sides."},
       {photo: IMAGES.prodGutterPhoto, logo: IMAGES.logoGutterhelmet, label:"Gutter Helmet®", sublabel:"Never clean your gutters again",
-       detail:"Gutter protection and seamless gutters — the other side of what we do around the house."}
+       detail:"Gutter protection and seamless gutters — the other side of what we do around the house."},
+      {photo: IMAGES.prodLouverPhoto, logo: IMAGES.ezLogoEclipse, label:"Eclipse® Latitude™ Louvered Roofs", sublabel:"A true outdoor room",
+       detail:"Motorized louvered roof systems — overhead coverage that opens and closes. Many customers pair a louvered roof with E-Zip screens on the sides."}
     ],
     script:"\"Real quick before we get into the screens — I want to show you what we do as a company, because a lot of homeowners don't realize the full picture.\n\nWe're not just a screen company. We handle the full outdoor living spectrum — motorized screens, retractable awnings, louvered roof systems, and gutter protection.\n\nThe reason that matters for you is we can look at your whole outdoor space as one picture. A lot of companies can only sell you one thing. We can help you think through all of it — and make sure whatever you do today works with whatever you might want to add later.\n\nToday we're focused on the screens — but if anything else comes up as we walk through this, just say the word.\"",
     talkingPoints:[
@@ -98,7 +102,7 @@ const ECLIPSE_DECK = {
        detail:"Somfy motors come standard — the same brand used in premium motorized systems around the world. Handheld remote, wireless wall switch, or app control, with home-automation integration available."},
       {label:"Phifer SunTex® fabrics", sublabel:"GREENGUARD Gold certified",
        detail:"Phifer is one of the most respected shading-fabric manufacturers in the world. SunTex is GREENGUARD Gold certified and built specifically for exterior applications — and it carries its own 10-year exterior fabric warranty from Phifer."},
-      {label:"Class 6 wind resistance", sublabel:"Tested to 80 mph — 4\" & 5\" systems",
+      {icon: IMAGES.ezBadgeClass6Wind, label:"Class 6 wind resistance", sublabel:"Tested to 80 mph — 4\" & 5\" systems",
        detail:"The zipper retention locks the fabric edge into the side track, so the screen stays flat and taut instead of billowing and flapping like a generic roll-down screen."}
     ],
     script:"\"A few things worth knowing about Eclipse as a brand.\n\nThey've been manufacturing the E-Zip system since 2013 — residential and commercial applications across the country. It's a proven, refined product.\n\n⚠️ UNVERIFIED (not on the slide — attribute if asked): \"99.2% of Eclipse customers say they would recommend it to a friend or neighbor. Product rating of 4.9, dealer rating of 4.8 — independent verified reviews.\" These are Eclipse-published feefo figures; say 'per Eclipse's published customer reviews' if you use them.\n\n\"The fabric is Phifer — one of the most respected fabric manufacturers in the shading industry. GreenGuard certified, built for long-term outdoor performance.\"",
@@ -265,13 +269,11 @@ const ECLIPSE_DECK = {
     id:"ez-fabric", type:"splittext",
     title:"The Fabric — SunTex® by Phifer",
     bullets:[
-      "Every fabric is Phifer SunTex® — GREENGUARD Gold certified, made for the outdoors",
-      "All colors cost the same — the only real decision is openness",
-      "Openness factor = how much UV it blocks versus how much you see through",
-      "SunTex 95 is the most popular by far — blocks about 95% of the UV, stays roughly 5% open",
-      "From inside you keep your view; from outside a dark fabric reads like a mirror by day — privacy without losing the light",
-      "Prefer full blackout? A solid fabric gives total shade and privacy for an extreme exposure",
-      "Colors from near-black to white — 6 shades on SunTex 80/90, 10 on SunTex 95/97"
+      "Every fabric is Phifer SunTex® — GREENGUARD Gold certified, built for the outdoors",
+      "All colors cost the same — the only real decision is openness: how much UV it blocks vs. how much you see through",
+      "SunTex 95 is the most popular — blocks ~95% of UV, keeps your view, and reads like a mirror from outside by day",
+      "Want full blackout instead? A solid fabric gives total shade and privacy for extreme exposures",
+      "6 colors on SunTex 80/90, 10 on SunTex 95/97 — near-black to white"
     ],
     image: IMAGES.ezMonOutside,
     script:"\"For fabric, we work exclusively with Phifer — one of the most respected shading fabric manufacturers in the world. GreenGuard certified, built specifically for exterior applications.\n\nThe good news — all fabrics are the same price. So the only decision you're making is what works best for your space.\n\nThe main thing to understand is openness factor — essentially how much UV the fabric blocks versus how much you can see through it.\n\n(Hand them the SunTex 95 sample)\n\nThis is what most of our customers go with — it blocks about 95% of the UV, but you can still see through it from the inside. And from the outside — from a neighbor's yard or the street — it creates almost a mirror effect during the day. They can't see in. You can see out.\n\nIf total blackout is what you're after — complete privacy, or an extreme west-facing exposure — we can go to a solid fabric. But most people find the 95% gives them everything they need. Take a look at the colors and let's figure out what fits your home.\"",
@@ -295,7 +297,7 @@ const ECLIPSE_DECK = {
       "Sun and wind sensors available as add-ons — automate it to the weather",
       "Standard 110-volt plug-in in most homes — no panel upgrades, no complicated wiring"
     ],
-    image: IMAGES.ezPartWayUp,
+    image: IMAGES.ezSmartControlPlaceholder,
     script:"\"The system comes motorized as standard — that's not an upgrade, it's just how it works. Touch of a button, the screen goes up or down, and you can stop it wherever you want.\n\nThe motor is Somfy — the same brand used in premium motorized systems around the world, and it's covered for life. Standard operation is a handheld remote or a wireless wall switch. You can also control it through an app, and it integrates with home automation systems if you want to go that direction.\n\nWe also offer sun and wind sensors as add-ons — so the screen can react to the weather on its own.\n\nElectrically, most installs are as simple as a standard 110-volt plug-in. No panel upgrades, no complicated wiring in most cases — we handle it as part of the install.\"\n\n💵 REP-ONLY (never on the slide): the motorized package runs about $400 over a manual crank, and it carries a lifetime warranty — one of the best values in the whole system. Make it a specific talking point; it always lands.",
     talkingPoints:[
       "Present motorized as STANDARD — never make it sound like an option",
@@ -304,7 +306,7 @@ const ECLIPSE_DECK = {
       "Sun + wind sensors are ADD-ONS on the E-Zip (unlike the Sunesta wind sensor, which is standard)",
       "Rep-only: motor ≈ $400 over a manual crank — a specific value line; keep the number off the slide"
     ],
-    coach:"Present motorized as the default, not an upsell. The $400 motor value line always lands — say it out loud, don't put it on a slide. Sensors are add-ons here; do NOT carry over the Sunesta standard-wind-sensor ruling."
+    coach:"Present motorized as the default, not an upsell. The $400 motor value line always lands — say it out loud, don't put it on a slide. Sensors are add-ons here; do NOT carry over the Sunesta standard-wind-sensor ruling. Photo is a clearly-labeled placeholder — swap in a real shot of someone using the remote or the app once Jack supplies one."
   },
   {
     id:"ez-gallery", type:"photogrid",

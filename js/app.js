@@ -302,6 +302,15 @@ function renderSlide(){
     panel.className="photogrid-panel";
     const grid = document.createElement("div");
     grid.className="photogrid-grid";
+    // Grid shape follows the actual photo count instead of a hardcoded 2x2 —
+    // with more than 4 photos (e.g. a 6-photo gallery), the old fixed
+    // grid-template-rows:1fr 1fr left the extra items in an implicit auto
+    // row sized by content, which could collapse the explicit rows and push
+    // photos past the visible card edge depending on viewport aspect ratio.
+    const gridCols = s.photos.length > 4 ? 3 : 2;
+    const gridRows = Math.ceil(s.photos.length / gridCols);
+    grid.style.gridTemplateColumns = `repeat(${gridCols},1fr)`;
+    grid.style.gridTemplateRows = `repeat(${gridRows},1fr)`;
     s.photos.forEach((p,i)=>{
       const cell = document.createElement("div");
       cell.className="photogrid-cell";
@@ -452,7 +461,7 @@ function renderSlide(){
         <h2>${s.title}</h2>
         ${s.paragraph?`<p>${s.paragraph}</p>`:""}
       </div>
-      <div class="products-cards">${cardsHTML}</div>
+      <div class="products-cards${s.rows.length===4?" grid-2x2":""}">${cardsHTML}</div>
     `;
     area.appendChild(panel);
     panel.querySelectorAll(".pcard").forEach(el=>{
@@ -611,7 +620,7 @@ function renderSlide(){
     panel.className="hero-panel";
     panel.innerHTML = `
       <div class="hero-content">
-        <div class="hero-photo"><img src="${s.image}"><div class="hero-fade"></div></div>
+        <div class="hero-photo"><img src="${s.image}"${s.imageRotate?` style="transform:rotate(${s.imageRotate}deg) scale(${s.imageScale||1.06})"`:""}><div class="hero-fade"></div></div>
         <div class="hero-text">
           <h2>${s.title}</h2>
           ${s.subtext?`<div class="hero-subtext">${s.subtext}</div>`:""}

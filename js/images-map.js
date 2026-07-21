@@ -72,6 +72,8 @@ const IMAGES = {
   ezHowItWorks: "images/eclipse/ez-how-it-works.svg",
   ezLogoSomfy: "images/eclipse/logo-somfy.png",
   ezServiceBadge: "images/eclipse/service-badge-ez.svg",
+  ezBadgeClass6Wind: "images/eclipse/badge-class6-wind.svg",
+  ezSmartControlPlaceholder: "images/eclipse/smart-control-placeholder.svg",
   ezLogoEclipse: "images/logo-eclipse.png",
   logoGutterhelmet: "images/logo-gutterhelmet.jpg",
   pcTier1: "images/pricecond/tier1-shadesail.jpg",

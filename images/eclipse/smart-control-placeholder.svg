@@ -1,0 +1,21 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Clearly-labeled placeholder: no real photo of the remote/app in use exists yet.
+       Same treatment as images/refmap-placeholder.svg — dashed border, "pending" text. -->
+  <rect x="0" y="0" width="800" height="600" fill="#f4f4f2"/>
+  <rect x="24" y="24" width="752" height="552" rx="14" fill="#fbfaf6" stroke="#c9c4b4" stroke-width="3" stroke-dasharray="14,10"/>
+  <!-- phone-with-app-controls glyph -->
+  <g transform="translate(400,225)">
+    <rect x="-46" y="-90" width="92" height="164" rx="16" fill="#2e7d4f"/>
+    <rect x="-38" y="-78" width="76" height="132" rx="4" fill="#fbfaf6"/>
+    <circle cx="0" cy="66" r="8" fill="#2e7d4f"/>
+    <rect x="-28" y="-60" width="56" height="10" rx="5" fill="#cfe6d6"/>
+    <circle cx="-14" cy="-55" r="9" fill="#2e7d4f"/>
+    <rect x="-28" y="-30" width="56" height="10" rx="5" fill="#cfe6d6"/>
+    <circle cx="10" cy="-25" r="9" fill="#2e7d4f"/>
+    <rect x="-28" y="0" width="56" height="10" rx="5" fill="#cfe6d6"/>
+    <circle cx="2" cy="5" r="9" fill="#2e7d4f"/>
+  </g>
+  <text x="400" y="392" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="34" font-weight="900" letter-spacing="4" fill="#3d3d3d">SMART CONTROL</text>
+  <text x="400" y="432" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="17" font-weight="700" fill="#999">Photo pending — customer using the remote or phone app</text>
+  <text x="400" y="462" text-anchor="middle" font-family="-apple-system,Segoe UI,Roboto,Arial,sans-serif" font-size="13" font-weight="700" fill="#bbb">Placeholder · swap images/eclipse/smart-control-placeholder.svg when the real photo is ready</text>
+</svg>
