@@ -276,32 +276,36 @@ const DECK = {
       coach:"Rebuilt as a native layout — the old slide was a screenshot with its title baked in."
     },
     {
-      id:"mylink", type:"splittext", image: IMAGES.mylinkApp,
+      id:"mylink", type:"splittext",
+      images:[
+        {src: IMAGES.mylinkAppPhone, caption:"Somfy App"},
+        {src: IMAGES.mylinkTahomaHub, caption:"TaHoma Hub"}
+      ],
       title:"myLink — Your Awning on Your Phone",
       bullets:["Connects your Somfy motor to Wi-Fi with the myLink hub","Open, close, and dim your lights from the Somfy app — from anywhere","Set schedules and scenes — auto-extend on hot afternoons","Works with Amazon Alexa and Google Assistant","One hub controls the awning, drop screen, and LED lights together","Optional and addable anytime — no rewiring"],
       script:"If you want to go a step beyond the remote, this is where it gets modern. The myLink hub connects your awning to your home Wi-Fi, and now you can run everything from the Somfy app on your phone — from anywhere.\n\nYou can put it on a schedule so it extends on its own on those hot afternoons, or tie it into Alexa or Google if that's how your home already works. One hub can run the awning, the drop screen, and the LED lights together.\n\nThis is completely optional and you can add it anytime — I just want you to know the ceiling on what this system can do.",
       talkingPoints:["myLink hub = control from your phone, anywhere","Schedules & scenes (auto-extend on hot afternoons)","Works with Alexa & Google","One hub runs awning + drop screen + lights","Optional, addable anytime — don't oversell"],
-      coach:"Keep this light and preference-based. It's a 'nice to know the ceiling' slide, not a push. App screen is an illustration placeholder."
+      coach:"Keep this light and preference-based. It's a 'nice to know the ceiling' slide, not a push. Photos are the Somfy app (phone) and the TaHoma hub — real product shots. Note: the hardware/app shown is branded TaHoma; slide copy says 'myLink' throughout — flagged for Jack to confirm this is still the correct product name to use."
     },
     {
       id:"sensors", type:"reasonsphoto", image: IMAGES.sensorsIllus,
       title:"Automatic Sensors — Wind, Rain, Sun",
       script:"Here's the peace-of-mind slide — and it starts with something that's standard with us, not an add-on.\n\nEvery motorized awning we install comes with a wind sensor as a standard feature. If you step out, forget the awning's extended, and one of our Colorado afternoon storms blows through — it retracts automatically. You don't have to be home. You don't have to babysit it. We've had customers tell us it paid for itself the first summer.\n\nThe rain and sun sensors are optional add-ons. The rain sensor retracts the fabric when a sudden downpour moves in, and the sun sensor can extend the awning on its own when direct sun hits — so the space is already shaded before you even walk outside.\n\n⚠️ UNVERIFIED — confirm before repeating to a customer: the wind sensor may actually be a motion sensor that needs ~5–7 seconds of sustained movement to trigger (so a single gust doesn't cycle it). Jack is confirming with Sunesta.",
       talkingPoints:["Wind sensor: STANDARD on every motorized unit — lead with it","Rain & sun sensors: optional add-ons","Colorado afternoon storms + travel = the emotional hook","'You don't have to babysit it'","Tap each pill to reveal the sensor"],
-      coach:"Risk-removal close — tie the wind sensor to their travel or busy schedule. Rebuilt as a native layout; the old slide was a screenshot with leftover LED-lights text baked in.",
+      coach:"Risk-removal close — tie the wind sensor to their travel or busy schedule. Rebuilt as a native layout; the old slide was a screenshot with leftover LED-lights text baked in. Wind hotspot now has a real product photo in its popover. Rain and Sun stay text-only — Jack is confirming sensor-type ID on a candidate photo before either gets a real image; don't add one on your own.",
       hotspots:[
-        {x:0.52,y:0.178,label:"Wind — Standard",content:"Included as a standard feature on every motorized awning we install. Retracts the awning automatically when wind picks up — whether you're home or not."},
+        {x:0.52,y:0.178,label:"Wind — Standard",photo:IMAGES.sensorWind,content:"Included as a standard feature on every motorized awning we install. Retracts the awning automatically when wind picks up — whether you're home or not."},
         {x:0.52,y:0.50,label:"Rain",content:"Optional — retracts the fabric automatically when a sudden downpour moves in, so it isn't left out wet."},
         {x:0.52,y:0.822,label:"Sun",content:"Optional — extends the awning automatically once direct sun is detected. The space is shaded before you step outside."}
       ]
     },
     {
-      id:"led", type:"herosplit", image: IMAGES.ledNight,
+      id:"led", type:"herosplit", image: IMAGES.ledAwningArms,
       title:"LED Lighting — Enjoy the Space After Dark",
       subtext:"Our most popular add-on. Dimmable, one remote with the awning — under-arm task lighting or top-mounted underglow, the crowd favorite.",
       script:"This is actually our most popular add-on — LED lighting.\n\nIt completely changes the space at night — soft ambiance for dinner on the patio, or full brightness for an evening gathering. It's all dimmable, and it's the same remote that's already in your hand for the awning.\n\nWe can place the lights under the arms for functional task lighting, or on top of the arms for an underglow effect — that's our more popular option. It's integrated into the awning, not a clip-on afterthought. They can be added later too, but it typically costs a little more because it requires a return trip.\n\nThe number of customers who add this and then tell us 'I can't imagine not having it' — it's most of them. Just something to consider.\n\nAnd one more thing — with all of our awnings, we include a free one-year service. Let me show you what that covers.\n\n[Transition] \"Well, thanks for your time on that. Any questions about anything? Our company, products, me — anything at all?\"",
       talkingPoints:["Most popular add-on — lifestyle close","Under-arm = task light · top-of-arm = underglow (most popular)","Dimmable, one remote with the awning","Add-later possible but costs more (return trip) — rep guidance","Segue: free one-year service → next slide","End with the open question — company, products, me, anything"],
-      coach:"Paint the evening picture — dinner, a glass of wine, the game. Night scene is an illustration placeholder, swap for a real lit-awning shot."
+      coach:"Paint the evening picture — dinner, a glass of wine, the game. Real photo now — a lit patio at night under the awning arms."
     },
   ],
   "THE WRAP-UP": [

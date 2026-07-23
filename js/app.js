@@ -572,7 +572,13 @@ function renderSlide(){
          </div>`
       : (s.docViewer
         ? `<div class="split-photo-box doc-open-box"><img src="${s.image}"><div class="doc-open-badge">📖 ${s.docViewer.tapLabel||'Tap to open'}</div></div>`
-        : `<div class="split-photo-box"><img src="${s.image}"></div>`);
+        : (s.images
+          ? `<div class="split-photo-box dual">${s.images.map(im=>`
+             <div class="dual-photo-item">
+               <img src="${im.src}" alt="${im.alt||''}">
+               ${im.caption?`<div class="dual-photo-caption">${im.caption}</div>`:""}
+             </div>`).join("")}</div>`
+          : `<div class="split-photo-box"><img src="${s.image}"></div>`));
     panel.innerHTML = `
       <div class="split-content">
         ${photoBoxHTML}
@@ -1137,10 +1143,16 @@ function renderHome(){
         <div class="home-card-name">Training Center</div>
         <div class="home-card-sub">Rep-only — coaches, scripts & tools</div>
       </div>
+      <div class="home-card secondary" id="homeGoQuote">
+        <div class="home-card-icon">🧮</div>
+        <div class="home-card-name">Quote Builder</div>
+        <div class="home-card-sub">Live pricing from Cockpit — works offline</div>
+      </div>
     </div>
   `;
   document.getElementById("homeGoPresent").onclick = ()=>{ appView = "presentations"; renderApp(); };
   document.getElementById("homeGoCenter").onclick = ()=>{ appView = "coaches"; renderApp(); };
+  document.getElementById("homeGoQuote").onclick = ()=>{ appView = "quote"; renderApp(); };
 }
 
 // Product picker — shared by Presentations and Training Center entry points.
@@ -1321,6 +1333,9 @@ function renderTopbarNav(){
     nav.innerHTML = `<button class="back-btn" id="backCoachesBtn">‹ Training Center</button>`;
   } else if(appView==="presentations" || appView==="coaches"){
     nav.innerHTML = `<button class="back-btn" id="homeBtn">‹ Home</button>`;
+  } else if(appView==="quote"){
+    const label = qbView==="picker" ? "Home" : "Quote Builder";
+    nav.innerHTML = `<button class="back-btn" id="backQuoteBtn">‹ ${label}</button>`;
   } else {
     nav.innerHTML = "";
   }
@@ -1328,15 +1343,20 @@ function renderTopbarNav(){
   const hm = document.getElementById("homeBtn");   if(hm) hm.onclick = goHome;
   const bc = document.getElementById("backCenterBtn"); if(bc) bc.onclick = ()=>{ appView="center"; centerView=null; renderApp(); };
   const bk = document.getElementById("backCoachesBtn"); if(bk) bk.onclick = ()=>{ appView="coaches"; centerView=null; libPhoto=null; renderApp(); };
+  const bq = document.getElementById("backQuoteBtn"); if(bq) bq.onclick = ()=>{
+    if(qbView==="picker"){ goHome(); }
+    else { qbResetToPicker(); renderApp(); }
+  };
 }
 
-function goHome(){ appView = "home"; centerView = null; libPhoto = null; resetSlideState(); renderApp(); }
+function goHome(){ appView = "home"; centerView = null; libPhoto = null; if(typeof qbResetToPicker==="function") qbResetToPicker(); resetSlideState(); renderApp(); }
 
 function renderApp(){
   const showDeck = appView==="present" || appView==="training-deck";
   const showPanel = appView==="center" || appView==="presentations" || appView==="coaches";
   document.getElementById("homeScreen").style.display     = appView==="home" ? "" : "none";
   document.getElementById("trainingCenter").style.display = showPanel ? "" : "none";
+  document.getElementById("quoteBuilder").style.display    = appView==="quote" ? "" : "none";
   document.getElementById("stage").style.display          = showDeck ? "" : "none";
   document.querySelector(".slidebar").style.display       = showDeck ? "" : "none";
   document.getElementById("tabbar").style.display         = showDeck ? "" : "none";
@@ -1354,6 +1374,7 @@ function renderApp(){
   if(appView==="home") renderHome();
   if(appView==="center") renderCenter();
   if(appView==="presentations" || appView==="coaches") renderPicker();
+  if(appView==="quote") renderQuoteBuilder();
   if(showDeck){
     mode = appView==="training-deck" ? "rehearse" : "present";
     renderAll();
@@ -1382,7 +1403,12 @@ if("serviceWorker" in navigator){
     // once everything is already cached (sw.js skips files it already has).
     return navigator.serviceWorker.ready;
   }).then((reg) => {
-    if(navigator.onLine && reg.active) reg.active.postMessage({type:"CACHE_TIER2"});
+    if(navigator.onLine && reg.active){
+      reg.active.postMessage({type:"CACHE_TIER2"});
+      // Same idea for Tier 3 (Quote Builder pricing) — re-checks Cockpit's
+      // freshness stamp on every online open, not just first sync.
+      reg.active.postMessage({type:"SYNC_PRICING"});
+    }
   }).catch((err) => {
     console.warn("Service worker registration failed:", err);
   });

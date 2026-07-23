@@ -23,10 +23,39 @@
 // but an edit to an *existing* file's content does. The two versions are
 // independent on purpose: a Tier 1 content change shouldn't force every
 // installed client to re-download 80MB of Tier 2, and vice versa.
-const TIER1_VERSION = "2026-07-21.2";
+const TIER1_VERSION = "2026-07-23.1";
 const TIER2_VERSION = "2026-07-20.1";
 const TIER1_CACHE = `doghouse-tier1-${TIER1_VERSION}`;
 const TIER2_CACHE = `doghouse-tier2-${TIER2_VERSION}`;
+
+// Tier 3 (PRICING_CACHE) — the Quote Builder's live data from Cockpit:
+// pricing-engine.js + all 7 product catalogs + the version probe. ~33KB
+// gzipped, so this is cheap, but unlike Tier 1/2 it's LIVE data, not
+// static per-deploy content — there's no version string to bump by hand.
+// Freshness is tracked by comparing Cockpit's own `stamp` (in the cached
+// /api/pricing/version response) against a fresh probe; the cache name
+// itself stays constant across deploys. Same self-healing-retry shape as
+// Tier 2: Promise.allSettled so one failed file doesn't block the rest,
+// re-driven on every online app open via postMessage (see js/quote-builder.js).
+const PRICING_CACHE = "doghouse-pricing-v1";
+const COCKPIT_BASE = "https://ath-cockpit.onrender.com";
+const PRICING_KEY = "ATH2026";
+const PRICING_PRODUCT_IDS = [
+  "sunesta", "sunstyle", "sunlight",
+  "eclipse-ezip-4in-sunstopper", "eclipse-ezip-5in-sunstopper",
+  "eclipse-ezip-5in-superduty", "eclipse-ezip-7in-superduty",
+];
+function pricingUrls(){
+  return [
+    `${COCKPIT_BASE}/api/pricing/version`,
+    `${COCKPIT_BASE}/api/pricing/products`,
+    ...PRICING_PRODUCT_IDS.map((id) => `${COCKPIT_BASE}/api/pricing/product?id=${id}`),
+    `${COCKPIT_BASE}/pricing-engine.js`,
+  ];
+}
+function pricingFetch(url){
+  return fetch(url, { headers: { "X-Pricing-Key": PRICING_KEY } });
+}
 
 const TIER1_URLS = [
   "./",
@@ -75,8 +104,12 @@ const TIER1_URLS = [
   "images/sunesta-logo.jpg",
   "images/led-night.svg",
   "images/mylink-app.svg",
+  "images/mylink-app-phone.jpg",
+  "images/mylink-tahoma-hub.jpg",
   "images/smarttech-illus.svg",
   "images/sensors-illus.svg",
+  "images/sensor-wind.jpg",
+  "images/led-awning-arms.jpg",
   "images/fabric-swatches.svg",
   "images/service-badge.svg",
   "images/prod-gutter.svg",
@@ -544,24 +577,71 @@ async function cacheTier2InBackground(){
   }
 }
 
+// Tier 3 sync: fetch the version probe live; if its `stamp` differs from
+// the one in the cached version response (or nothing is cached yet), every
+// pricing URL is re-fetched and replace the cache wholesale — a stamp
+// covers the engine file too, so an engine-only edit still invalidates the
+// catalogs' companions. If the stamp is unchanged, only fill in whatever's
+// missing (mirrors Tier 2's top-up behavior). Never throws past this
+// function — a failed fetch (offline, Cockpit down) just leaves the
+// existing cache in place, and app.js's own online/offline branching
+// handles the user-facing state.
+async function syncPricingTier(){
+  try {
+    const liveVerResp = await pricingFetch(`${COCKPIT_BASE}/api/pricing/version`);
+    if (!liveVerResp.ok) return;
+    const liveVer = await liveVerResp.clone().json();
+    // A bad key or disallowed origin answers HTTP 200 + {ok:false} — that
+    // has no .stamp, so comparing only verResp.ok would read it as fresher
+    // than the cache and overwrite good pricing with the error envelope.
+    if (liveVer.ok === false) return;
+
+    const cache = await caches.open(PRICING_CACHE);
+    const cachedVerResp = await cache.match(`${COCKPIT_BASE}/api/pricing/version`);
+    const cachedVer = cachedVerResp ? await cachedVerResp.json() : null;
+    const stale = !cachedVer || cachedVer.stamp !== liveVer.stamp;
+
+    const already = new Set((await cache.keys()).map((r) => r.url));
+    const urls = pricingUrls();
+    const targets = stale ? urls : urls.filter((u) => !already.has(u));
+    if (!targets.length) return;
+
+    const results = await Promise.allSettled(targets.map((u) =>
+      (u === `${COCKPIT_BASE}/api/pricing/version` ? Promise.resolve(liveVerResp) : pricingFetch(u))
+        .then((r) => { if (!r.ok) throw new Error(`bad status ${r.status} for ${u}`); return cache.put(u, r); })
+    ));
+    const failed = results.filter((r) => r.status === "rejected").length;
+    if (failed) {
+      console.warn(`Pricing cache: ${failed}/${targets.length} files failed — will retry on next sync`);
+    }
+  } catch (err) {
+    console.warn("Pricing sync did not run (likely offline):", err);
+  }
+}
+
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys()
       .then((names) => Promise.all(
-        names.filter((n) => n !== TIER1_CACHE && n !== TIER2_CACHE).map((n) => caches.delete(n))
+        names.filter((n) => n !== TIER1_CACHE && n !== TIER2_CACHE && n !== PRICING_CACHE).map((n) => caches.delete(n))
       ))
       .then(() => self.clients.claim())
       .then(() => cacheTier2InBackground())
+      .then(() => syncPricingTier())
   );
 });
 
 // app.js pings this on every online app open (not just first install) so
 // a Tier 2 pass interrupted by spotty wifi — or a version bump that added
 // new Tier 2 files — gets picked back up instead of silently staying
-// incomplete forever.
+// incomplete forever. Same idea for Tier 3 (SYNC_PRICING): also re-checks
+// Cockpit's freshness stamp every open, not just on first sync.
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "CACHE_TIER2") {
     event.waitUntil(cacheTier2InBackground());
+  }
+  if (event.data && event.data.type === "SYNC_PRICING") {
+    event.waitUntil(syncPricingTier());
   }
 });
 
