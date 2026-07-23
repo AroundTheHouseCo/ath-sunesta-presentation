@@ -44,6 +44,7 @@ const PRICING_PRODUCT_IDS = [
   "sunesta", "sunstyle", "sunlight",
   "eclipse-ezip-4in-sunstopper", "eclipse-ezip-5in-sunstopper",
   "eclipse-ezip-5in-superduty", "eclipse-ezip-7in-superduty",
+  "eclipse-cable-4in", "eclipse-cable-5in",
 ];
 function pricingUrls(){
   return [

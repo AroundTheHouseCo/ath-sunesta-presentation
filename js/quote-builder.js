@@ -16,6 +16,7 @@ const QB_PRODUCT_IDS = [
   "sunesta", "sunstyle", "sunlight",
   "eclipse-ezip-4in-sunstopper", "eclipse-ezip-5in-sunstopper",
   "eclipse-ezip-5in-superduty", "eclipse-ezip-7in-superduty",
+  "eclipse-cable-4in", "eclipse-cable-5in",
 ];
 const QB_ACC_LABEL = {
   stdInsideMountLAngle: "STD inside mount “L” angle",
@@ -509,12 +510,29 @@ function qbBreakdownHTML(r){
 }
 
 // ── Screens: multi-unit builder ────────────────────────────────────────
+// Fabric Group (Phase 6) — a rep SELECTION, not a product property. Each
+// group carries its own price grid / size limits / no-cassette table /
+// restricted cells; the engine resolves all of that internally once
+// input.fabricGroup is passed to computeScreenQuote (fabricGroupView()) —
+// this file only needs the group's sizeGrid, to know which width/drop
+// options to offer. A product with no fabricGroupConfig is unaffected
+// (this just returns its one and only sizeGrid).
+function qbGroupSizeGrid(product, group){
+  const cfg = product.fabricGroupConfig;
+  if (!cfg) return product.sizeGrid;
+  const ov = (product.fabricGroups || {})[group || cfg.default];
+  return (ov && ov.sizeGrid) || product.sizeGrid;
+}
+
 function qbDefaultScreenUnit(productId){
   const product = QB.catalogs[productId];
+  const fabricGroup = product.fabricGroupConfig ? product.fabricGroupConfig.default : null;
+  const grid = qbGroupSizeGrid(product, fabricGroup);
   return {
     product: productId,
-    widthFt: product.sizeGrid.widths[0],
-    dropFt: product.sizeGrid.drops[0],
+    fabricGroup,
+    widthFt: grid.widths[0],
+    dropFt: grid.drops[0],
     noCassette: false,
     drive: "standard",
     mountType: "surface",
@@ -537,6 +555,7 @@ function qbBuildScreenEngineInput(unit){
   return {
     widthIn: unit.widthFt * 12,
     dropIn: unit.dropFt * 12,
+    fabricGroup: unit.fabricGroup || undefined,
     noCassette: unit.noCassette,
     drive: unit.drive,
     mountType: unit.mountType,
@@ -691,14 +710,28 @@ function qbRenderUnitForm(el){
   if (mh.insideFrame) mountChoices.push({ v: "insideFrame", l: "Inside a frame" });
   if (mh.recessedTrack) mountChoices.push({ v: "recessedTrack", l: "Recessed track" });
 
+  // accessoriesByDrop.parts/linearFootItems are identical across fabric
+  // groups (only the per-drop prices differ, which the engine resolves) —
+  // safe to read off the top-level (Group C) product for the checkbox list.
   const accCfg = product.accessoriesByDrop || {};
   const lfItems = accCfg.linearFootItems || [];
   const mandatoryRefs = [mh.insideFrame && mh.insideFrame.required, mh.recessedTrack && mh.recessedTrack.required].filter(Boolean);
   const optionalPerPair = (accCfg.parts || []).filter((ref) => !lfItems.includes(ref) && !mandatoryRefs.includes(ref));
   const optionalLF = lfItems.filter((ref) => !mandatoryRefs.includes(ref) || ref === (mh.insideFrame && mh.insideFrame.required));
 
+  const fabricCfg = product.fabricGroupConfig;
+  const grid = qbGroupSizeGrid(product, unit.fabricGroup);
+  // A product with no cassette-less build at all (4" Cable & Track) rejects
+  // noCassette outright in the engine — hide the checkbox rather than let a
+  // rep pick an option that always errors.
+  const showNoCassette = product.noCassetteAvailable !== false && !!product.noCassetteDeduction;
+
   const preview = qbUnitPreviewResult(unit);
-  const sizeKey = preview.ok ? `${preview.rounded.widthFt}x${preview.rounded.dropFt}` : null;
+  // Fabric group is part of the identity of "this size" — Group B and C have
+  // their own restricted/pending cells, so a group switch must clear any
+  // acknowledgment made under the other group's gate, even at the same
+  // width/drop numbers.
+  const sizeKey = preview.ok ? `${unit.fabricGroup || ""}:${preview.rounded.widthFt}x${preview.rounded.dropFt}` : null;
   if (sizeKey && unit.ackKey !== sizeKey) { unit.acknowledgedRestriction = false; unit.ackKey = sizeKey; }
 
   el.innerHTML = `
@@ -711,15 +744,20 @@ function qbRenderUnitForm(el){
         <label>Product</label>
         <select id="qbUProduct">${QB.products.filter((p) => p.family === "Eclipse EZIP Screens").map((p) => `<option value="${p.id}" ${p.id === unit.product ? "selected" : ""}>${p.product}</option>`).join("")}</select>
       </div>
+      ${fabricCfg ? `
+      <div class="qb-field">
+        <label>Fabric group</label>
+        <select id="qbUFabricGroup">${fabricCfg.available.map((g) => `<option value="${g}" ${g === unit.fabricGroup ? "selected" : ""}>${(fabricCfg.labels || {})[g] || g}</option>`).join("")}</select>
+      </div>` : ""}
       <div class="qb-field">
         <label>Width</label>
-        <select id="qbUWidth">${product.sizeGrid.widths.map((w) => `<option value="${w}" ${w === unit.widthFt ? "selected" : ""}>${w}'</option>`).join("")}</select>
+        <select id="qbUWidth">${grid.widths.map((w) => `<option value="${w}" ${w === unit.widthFt ? "selected" : ""}>${w}'</option>`).join("")}</select>
       </div>
       <div class="qb-field">
         <label>Drop</label>
-        <select id="qbUDrop">${product.sizeGrid.drops.map((d) => `<option value="${d}" ${d === unit.dropFt ? "selected" : ""}>${d}'</option>`).join("")}</select>
+        <select id="qbUDrop">${grid.drops.map((d) => `<option value="${d}" ${d === unit.dropFt ? "selected" : ""}>${d}'</option>`).join("")}</select>
       </div>
-      ${product.noCassetteDeduction ? `<div class="qb-field qb-check"><label><input type="checkbox" id="qbUNoCassette" ${unit.noCassette ? "checked" : ""}> No cassette box (end brackets only)</label></div>` : ""}
+      ${showNoCassette ? `<div class="qb-field qb-check"><label><input type="checkbox" id="qbUNoCassette" ${unit.noCassette ? "checked" : ""}> No cassette box (end brackets only)</label></div>` : ""}
       <div class="qb-field">
         <label>Operation</label>
         <select id="qbUDrive">${driveChoices.map((c) => `<option value="${c.v}" ${c.v === unit.drive ? "selected" : ""}>${c.l}</option>`).join("")}</select>
@@ -798,9 +836,21 @@ function qbRenderUnitForm(el){
   document.getElementById("qbUProduct").onchange = (e) => {
     unit.product = e.target.value;
     const np = QB.catalogs[unit.product];
-    unit.widthFt = np.sizeGrid.widths[0]; unit.dropFt = np.sizeGrid.drops[0];
+    unit.fabricGroup = np.fabricGroupConfig ? np.fabricGroupConfig.default : null;
+    const npGrid = qbGroupSizeGrid(np, unit.fabricGroup);
+    unit.widthFt = npGrid.widths[0]; unit.dropFt = npGrid.drops[0];
     unit.accessories = {}; unit.linearFootAccessories = {}; unit.controls = {};
     unit.drive = "standard"; unit.mountType = "surface"; unit.hemBarBrush = ""; unit.noCassette = false;
+    onSizeChange();
+  };
+  const fgEl = document.getElementById("qbUFabricGroup");
+  if (fgEl) fgEl.onchange = (e) => {
+    unit.fabricGroup = e.target.value;
+    // Each group has its own size limits — reset to the new group's grid
+    // rather than let a now-invalid width/drop silently error on Calculate.
+    const newGrid = qbGroupSizeGrid(product, unit.fabricGroup);
+    if (!newGrid.widths.includes(unit.widthFt)) unit.widthFt = newGrid.widths[0];
+    if (!newGrid.drops.includes(unit.dropFt)) unit.dropFt = newGrid.drops[0];
     onSizeChange();
   };
   document.getElementById("qbUWidth").onchange = (e) => { unit.widthFt = Number(e.target.value); onSizeChange(); };
